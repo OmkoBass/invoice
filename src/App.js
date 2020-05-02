@@ -29,11 +29,13 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        fontFamily: 'Oswald'
+        fontFamily: 'Times-Roman',
+        fontWeight: 'bold'
     },
     subtitle: {
         fontSize: 18,
-        fontFamily: 'Oswald'
+        fontFamily: 'Times-Roman',
+        fontWeight: 'bold'
     },
     text: {
         margin: 12,
@@ -48,6 +50,14 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+    },
+    total: {
+        width: '200px',
+        height: '100px',
+        backgroundColor: 'gray',
+        textAlign: 'center',
+        fontSize: 32,
+        fontWeight: 'bold',
     }
 });
 
@@ -71,14 +81,34 @@ function App() {
                 <PDFViewer style={{width: '100%', height:'100vh'}}>
                     <Document>
                         <Page size="A4" style={styles.page}>
+
                             <View style={[styles.section, styles.flexRow, styles.text]}>
                                 <Text style={styles.title}>Faktura: {invoice.invoice}</Text>
-                                <Text>Datum fakture: {invoice.dateInvoice}</Text>
-                                <Text>Datum prometa: {invoice.dateTraffic}</Text>
+                                <View style={styles.flexCol}>
+                                    <Text>Datum fakture:</Text>
+                                    <Text>{invoice.dateInvoice}</Text>
+                                </View>
+                                <View style={styles.flexCol}>
+                                    <Text>Datum prometa:</Text>
+                                    <Text>{invoice.dateTraffic}</Text>
+                                </View>
                             </View>
+
                             <View style={[styles.section, styles.text]}>
-                                <Text style={{marginLeft: 'auto'}}>Mesto prometa: {invoice.place}</Text>
+                                <View style={[styles.flexCol, {marginLeft: 'auto'}]}>
+                                    <Text>Mesto prometa:</Text>
+                                    <Text>{invoice.place}</Text>
+                                </View>
                             </View>
+
+                            <View
+                                style={{
+                                    margin: 10,
+                                    borderBottomColor: 'black',
+                                    borderBottomWidth: 1,
+                                }}
+                            />
+
                             <View style={styles.flexRow}>
                                 <View style={[styles.section, styles.text]}>
                                     <Text>Od:</Text>
@@ -92,6 +122,7 @@ function App() {
                                     <Text>{invoice.account}</Text>
                                     <Text>{invoice.email}</Text>
                                 </View>
+
                                 <View style={[styles.section, styles.text]}>
                                     <Text>Komitet:</Text>
                                     <Text> </Text>
@@ -102,6 +133,14 @@ function App() {
                                     <Text>PIB/JMBG: {invoice.toPib}</Text>
                                 </View>
                             </View>
+
+                            <View
+                                style={{
+                                    margin: 10,
+                                    borderBottomColor: 'black',
+                                    borderBottomWidth: 1,
+                                }}
+                            />
 
                             <View style={[styles.section, styles.subtitle, styles.flexRow]}>
                                 <View style={styles.flexCol}>
@@ -126,10 +165,26 @@ function App() {
                                 </View>
                             </View>
 
+                            <View
+                                style={{
+                                    margin: 10,
+                                    borderBottomColor: 'black',
+                                    borderBottomWidth: 1,
+                                }}
+                            />
+
                             <View style={[styles.section, styles.flexRow, styles.bottom]}>
                                 <Text style={styles.subtitle}>Ukupno: {invoice.total}</Text>
-                                <Text style={styles.title}>{invoice.total}</Text>
+                                <Text style={[styles.title, styles.total]}>{invoice.total}</Text>
                             </View>
+
+                            <View
+                                style={{
+                                    margin: 10,
+                                    borderBottomColor: 'black',
+                                    borderBottomWidth: 1,
+                                }}
+                            />
                         </Page>
                     </Document>
                 </PDFViewer>
@@ -141,7 +196,7 @@ function App() {
             textAlign: 'center',
             color: 'white',
             backgroundColor: 'black',
-        }}>©Conmisi</Footer>
+        }}>©Skyon</Footer>
     </div>
 }
 
