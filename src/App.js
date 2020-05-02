@@ -226,7 +226,7 @@ function App() {
                             <Avatar src={conmisi} shape='square' style={{width: '50%', height: '25%'}} alt='conmisi logo'/>
                         </a>
                     </Col>
-                    <Col span={24} style={{marginTop: '2em', backgroundColor: 'white'}}>
+                    <Col span={24} style={{marginTop: '2em'}}>
                         <a href='https://ictdc.rs/'>
                             <Avatar src={ictdc} shape='square' style={{width: '50%', height: '25%'}} alt='conmisi logo'/>
                         </a>
