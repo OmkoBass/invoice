@@ -9,7 +9,13 @@ import Invoice from "./Components/Invoice";
 //React pdf
 import { Document, Page, View, Text, StyleSheet, Font, PDFViewer } from '@react-pdf/renderer';
 
-import { Layout } from 'antd';
+//antd
+import { Layout, Row, Col, Typography, Avatar } from 'antd';
+
+//img
+import skyon from './Assets/Skayon_logo_dark.png'
+import conmisi from './Assets/conmisi.png';
+import ictdc from './Assets/ictdc.png'
 
 const { Footer } = Layout;
 
@@ -128,7 +134,7 @@ function App() {
                                     <Text> </Text>
                                     <Text style={styles.subtitle}>{invoice.toName}</Text>
                                     <Text> </Text>
-                                    <Text>Adresa: {invoice.toAdress}</Text>
+                                    <Text>Adresa: {invoice.toAddress}</Text>
                                     <Text>{invoice.toCity}</Text>
                                     <Text>PIB/JMBG: {invoice.toPib}</Text>
                                 </View>
@@ -196,7 +202,38 @@ function App() {
             textAlign: 'center',
             color: 'white',
             backgroundColor: 'black',
-        }}>©Skyon</Footer>
+        }}>
+            <Row justify='space-between'>
+                <Col span={12}>
+                    <Typography.Title level={3} style={{color: 'white'}}> O nama </Typography.Title>
+                </Col>
+                <Col span={12}>
+                    <Typography.Title level={3} style={{color: 'white'}}> Dodatno </Typography.Title>
+                </Col>
+            </Row>
+            <Row justify='space-between'>
+                <Col span={12}>
+                    Nas tim
+                </Col>
+                <Col span={12}>
+                    <Col span={24}>
+                        <a href='https://skayon.agency/'>
+                            <Avatar src={skyon} shape='square' style={{width: '50%', height: '25%'}} alt='skyon logo'/>
+                        </a>
+                    </Col>
+                    <Col span={24} style={{marginTop: '2em'}}>
+                        <a href='https://conmisi.com/'>
+                            <Avatar src={conmisi} shape='square' style={{width: '50%', height: '25%'}} alt='conmisi logo'/>
+                        </a>
+                    </Col>
+                    <Col span={24} style={{marginTop: '2em', backgroundColor: 'white'}}>
+                        <a href='https://ictdc.rs/'>
+                            <Avatar src={ictdc} shape='square' style={{width: '50%', height: '25%'}} alt='conmisi logo'/>
+                        </a>
+                    </Col>
+                </Col>
+            </Row>
+        </Footer>
     </div>
 }
 

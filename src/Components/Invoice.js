@@ -6,7 +6,7 @@ import {Form, Input, Button, Divider, Typography, Layout, Menu, Row, Col} from '
 //logo
 import logo from '../Assets/Skayon_logo_dark.png'
 
-const {Title, Paragraph} = Typography;
+const {Title, Paragraph, Text} = Typography;
 
 const {Header, Content, Sider} = Layout;
 
@@ -15,8 +15,33 @@ function Invoice(props) {
         props.returnInvoiceInfo(form.getFieldsValue());
     }
 
+    function handleClear() {
+        form.setFieldsValue({
+            invoice: null,
+            dateInvoice: null,
+            dateTraffic: null,
+            place: null,
+            fromName: null,
+            firmName: null,
+            street: null,
+            city: null,
+            pib: null,
+            account: null,
+            email: null,
+            toName: null,
+            toAddress: null,
+            toCity: null,
+            toPib: null,
+            serviceType: null,
+            unit: null,
+            amount: null,
+            price: null,
+            total: null,
+        });
+    }
+
     const layout = {
-        labelCol: {span: 6},
+        labelCol: {span: 8},
     }
 
     const controlLayout = {
@@ -29,6 +54,13 @@ function Invoice(props) {
         width: '100%',
         height: '100%',
         float: 'left'
+    }
+
+    const formStyle = {
+        backgroundColor: 'white',
+        padding: '1em',
+        borderRadius: '8px',
+        boxShadow: ' 0 2px 8px rgba(0, 0, 0, 0.15)',
     }
 
     let [form] = Form.useForm();
@@ -52,9 +84,9 @@ function Invoice(props) {
                 <Header/>
                 <Content style={{ padding: '2em'}}>
                     <Typography>
-                        <Title>Faktura</Title>
+                        <Title>Nova Faktura</Title>
                         <Paragraph>
-                            Unesite podatke za vasu fakturu, dugme "Štampaj" na dnu ekrana će generisati PDF file.
+                            Unesite podatke za vasu fakturu, dugme <Text strong>"Štampaj"</Text> na dnu ekrana će generisati PDF file.
                         </Paragraph>
                     </Typography>
                     <Divider/>
@@ -65,7 +97,7 @@ function Invoice(props) {
                           onFinish={handleFinish}
                     >
                         <Row>
-                            <Col lg={14} xs={24}>
+                            <Col lg={12} xs={24} style={formStyle}>
                                 <Form.Item name='invoice'
                                            label='Faktura:'
                                            hasFeedback={true}
@@ -102,8 +134,8 @@ function Invoice(props) {
 
                         <Divider/>
 
-                        <Row>
-                            <Col lg={14} xs={24}>
+                        <Row style={formStyle}>
+                            <Col lg={12} xs={24}>
                                 <Form.Item name='fromName'
                                            label='Od:'
                                            hasFeedback={true}
@@ -159,7 +191,7 @@ function Invoice(props) {
                                 </Form.Item>
                             </Col>
 
-                            <Col lg={14} xs={24}>
+                            <Col lg={12} xs={24}>
                                 <Form.Item name='toName'
                                            label='Komitet:'
                                            hasFeedback={true}
@@ -168,7 +200,7 @@ function Invoice(props) {
                                     <Input/>
                                 </Form.Item>
 
-                                <Form.Item name='toAdress'
+                                <Form.Item name='toAddress'
                                            label='Adresa:'
                                            hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
@@ -196,7 +228,7 @@ function Invoice(props) {
                         <Divider/>
 
                         <Row>
-                            <Col lg={14} xs={24}>
+                            <Col lg={12} xs={24} style={formStyle}>
                                 <Form.Item name='serviceType'
                                            label='Vrsta usluge:'
                                            hasFeedback={true}
@@ -234,12 +266,25 @@ function Invoice(props) {
                             </Col>
                         </Row>
 
-                        <Form.Item {...controlLayout}>
-                            <Button type='primary'
-                                    size='large'
-                                    htmlType='submit'
-                            >Štampaj</Button>
-                        </Form.Item>
+                        <Row style={{marginTop: '2em'}}>
+                            <Col>
+                                <Form.Item {...controlLayout}>
+                                    <Button type='primary'
+                                            size='large'
+                                            htmlType='submit'
+                                    >Štampaj</Button>
+                                </Form.Item>
+                            </Col>
+                            <Col>
+                                <Form.Item {...controlLayout}>
+                                    <Button type='default'
+                                            size='large'
+                                            onClick={handleClear}
+                                    >Nova Faktura</Button>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+
                     </Form>
                 </Content>
             </Layout>
