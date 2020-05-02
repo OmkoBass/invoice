@@ -7,7 +7,7 @@ import 'antd/dist/antd.css';
 import Invoice from "./Components/Invoice";
 
 //React pdf
-import {Document, Text, View, Page, StyleSheet, PDFViewer, Canvas} from '@react-pdf/renderer';
+import { Document, Page, View, Text, StyleSheet, Font, PDFViewer } from '@react-pdf/renderer';
 
 import { Layout } from 'antd';
 
@@ -15,14 +15,45 @@ const { Footer } = Layout;
 
 const styles = StyleSheet.create({
     page: {
-        flexDirection: 'column',
         backgroundColor: '#E4E4E4'
     },
     section: {
         margin: 10,
-        padding: 10,
-        flexGrow: 1
+        padding: 25,
+    },
+    flexRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        textAlign: 'left',
+    },
+    title: {
+        fontSize: 24,
+        fontFamily: 'Oswald'
+    },
+    subtitle: {
+        fontSize: 18,
+        fontFamily: 'Oswald'
+    },
+    text: {
+        margin: 12,
+        fontSize: 14,
+        textAlign: 'justify',
+        fontFamily: 'Times-Roman',
+    },
+    bottom: {
+        marginTop: 'auto',
+    },
+    flexCol: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
     }
+});
+
+Font.register({
+    family: 'Oswald',
+    src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
 });
 
 function App() {
@@ -35,42 +66,76 @@ function App() {
     return <div>
         <Invoice returnInvoiceInfo={handleInvoice}/>
         <div>
-            <PDFViewer style={{width: '100%', height:'100vh'}}>
-                <Document>
-                    <Page size="A4" style={styles.page}>
-                        <View style={styles.section}>
-                            <Text>{invoice ? invoice.account : null}</Text>
-                        </View>
-                        <View style={styles.section}>
-                            <Text>{invoice ? invoice.dateInvoice : null}</Text>
-                            <Text>{invoice ? invoice.dateTraffic : null}</Text>
-                            <Text>{invoice ? invoice.place : null}</Text>
-                        </View>
-                        <View style={styles.section}>
-                            <Text>{invoice ? invoice.fromName : null}</Text>
-                            <Text>{invoice ? invoice.firmName : null}</Text>
-                            <Text>{invoice ? invoice.street : null}</Text>
-                            <Text>{invoice ? invoice.city : null}</Text>
-                            <Text>{invoice ? invoice.pib : null}</Text>
-                            <Text>{invoice ? invoice.account : null}</Text>
-                            <Text>{invoice ? invoice.email : null}</Text>
-                        </View>
-                        <View style={styles.section}>
-                            <Text>{invoice ? invoice.toName : null}</Text>
-                            <Text>{invoice ? invoice.toAdress : null}</Text>
-                            <Text>{invoice ? invoice.toCity : null}</Text>
-                            <Text>{invoice ? invoice.toPib : null}</Text>
-                        </View>
-                        <View>
-                            <Text>{invoice ? invoice.serviceType : null}</Text>
-                            <Text>{invoice ? invoice.unit : null}</Text>
-                            <Text>{invoice ? invoice.amount : null}</Text>
-                            <Text>{invoice ? invoice.price : null}</Text>
-                            <Text>{invoice ? invoice.total : null}</Text>
-                        </View>
-                    </Page>
-                </Document>
-            </PDFViewer>
+            {invoice
+            ?
+                <PDFViewer style={{width: '100%', height:'100vh'}}>
+                    <Document>
+                        <Page size="A4" style={styles.page}>
+                            <View style={[styles.section, styles.flexRow, styles.text]}>
+                                <Text style={styles.title}>Faktura: {invoice.invoice}</Text>
+                                <Text>Datum fakture: {invoice.dateInvoice}</Text>
+                                <Text>Datum prometa: {invoice.dateTraffic}</Text>
+                            </View>
+                            <View style={[styles.section, styles.text]}>
+                                <Text style={{marginLeft: 'auto'}}>Mesto prometa: {invoice.place}</Text>
+                            </View>
+                            <View style={styles.flexRow}>
+                                <View style={[styles.section, styles.text]}>
+                                    <Text>Od:</Text>
+                                    <Text> </Text>
+                                    <Text style={styles.subtitle}>{invoice.fromName}</Text>
+                                    <Text> </Text>
+                                    <Text>{invoice.firmName}</Text>
+                                    <Text>{invoice.street}</Text>
+                                    <Text>{invoice.city}</Text>
+                                    <Text>{invoice.pib}</Text>
+                                    <Text>{invoice.account}</Text>
+                                    <Text>{invoice.email}</Text>
+                                </View>
+                                <View style={[styles.section, styles.text]}>
+                                    <Text>Komitet:</Text>
+                                    <Text> </Text>
+                                    <Text style={styles.subtitle}>{invoice.toName}</Text>
+                                    <Text> </Text>
+                                    <Text>Adresa: {invoice.toAdress}</Text>
+                                    <Text>{invoice.toCity}</Text>
+                                    <Text>PIB/JMBG: {invoice.toPib}</Text>
+                                </View>
+                            </View>
+
+                            <View style={[styles.section, styles.subtitle, styles.flexRow]}>
+                                <View style={styles.flexCol}>
+                                    <Text>VRSTA USLUGE</Text>
+                                    <Text>{invoice.serviceType}</Text>
+                                </View>
+                                <View style={styles.flexCol}>
+                                    <Text>JEDINICA</Text>
+                                    <Text>{invoice.unit}</Text>
+                                </View>
+                                <View style={styles.flexCol}>
+                                    <Text>KOLICINA</Text>
+                                    <Text>{invoice.amount}</Text>
+                                </View>
+                                <View style={styles.flexCol}>
+                                    <Text>CENA</Text>
+                                    <Text>{invoice.price}</Text>
+                                </View>
+                                <View style={styles.flexCol}>
+                                    <Text>TOTAL</Text>
+                                    <Text>{invoice.total}</Text>
+                                </View>
+                            </View>
+
+                            <View style={[styles.section, styles.flexRow, styles.bottom]}>
+                                <Text style={styles.subtitle}>Ukupno: {invoice.total}</Text>
+                                <Text style={styles.title}>{invoice.total}</Text>
+                            </View>
+                        </Page>
+                    </Document>
+                </PDFViewer>
+            :
+            null
+            }
         </div>
         <Footer style={{
             textAlign: 'center',
