@@ -15,6 +15,7 @@ function Invoice(props) {
         props.returnInvoiceInfo(form.getFieldsValue());
     }
 
+
     function handleClear() {
         form.setFieldsValue({
             invoice: null,
@@ -98,6 +99,8 @@ function Invoice(props) {
                     >
                         <Row>
                             <Col lg={12} xs={24} style={formStyle}>
+                                <Col><Title>Faktura</Title></Col>
+                                <Divider/>
                                 <Form.Item name='invoice'
                                            label='Faktura:'
                                            hasFeedback={true}
@@ -134,8 +137,10 @@ function Invoice(props) {
 
                         <Divider/>
 
-                        <Row style={formStyle}>
-                            <Col lg={12} xs={24}>
+                        <Row>
+                            <Col lg={12} xs={24} style={formStyle}>
+                                <Col><Title>Od</Title></Col>
+                                <Divider/>
                                 <Form.Item name='fromName'
                                            label='Od:'
                                            hasFeedback={true}
@@ -191,7 +196,9 @@ function Invoice(props) {
                                 </Form.Item>
                             </Col>
 
-                            <Col lg={12} xs={24}>
+                            <Col lg={{offset: 2, span: 10}} xs={24} style={formStyle}>
+                                <Col><Title>Kome</Title></Col>
+                                <Divider/>
                                 <Form.Item name='toName'
                                            label='Komitet:'
                                            hasFeedback={true}
@@ -229,6 +236,8 @@ function Invoice(props) {
 
                         <Row>
                             <Col lg={12} xs={24} style={formStyle}>
+                                <Col><Title>Usluga</Title></Col>
+                                <Divider/>
                                 <Form.Item name='serviceType'
                                            label='Vrsta usluge:'
                                            hasFeedback={true}
