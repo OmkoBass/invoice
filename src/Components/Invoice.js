@@ -103,7 +103,6 @@ function Invoice(props) {
                                 <Divider/>
                                 <Form.Item name='invoice'
                                            label='Faktura:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -111,7 +110,6 @@ function Invoice(props) {
 
                                 <Form.Item name='dateInvoice'
                                            label='Datum fakture:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -119,7 +117,6 @@ function Invoice(props) {
 
                                 <Form.Item name='dateTraffic'
                                            label='Datum prometa:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -127,7 +124,6 @@ function Invoice(props) {
 
                                 <Form.Item name='place'
                                            label='Mesto prometa:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -143,21 +139,18 @@ function Invoice(props) {
                                 <Divider/>
                                 <Form.Item name='fromName'
                                            label='Od:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}>
                                     <Input/>
                                 </Form.Item>
 
                                 <Form.Item name='firmName'
                                            label='Ime firme:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}>
                                     <Input/>
                                 </Form.Item>
 
                                 <Form.Item name='street'
                                            label='Ulica:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -165,7 +158,6 @@ function Invoice(props) {
 
                                 <Form.Item name='city'
                                            label='Grad:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -173,7 +165,6 @@ function Invoice(props) {
 
                                 <Form.Item name='pib'
                                            label='PIB:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -181,7 +172,6 @@ function Invoice(props) {
 
                                 <Form.Item name='account'
                                            label='ŽIRO RAČUN:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -189,7 +179,6 @@ function Invoice(props) {
 
                                 <Form.Item name='email'
                                            label='E-mail:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -201,7 +190,6 @@ function Invoice(props) {
                                 <Divider/>
                                 <Form.Item name='toName'
                                            label='Komitet:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -209,7 +197,6 @@ function Invoice(props) {
 
                                 <Form.Item name='toAddress'
                                            label='Adresa:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -217,7 +204,6 @@ function Invoice(props) {
 
                                 <Form.Item name='toCity'
                                            label='Grad:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}
                                 >
                                     <Input/>
@@ -225,7 +211,6 @@ function Invoice(props) {
 
                                 <Form.Item name='toPib'
                                            label='PIB/JMBG:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}>
                                     <Input/>
                                 </Form.Item>
@@ -240,35 +225,31 @@ function Invoice(props) {
                                 <Divider/>
                                 <Form.Item name='serviceType'
                                            label='Vrsta usluge:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}>
                                     <Input/>
                                 </Form.Item>
 
                                 <Form.Item name='unit'
                                            label='Jedinica:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}>
                                     <Input/>
                                 </Form.Item>
 
                                 <Form.Item name='amount'
                                            label='Količina:'
-                                           hasFeedback={true}
+
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}>
                                     <Input/>
                                 </Form.Item>
 
                                 <Form.Item name='price'
                                            label='Cena:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}>
                                     <Input/>
                                 </Form.Item>
 
                                 <Form.Item name='total'
                                            label='Ukupno:'
-                                           hasFeedback={true}
                                            rules={[{ required: true, message: 'Unesite informacije!' }]}>
                                     <Input/>
                                 </Form.Item>
