@@ -48,13 +48,6 @@ function Invoice(props) {
         }
     }
 
-    const formStyle = {
-        backgroundColor: 'white',
-        padding: '1em',
-        borderRadius: '8px',
-        boxShadow: ' 0 2px 8px rgba(0, 0, 0, 0.15)',
-    }
-
     let [form] = Form.useForm();
 
     return <div>
@@ -73,7 +66,7 @@ function Invoice(props) {
               onFinish={handleFinish}
         >
             <Row>
-                <Col lg={12} xs={24} style={formStyle}>
+                <Col lg={12} xs={24} className='form-style'>
                     <Col><Title>Faktura</Title></Col>
                     <Divider/>
                     <Form.Item name='invoice'
@@ -87,7 +80,12 @@ function Invoice(props) {
                                label='Logo'
                                /*rules={[{required: true, message: 'Unesite informacije!'}]}*/
                     >
-                        <Upload listType='picture'>
+                        {/*Horrible documentation for upload, i have no idea why it workks like it does*/}
+                        <Upload
+                                multiple={false}
+                                listType='picture'
+                                fileList={null}
+                                >
                             <Button>
                                 <UploadOutlined/> Otpremi
                             </Button>
@@ -120,7 +118,7 @@ function Invoice(props) {
             <Divider/>
 
             <Row>
-                <Col lg={12} xs={24} style={formStyle}>
+                <Col lg={12} xs={24} className='form-style'>
                     <Col><Title>Od</Title></Col>
                     <Divider/>
                     <Form.Item name='fromName'
@@ -171,7 +169,7 @@ function Invoice(props) {
                     </Form.Item>
                 </Col>
 
-                <Col lg={{offset: 2, span: 10}} xs={24} style={formStyle}>
+                <Col lg={{offset: 2, span: 10}} xs={24} className='form-style'>
                     <Col><Title>Kome</Title></Col>
                     <Divider/>
                     <Form.Item name='toName'
@@ -206,7 +204,7 @@ function Invoice(props) {
             <Divider/>
 
             <Row>
-                <Col lg={12} xs={24} style={formStyle}>
+                <Col lg={12} xs={24} className='form-style'>
                     <Col><Title>Usluga</Title></Col>
                     <Divider/>
                     <Form.Item name='serviceType'

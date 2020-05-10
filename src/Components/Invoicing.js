@@ -51,7 +51,7 @@ function Invoicing() {
                         Fakture
                     </Menu.Item>
                     <Menu.Item key="2" onClick={() => setFunctions(1)}>
-                        Opcije
+                        Profil
                     </Menu.Item>
                     <Menu.Item key="3" onClick={() => history.push('/')}>
                         Odjavi se

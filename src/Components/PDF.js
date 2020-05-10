@@ -1,38 +1,36 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 //React pdf
 import {Document, Page, View, Text, StyleSheet, Font, PDFViewer, Image} from '@react-pdf/renderer';
 
 function PDF(props) {
-    const [info, setInfo] = useState(props.info);
-
     const document = () => {
         return <Document>
             <Page size="A4" style={styles.page}>
                 <View style={[styles.section, styles.flexRow, styles.text]}>
-                    <Text style={styles.title}>Faktura: {info.invoice}</Text>
+                    <Text style={styles.title}>Faktura: {props.info.invoice}</Text>
 
                     {
-                        info.logo ?
-                            <Image src={info.logo.file}/>
+                        props.info.logo ?
+                            <Image src={props.info.logo.file}/>
                         :
                         null
                     }
-                    
+
                     <View style={styles.flexCol}>
                         <Text>Datum fakture:</Text>
-                        <Text>{info.dateInvoice}</Text>
+                        <Text>{props.info.dateInvoice}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>Datum prometa:</Text>
-                        <Text>{info.dateTraffic}</Text>
+                        <Text>{props.info.dateTraffic}</Text>
                     </View>
                 </View>
 
                 <View style={[styles.section, styles.text]}>
                     <View style={[styles.flexCol, {marginLeft: 'auto'}]}>
                         <Text>Mesto prometa:</Text>
-                        <Text>{info.place}</Text>
+                        <Text>{props.info.place}</Text>
                     </View>
                 </View>
 
@@ -48,24 +46,24 @@ function PDF(props) {
                     <View style={[styles.section, styles.text]}>
                         <Text>Od:</Text>
                         <Text> </Text>
-                        <Text style={styles.subtitle}>{info.fromName}</Text>
+                        <Text style={styles.subtitle}>{props.info.fromName}</Text>
                         <Text> </Text>
-                        <Text>{info.firmName}</Text>
-                        <Text>{info.street}</Text>
-                        <Text>{info.city}</Text>
-                        <Text>{info.pib}</Text>
-                        <Text>{info.account}</Text>
-                        <Text>{info.email}</Text>
+                        <Text>{props.info.firmName}</Text>
+                        <Text>{props.info.street}</Text>
+                        <Text>{props.info.city}</Text>
+                        <Text>{props.info.pib}</Text>
+                        <Text>{props.info.account}</Text>
+                        <Text>{props.info.email}</Text>
                     </View>
 
                     <View style={[styles.section, styles.text]}>
                         <Text>Komitet:</Text>
                         <Text> </Text>
-                        <Text style={styles.subtitle}>{info.toName}</Text>
+                        <Text style={styles.subtitle}>{props.info.toName}</Text>
                         <Text> </Text>
-                        <Text>Adresa: {info.toAddress}</Text>
-                        <Text>{info.toCity}</Text>
-                        <Text>PIB/JMBG: {info.toPib}</Text>
+                        <Text>Adresa: {props.info.toAddress}</Text>
+                        <Text>{props.info.toCity}</Text>
+                        <Text>PIB/JMBG: {props.info.toPib}</Text>
                     </View>
                 </View>
 
@@ -80,23 +78,23 @@ function PDF(props) {
                 <View style={[styles.section, styles.subtitle, styles.flexRow]}>
                     <View style={styles.flexCol}>
                         <Text>VRSTA USLUGE</Text>
-                        <Text>{info.serviceType}</Text>
+                        <Text>{props.info.serviceType}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>JEDINICA</Text>
-                        <Text>{info.unit}</Text>
+                        <Text>{props.info.unit}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>KOLICINA</Text>
-                        <Text>{info.amount}</Text>
+                        <Text>{props.info.amount}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>CENA</Text>
-                        <Text>{info.price}</Text>
+                        <Text>{props.info.price}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>TOTAL</Text>
-                        <Text>{info.total}</Text>
+                        <Text>{props.info.total}</Text>
                     </View>
                 </View>
 
@@ -109,8 +107,8 @@ function PDF(props) {
                 />
 
                 <View style={[styles.section, styles.flexRow, styles.bottom]}>
-                    <Text style={styles.subtitle}>Ukupno: {info.total}</Text>
-                    <Text style={[styles.title, styles.total]}>{info.total}</Text>
+                    <Text style={styles.subtitle}>Ukupno: {props.info.total}</Text>
+                    <Text style={[styles.title, styles.total]}>{props.info.total}</Text>
                 </View>
 
                 <View
