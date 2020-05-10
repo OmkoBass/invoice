@@ -78,9 +78,8 @@ function Invoice(props) {
 
                     <Form.Item name='logo'
                                label='Logo'
-                               /*rules={[{required: true, message: 'Unesite informacije!'}]}*/
                     >
-                        {/*Horrible documentation for upload, i have no idea why it workks like it does*/}
+                        {/*Horrible documentation for upload, i have no idea why it works like it does*/}
                         <Upload
                                 multiple={false}
                                 listType='picture'

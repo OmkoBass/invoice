@@ -3,19 +3,26 @@ import React from 'react'
 //React pdf
 import {Document, Page, View, Text, StyleSheet, Font, PDFViewer, Image} from '@react-pdf/renderer';
 
+import skyon from '../Assets/skyondark.png'
+
 function PDF(props) {
     const document = () => {
         return <Document>
             <Page size="A4" style={styles.page}>
                 <View style={[styles.section, styles.flexRow, styles.text]}>
-                    <Text style={styles.title}>Faktura: {props.info.invoice}</Text>
+                    <View style={[styles.flexCol]}>
+                        <Text style={styles.title}>Faktura: {props.info.invoice}</Text>
 
-                    {
+                        {/*This image shit works, i just need to figure out how to put it in here*/}
+                        <Image src={skyon} style={{position: 'absolute', width: '150px', marginTop: '75px'}}/>
+                    </View>
+
+                    {/*{
                         props.info.logo ?
                             <Image src={props.info.logo.file}/>
                         :
                         null
-                    }
+                    }*/}
 
                     <View style={styles.flexCol}>
                         <Text>Datum fakture:</Text>
