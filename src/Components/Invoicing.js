@@ -1,5 +1,8 @@
 import React, {useState} from 'react'
 
+//Router
+import {useHistory} from "react-router";
+
 //antd
 import {Row, Col, Layout, Menu, Typography, Avatar} from 'antd';
 
@@ -22,11 +25,16 @@ const logoStyle = {
 const {Header, Content, Sider, Footer} = Layout;
 
 function Invoicing() {
+    const [functions, setFunctions] = useState(0);
+
+    //Invoice info
     const [invoice, setInvoice] = useState(null);
 
     function handleInvoice(childData) {
         setInvoice(childData);
     }
+
+    let history = useHistory();
 
     return <Layout>
         <Sider
@@ -36,11 +44,17 @@ function Invoicing() {
             <div>
                 <img src={skyon} alt='skyon logo' style={logoStyle}/>
             </div>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                <Menu.Item key="1">
-                    Fakture
-                </Menu.Item>
-            </Menu>
+                <Menu theme="dark" defaultSelectedKeys={['1']}>
+                    <Menu.Item key="1" onClick={() => setFunctions(0)}>
+                        Fakture
+                    </Menu.Item>
+                    <Menu.Item key="2" onClick={() => setFunctions(1)}>
+                        Opcije
+                    </Menu.Item>
+                    <Menu.Item key="3" onClick={() => history.push('/')}>
+                        Odjavi se
+                    </Menu.Item>
+                </Menu>
         </Sider>
         <Layout>
             <Header style={{ padding: 0 }} />

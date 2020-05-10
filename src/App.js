@@ -16,6 +16,9 @@ import Invoicing from "./Components/Invoicing";
 import Profile from "./Components/Profile";
 import NotFound from "./Components/NotFound";
 
+//css
+import './Styles/global.css'
+
 function App() {
     return <div>
         <Router>
