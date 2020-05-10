@@ -7,7 +7,7 @@ import {useHistory} from "react-router";
 import {Row, Col, Layout, Menu, Typography, Avatar} from 'antd';
 
 //img
-import skyon from '../Assets/Skayon_logo_dark.png'
+import skyon from '../Assets/skyonlight.png'
 import conmisi from '../Assets/conmisi.png';
 import ictdc from '../Assets/ictdc.png'
 

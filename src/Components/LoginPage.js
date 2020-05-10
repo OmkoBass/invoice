@@ -8,7 +8,7 @@ import { Form, Input, Button, message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 //skyon
-import skyon from '../Assets/Skayon_logo_dark.png'
+import skyon from '../Assets/skyondark.png'
 
 //antd password field
 const {Password} = Input;
