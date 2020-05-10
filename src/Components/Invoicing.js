@@ -14,6 +14,7 @@ import ictdc from '../Assets/ictdc.png'
 //Components
 import Invoice from "./Invoice";
 import PDF from "./PDF";
+import Profile from "./Profile";
 
 //Style
 const logoStyle = {
@@ -32,6 +33,7 @@ function Invoicing() {
 
     function handleInvoice(childData) {
         setInvoice(childData);
+        console.log(invoice);
     }
 
     let history = useHistory();
@@ -60,8 +62,18 @@ function Invoicing() {
             <Header style={{ padding: 0 }} />
             <Content>
                 <div style={{ padding: 24, minHeight: 360 }}>
-                    <Invoice returnInvoiceInfo={handleInvoice}/>
-                    <PDF info={invoice}/>
+                    {
+                        functions === 0 ?
+                            <div>
+                                <Invoice returnInvoiceInfo={handleInvoice}/>
+                                {invoice ?
+                                <PDF info={invoice}/>
+                                :
+                                null}
+                            </div>
+                            :
+                            <Profile/>
+                    }
                 </div>
             </Content>
             <Footer style={{
@@ -79,7 +91,7 @@ function Invoicing() {
                 </Row>
                 <Row justify='space-between'>
                     <Col span={12}>
-                        Nas tim
+                        Naš tim
                     </Col>
                     <Col span={12}>
                         <Col span={24}>

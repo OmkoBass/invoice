@@ -11,7 +11,14 @@ function PDF(props) {
             <Page size="A4" style={styles.page}>
                 <View style={[styles.section, styles.flexRow, styles.text]}>
                     <Text style={styles.title}>Faktura: {info.invoice}</Text>
-                    <Image src={info.logo.file}/>
+
+                    {
+                        info.logo ?
+                            <Image src={info.logo.file}/>
+                        :
+                        null
+                    }
+                    
                     <View style={styles.flexCol}>
                         <Text>Datum fakture:</Text>
                         <Text>{info.dateInvoice}</Text>
@@ -170,15 +177,9 @@ function PDF(props) {
         src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
     });
 
-    return <div>
-        {info
-        ?
-            <PDFViewer style={{width: '100%', height: '100vh'}}>
-                {document()}
-            </PDFViewer>
-        :
-        null}
-    </div>
+    return <PDFViewer style={{width: '100%', height: '100vh'}}>
+            {document()}
+        </PDFViewer>
 }
 
 export default PDF;
