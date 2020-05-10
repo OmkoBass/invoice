@@ -59,13 +59,14 @@ function Invoice(props) {
             </Paragraph>
         </Typography>
         <Divider/>
+
         <Form {...layout}
               form={form}
               layout='horizontal'
               name='info'
               onFinish={handleFinish}
         >
-            <Row>
+            <Row justify='center'>
                 <Col lg={12} xs={24} className='form-style'>
                     <Col><Title>Faktura</Title></Col>
                     <Divider/>
@@ -81,10 +82,10 @@ function Invoice(props) {
                     >
                         {/*Horrible documentation for upload, i have no idea why it works like it does*/}
                         <Upload
-                                multiple={false}
-                                listType='picture'
-                                fileList={null}
-                                >
+                            multiple={false}
+                            listType='picture'
+                            fileList={null}
+                        >
                             <Button>
                                 <UploadOutlined/> Otpremi
                             </Button>
@@ -116,7 +117,7 @@ function Invoice(props) {
 
             <Divider/>
 
-            <Row>
+            <Row justify='center'>
                 <Col lg={12} xs={24} className='form-style'>
                     <Col><Title>Od</Title></Col>
                     <Divider/>
@@ -167,8 +168,12 @@ function Invoice(props) {
                         <Input/>
                     </Form.Item>
                 </Col>
+            </Row>
 
-                <Col lg={{offset: 2, span: 10}} xs={24} className='form-style'>
+            <Divider/>
+
+            <Row justify='center'>
+                <Col lg={12} xs={24} className='form-style'>
                     <Col><Title>Kome</Title></Col>
                     <Divider/>
                     <Form.Item name='toName'
@@ -202,7 +207,7 @@ function Invoice(props) {
 
             <Divider/>
 
-            <Row>
+            <Row justify='center'>
                 <Col lg={12} xs={24} className='form-style'>
                     <Col><Title>Usluga</Title></Col>
                     <Divider/>
@@ -239,7 +244,7 @@ function Invoice(props) {
                 </Col>
             </Row>
 
-            <Row style={{marginTop: '2em'}}>
+            <Row justify='center' style={{marginTop: '2em'}}>
                 <Col>
                     <Form.Item {...controlLayout}>
                         <Button type='primary'
