@@ -1,8 +1,9 @@
 .login {
-    margin: auto;
+    margin: 8em auto auto auto;
     padding: 2em;
     max-width: 450px;
     border: 1px solid lightgray;
+    background-color: white;
 }
 
 .form-style {
