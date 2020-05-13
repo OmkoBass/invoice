@@ -8,7 +8,6 @@ const {Title, Paragraph, Text} = Typography;
 
 function Invoice(props) {
     function handleFinish() {
-        console.log(form.getFieldsValue());
         props.returnInvoiceInfo(form.getFieldsValue());
     }
 

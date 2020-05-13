@@ -33,7 +33,6 @@ function Invoicing() {
 
     function handleInvoice(childData) {
         setInvoice(childData);
-        console.log(invoice);
     }
 
     let history = useHistory();

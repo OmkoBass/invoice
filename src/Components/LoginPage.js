@@ -3,8 +3,11 @@ import React from 'react'
 //Router
 import {useHistory} from "react-router";
 
+//firebase
+import firebase from '../firebase';
+
 //antd
-import { Form, Input, Button, Layout, message} from 'antd';
+import { Form, Input, Button, Layout, message, Divider} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 //skyon
@@ -17,14 +20,7 @@ const {Password} = Input;
 
 function LoginPage() {
     const onFinish = value => {
-        if(value.username === 'admin' && value.password === 'admin')
-            history.push({
-                pathname: '/invoice',
-                username: value.username
-            })
-        else {
-            failed();
-        }
+
     }
 
     //Failed message when input is bad
@@ -61,12 +57,24 @@ function LoginPage() {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Prijavite se
+                        <Button type="primary"
+                                size='large'
+                                block={true}
+                                htmlType="submit">
+                            Prijavi se!
                         </Button>
-                        Ili
-                        <Button type='default'>
-                            Registrujte se!
+
+                        <Divider/>
+
+                        <p style={{textAlign: 'center'}}> Nemate profil? </p>
+
+                        <Divider/>
+
+                        <Button type='default'
+                                size='large'
+                                block={true}
+                                onClick={() => history.push('/register')}>
+                            Registruj se!
                         </Button>
                     </Form.Item>
                 </Form>

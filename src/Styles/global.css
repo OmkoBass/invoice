@@ -1,7 +1,7 @@
 .login {
     margin: 8em auto auto auto;
     padding: 2em;
-    max-width: 450px;
+    max-width: 512px;
     border: 1px solid lightgray;
     background-color: white;
 }
@@ -11,4 +11,11 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background-color: white;
+}
+
+@media only screen and (max-width: 512px) {
+    .login {
+        margin: auto;
+        height: 100vh;
+    }
 }
