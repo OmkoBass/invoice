@@ -65,7 +65,7 @@ function Profile() {
               onFinish={handleOnFinish}
         >
             <Form.Item name='logo'
-                       label='logo'>
+                       label='Logo'>
                 <Upload multiple={false}
                         listType='picture'
                         fileList={null}>

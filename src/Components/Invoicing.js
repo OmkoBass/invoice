@@ -4,7 +4,7 @@ import React, {useState} from 'react'
 import {useHistory} from "react-router";
 
 //antd
-import {Row, Col, Layout, Menu, Typography, Avatar} from 'antd';
+import {Row, Col, Layout, Menu, Typography, Avatar, Modal, Button} from 'antd';
 
 //img
 import skyon from '../Assets/skyonlight.png'
@@ -26,6 +26,10 @@ const logoStyle = {
 const {Header, Content, Sider, Footer} = Layout;
 
 function Invoicing() {
+    //for modal
+    const [show, setShow] = useState(null);
+
+    //For switching between menus
     const [functions, setFunctions] = useState(0);
 
     //Invoice info
@@ -34,6 +38,8 @@ function Invoicing() {
     function handleInvoice(childData) {
         setInvoice(childData);
     }
+
+    const handleLogout = () => setShow(true);
 
     let history = useHistory();
 
@@ -52,7 +58,7 @@ function Invoicing() {
                     <Menu.Item key="2" onClick={() => setFunctions(1)}>
                         Profil
                     </Menu.Item>
-                    <Menu.Item key="3" onClick={() => history.push('/')}>
+                    <Menu.Item key="3" onClick={handleLogout}>
                         Odjavi se
                     </Menu.Item>
                 </Menu>
@@ -112,6 +118,36 @@ function Invoicing() {
                 </Row>
             </Footer>
         </Layout>
+
+        <Modal
+            title='Jeste li sigurni da hocete da se odjavite?'
+            footer={false}
+            visible={show}
+            onCancel={() => setShow(false)}
+        >
+            <Row>
+                <Col span={9}>
+                    <Button
+                        block={true}
+                        type='danger'
+                        size='large'
+                        onClick={() => history.push('/')}
+                    >
+                        Da
+                    </Button>
+                </Col>
+                <Col offset={6} span={9}>
+                    <Button
+                        block={true}
+                        type='primary'
+                        size='large'
+                        onClick={() => setShow(false)}
+                    >
+                        Ne
+                    </Button>
+                </Col>
+            </Row>
+        </Modal>
     </Layout>
 }
 
