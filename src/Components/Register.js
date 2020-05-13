@@ -28,9 +28,10 @@ function Register() {
 
     //On finish
     const handleFinish = value => {
-        console.log(value)
-        if(value.username.match(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)) {
-            if(value.password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/)) {
+        if(value.username.match(/^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)) {
+            if(value.password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/) &&
+                value.password === value.confirmPassword
+            ) {
                 const firestore = firebase.firestore();
 
                 firestore.collection('Profiles').add({
@@ -41,7 +42,7 @@ function Register() {
                 })
             }
             else {
-                message.error('Neispravna lozinka!');
+                message.error('Lozinka mora imati jedno slovo i znak!');
             }
         } else {
             message.error('Neispravno korisničko ime!');
@@ -50,7 +51,7 @@ function Register() {
 
     //layout
     const layout = {
-        labelCol: { span: 6 },
+        labelCol: { span: 8 },
         wrapperCol: { span: 24 },
     };
 
@@ -90,6 +91,13 @@ function Register() {
                             name='password'
                             label='Lozinka'
                             rules={[{required: true, message: 'Unesite lozinku!'}]}>
+                            <Password/>
+                        </Form.Item>
+
+                        <Form.Item
+                            name='confirmPassword'
+                            label='Potvrdite lozinku'
+                            rules={[{required: true, message: 'Potvrdite lozinku!'}]}>
                             <Password/>
                         </Form.Item>
 

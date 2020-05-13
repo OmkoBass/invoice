@@ -12,8 +12,14 @@ function PDF(props) {
                         <Text style={styles.title}>Faktura: {props.info.invoice}</Text>
 
                         {/*This image shit works, i just need to figure out how to put it in here*/}
-                        <Image src={props.info.logo.file.originFileObj.name}
-                           style={{position: 'absolute', width: '150px', marginTop: '75px'}}/>
+                        {
+                            props.info.logo
+                            ?
+                                <Image src={props.info.logo.file.originFileObj.name} alt='user logo'
+                                       style={{position: 'absolute', width: '150px', marginTop: '75px'}}/>
+                            :
+                            null
+                        }
                     </View>
 
                     {/*{

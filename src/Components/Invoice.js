@@ -12,29 +12,7 @@ function Invoice(props) {
     }
 
     function handleClear() {
-        form.setFieldsValue({
-            invoice: null,
-            logo: null,
-            dateInvoice: null,
-            dateTraffic: null,
-            place: null,
-            fromName: null,
-            firmName: null,
-            street: null,
-            city: null,
-            pib: null,
-            account: null,
-            email: null,
-            toName: null,
-            toAddress: null,
-            toCity: null,
-            toPib: null,
-            serviceType: null,
-            unit: null,
-            amount: null,
-            price: null,
-            total: null,
-        });
+        form.resetFields();
     }
 
     const layout = {

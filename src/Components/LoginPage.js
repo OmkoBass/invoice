@@ -20,7 +20,7 @@ const {Password} = Input;
 
 function LoginPage() {
     const onFinish = value => {
-
+        history.push('/invoice');
     }
 
     //Failed message when input is bad
