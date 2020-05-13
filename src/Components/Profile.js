@@ -1,13 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+
+//Router
+import {useHistory} from "react-router";
 
 //firebase
 import firebase from "../firebase";
 
+//antd
 import {Form, Button, Input, Upload, Typography, Divider, notification} from 'antd'
 import {UploadOutlined} from "@ant-design/icons";
 
 const {Title, Paragraph, Text} = Typography;
 
+//Firestore
 const firestore = firebase.firestore();
 
 function Profile() {
@@ -24,6 +29,8 @@ function Profile() {
 
     //Form ref
     let [form] = Form.useForm();
+
+    let history = useHistory();
 
     //Saving
     const handleOnFinish = value => {

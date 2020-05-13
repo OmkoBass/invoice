@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 //Router
 import {useHistory} from "react-router";
 
-//firebase
 import firebase from '../firebase';
 
 //antd
@@ -18,9 +17,28 @@ const { Content } = Layout;
 //antd password field
 const {Password} = Input;
 
+//For authentication
+require('firebase/auth')
+
 function LoginPage() {
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                history.push('/invoice')
+            }
+        });
+    }, [])
+
     const onFinish = value => {
-        history.push('/invoice');
+        firebase.auth().signInWithEmailAndPassword(value.username, value.password).then(() => {
+            history.push({
+                pathname: '/invoice' ,
+                username: value.username,
+            });
+        })
+
+        const promise = firebase.auth().signInWithEmailAndPassword(value.username, value.password);
+        promise.catch(() => failed());
     }
 
     //Failed message when input is bad
@@ -41,9 +59,9 @@ function LoginPage() {
                 >
                     <Form.Item
                         name="username"
-                        rules={[{ required: true, message: 'Unesite korisničko ime!' }]}
+                        rules={[{ required: true, message: 'Unesite korisničko ime ili E-mail!' }]}
                     >
-                        <Input prefix={<UserOutlined/>} placeholder="Korisničko ime" />
+                        <Input prefix={<UserOutlined/>} placeholder="Korisničko ime ili E-mail" />
                     </Form.Item>
                     <Form.Item
                         name="password"

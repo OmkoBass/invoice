@@ -1,7 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 //Router
 import {useHistory} from "react-router";
+
+//firebase
+import firebase from '../firebase';
 
 //antd
 import {Row, Col, Layout, Menu, Typography, Avatar, Modal, Button} from 'antd';
@@ -16,6 +19,9 @@ import Invoice from "./Invoice";
 import PDF from "./PDF";
 import Profile from "./Profile";
 
+//for authentication
+require('firebase/auth');
+
 //Style
 const logoStyle = {
     width: '100%',
@@ -26,6 +32,16 @@ const logoStyle = {
 const {Header, Content, Sider, Footer} = Layout;
 
 function Invoicing() {
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is signed in.
+            } else {
+                history.push('/')
+            }
+        });
+    }, [])
+
     //for modal
     const [show, setShow] = useState(null);
 
@@ -131,7 +147,10 @@ function Invoicing() {
                         block={true}
                         type='danger'
                         size='large'
-                        onClick={() => history.push('/')}
+                        onClick={() => {
+                            firebase.auth().signOut();
+                            history.push('/')
+                        }}
                     >
                         Da
                     </Button>
