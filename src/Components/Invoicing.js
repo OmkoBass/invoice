@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 
-//Router
-import {useHistory} from "react-router";
-
 //firebase
 import firebase from '../firebase';
 
@@ -46,8 +43,6 @@ function Invoicing() {
     }
 
     const handleLogout = () => setShow(true);
-
-    let history = useHistory();
 
     return <Layout>
         <Sider
@@ -139,7 +134,6 @@ function Invoicing() {
                         size='large'
                         onClick={() => {
                             firebase.auth().signOut();
-                            history.push('/')
                         }}
                     >
                         Da

@@ -29,12 +29,12 @@ function NotFound() {
                 title='Stranica ne postoji!'
                 subTitle='Stranica kojoj želite da pristupite ne postoji.'
                 extra={[
-                    <Row justify='center'>
+                    <Row justify='center' key={1}>
                         <Col xl={12} lg={18} xs={24}>
                             <img style={{width: '100%'}} src={notFound} alt='not found'/>
                         </Col>
                     </Row>,
-                    <Button
+                    <Button key={2}
                     size='large'
                     type='danger'
                     onClick={toLogin}

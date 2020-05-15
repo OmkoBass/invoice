@@ -18,20 +18,11 @@ const { Content } = Layout;
 //antd password field
 const { Password } = Input;
 
-function LoginPage() {
-    /*const unsubscribe = useEffect(() => {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                history.push('/invoice')
-            } else {
-
-            }
-        });
-
-        return () => unsubscribe;
-    }, []);*/
+function LoginPage(/*props*/) {
     const onFinish = value => {
         firebase.auth().signInWithEmailAndPassword(value.username, value.password).then(() => {
+            /*props.loggedIn();*/
+
             history.push({
                 pathname: '/invoice' ,
                 username: value.username,
