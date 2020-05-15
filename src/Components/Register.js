@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 //antd
-import { Layout, Form, Input, Button, message, Result, Divider } from 'antd';
+import {Layout, Form, Input, Button, message, Result, Divider, Col, Row} from 'antd';
 
 //logo
-import skyondark from '../Assets/skyondark.png'
+import skyondark from '../Assets/skyondark.png';
+import complete from '../Assets/success.png';
 
 //firebase
 import firebase from '../firebase';
@@ -12,25 +13,11 @@ import firebase from '../firebase';
 //router
 import { useHistory } from "react-router";
 
-//for authentication
-require('firebase/auth');
-
 const { Content } = Layout;
 
-const {Password} = Input;
+const { Password } = Input;
 
 function Register() {
-    let justSigned = false;
-
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                if(!justSigned)
-                    history.push('/')
-            }
-        });
-    }, [])
-
     //Success state
     const [success, setSuccess] = useState(false);
 
@@ -51,9 +38,7 @@ function Register() {
                             //If we don't have the signout it will automatically
                             //go to the main page of invoicing
                             setSuccess(true);
-                            firebase.auth().signOut().then(() => {
-                                justSigned = true;
-                            });
+                            firebase.auth().signOut();
                         })
                 }
                 else {
@@ -72,17 +57,24 @@ function Register() {
     };
 
     return <Layout>
-        <Content style={{height: '100vh'}}>
+        <Content style={{height: '100vh', backgroundColor: 'white'}}>
             {
                 success
                 ?
                 <Result
                     status='success'
                     title='Uspešno ste se registrovali!'
-                    subTitle='Sada se mozete prijaviti na vas profil!'
-                    style={{margin: '12em auto'}}
+                    subTitle='Sada se možete prijaviti na vas profil!'
+                    style={{margin: 'auto'}}
                     extra={[
-                        <Button type='primary'
+                        <Row justify='center' key={1}>
+                            <Col xl={12} lg={18} xs={24}>
+                                <img style={{width: '90%'}} src={complete} alt='success'/>
+                            </Col>
+                        </Row>,
+                        <Divider key={2}/>,
+                        <Button key={3}
+                                type='primary'
                                 size='large'
                                 onClick={() => history.push('/')}>
                             Prijavi se!

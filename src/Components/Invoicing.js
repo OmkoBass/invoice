@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState } from 'react'
 
 //Router
 import {useHistory} from "react-router";
@@ -32,16 +32,6 @@ const logoStyle = {
 const {Header, Content, Sider, Footer} = Layout;
 
 function Invoicing() {
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                // User is signed in.
-            } else {
-                history.push('/')
-            }
-        });
-    }, [])
-
     //for modal
     const [show, setShow] = useState(null);
 

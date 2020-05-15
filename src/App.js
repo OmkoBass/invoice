@@ -20,13 +20,6 @@ import NotFound from "./Components/NotFound";
 //css
 import './Styles/global.css'
 
-/*const fire = firebase.firestore();
-
-fire.collection('Times').add({
-    title: 'Test',
-    time: 15
-})*/
-
 function App() {
     return <div>
         <Router>

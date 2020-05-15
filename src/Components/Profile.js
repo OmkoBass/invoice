@@ -1,8 +1,5 @@
 import React from 'react'
 
-//Router
-import {useHistory} from "react-router";
-
 //firebase
 import firebase from "../firebase";
 
@@ -30,8 +27,6 @@ function Profile() {
     //Form ref
     let [form] = Form.useForm();
 
-    let history = useHistory();
-
     //Saving
     const handleOnFinish = value => {
         firestore.collection('Invoices').add({
@@ -50,7 +45,7 @@ function Profile() {
         notification[type]({
             message: 'Uspešno!',
             description:
-                'Uspešno ste sačuvali!',
+                'Profil sačuvan!',
         });
     };
 

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 //Router
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 
+//Firebase
 import firebase from '../firebase';
 
 //antd
@@ -15,20 +16,20 @@ import skyon from '../Assets/skyondark.png'
 const { Content } = Layout;
 
 //antd password field
-const {Password} = Input;
-
-//For authentication
-require('firebase/auth')
+const { Password } = Input;
 
 function LoginPage() {
-    useEffect(() => {
+    /*const unsubscribe = useEffect(() => {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 history.push('/invoice')
+            } else {
+
             }
         });
-    }, [])
 
+        return () => unsubscribe;
+    }, []);*/
     const onFinish = value => {
         firebase.auth().signInWithEmailAndPassword(value.username, value.password).then(() => {
             history.push({
