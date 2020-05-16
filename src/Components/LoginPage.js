@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 //Router
-import { useHistory } from "react-router";
+import { useHistory, Redirect} from "react-router";
 
 //Firebase
 import firebase from '../firebase';
@@ -13,20 +13,26 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 //skyon
 import skyon from '../Assets/skyondark.png'
 
+import { AuthContext } from "./Auth";
+
 const { Content } = Layout;
 
 //antd password field
 const { Password } = Input;
 
-function LoginPage(/*props*/) {
+
+function LoginPage() {
+    let history = useHistory();
+
+    const { currentUser } = useContext(AuthContext);
+
+    if(currentUser) {
+        return <Redirect to='/invoice' />
+    }
+
     const onFinish = value => {
         firebase.auth().signInWithEmailAndPassword(value.username, value.password).then(() => {
-            /*props.loggedIn();*/
-
-            history.push({
-                pathname: '/invoice' ,
-                username: value.username,
-            });
+            history.push('/invoice');
         })
 
         const promise = firebase.auth().signInWithEmailAndPassword(value.username, value.password);
@@ -37,8 +43,6 @@ function LoginPage(/*props*/) {
     const failed = () => {
         message.error('Proverite korisničko ime i lozinku!');
     };
-
-    let history = useHistory();
 
     return <Layout>
         <Content style={{height: '100vh'}}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useContext, useState} from 'react'
 
 //firebase
 import firebase from '../firebase';
@@ -15,6 +15,13 @@ import ictdc from '../Assets/ictdc.png'
 import Invoice from "./Invoice";
 import PDF from "./PDF";
 import Profile from "./Profile";
+
+//router
+import { Redirect } from "react-router";
+
+//Context for authentication
+import { AuthContext } from "./Auth";
+
 
 //for authentication
 require('firebase/auth');
@@ -43,6 +50,12 @@ function Invoicing() {
     }
 
     const handleLogout = () => setShow(true);
+
+    const { currentUser } = useContext(AuthContext);
+
+    if(!currentUser) {
+        return <Redirect to='/' />
+    }
 
     return <Layout>
         <Sider

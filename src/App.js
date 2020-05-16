@@ -8,6 +8,9 @@ import {
     Redirect,
 } from "react-router-dom";
 
+//Context
+import { AuthProvider } from "./Components/Auth";
+
 //antd css
 import 'antd/dist/antd.css';
 
@@ -16,55 +19,25 @@ import LoginPage from "./Components/LoginPage";
 import Register from "./Components/Register";
 import Invoicing from "./Components/Invoicing";
 import NotFound from "./Components/NotFound";
+import Success from "./Components/Success";
 
 //css
 import './Styles/global.css';
 
 
 function App() {
-    /*const [authenticated, setAuthenticated] = useState(firebase.auth().currentUser ? true : false);
-
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(function (user) {
-            if(user) {
-                setAuthenticated(true);
-            } else {
-                setAuthenticated(false);
-            }
-
-            console.log(`I'm in useEffect! ${authenticated}`)
-        })
-    }, [authenticated])
-
-    //If user is not authenticated it will put them back to home page
-    const PrivateRoute = ({ component: Component, ...rest }) => (
-        <Route {...rest} render={(props) => (
-            authenticated
-                ? <Component {...props} />
-                : <Redirect to={{
-                    pathname: '/',
-                    /!*state: { from: props.location }*!/
-                }} />
-        )} />
-    );
-
-    const authenticate = () => {
-        setAuthenticated(true);
-    }*/
-
-    return <div>
+    return <AuthProvider>
         <Router>
             <Switch>
                 <Route exact path='/' component={LoginPage}/>
-                {/*<PrivateRoute exact path='/register' component={Register}/>*/}
-                {/*<PrivateRoute exact path='/invoice' component={Invoicing}/>*/}
                 <Route exact path='/register' component={Register}/>
+                <Route exact path='/register/successful' component={Success}/>
                 <Route exact path='/invoice' component={Invoicing}/>
                 <Route exact path='/404' component={NotFound}/>
                 <Redirect to='/404'/>
             </Switch>
         </Router>
-    </div>
+    </AuthProvider>
 }
 
 export default App;

@@ -49,6 +49,14 @@ function Profile() {
         });
     };
 
+
+    const uploadProps = {
+        fileList: null,
+        accept: '.png, .jpg, .jpeg',
+        listType: 'picture',
+        multiple: false,
+    }
+
     return <div>
         <Typography>
             <Title>Vaš Profil</Title>
@@ -68,11 +76,9 @@ function Profile() {
         >
             <Form.Item name='logo'
                        label='Logo'>
-                <Upload multiple={false}
-                        listType='picture'
-                        fileList={null}>
+                <Upload {...uploadProps}>
                     <Button>
-                        <UploadOutlined/> Otpremi
+                        <UploadOutlined /> Upload
                     </Button>
                 </Upload>
             </Form.Item>
