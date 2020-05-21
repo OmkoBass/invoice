@@ -1,24 +1,27 @@
 import React, {useContext} from 'react'
 
 //router
-import {Redirect, useHistory} from "react-router";
+import { useHistory } from "react-router";
 
 //antd
 import { Button, Col, Divider, Result, Row } from 'antd';
 
 //Illustration
 import complete from "../Assets/success.png";
+
+//User context
 import {AuthContext} from "./Auth";
 
+//firebase
+import firebase from 'firebase';
 
 function Success() {
     let history = useHistory();
 
     const {currentUser} = useContext(AuthContext);
 
-    if (currentUser) {
-        return <Redirect to='/invoice'/>
-    }
+    if (currentUser)
+        firebase.auth().signOut();
 
     return <Result
         status='success'

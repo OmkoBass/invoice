@@ -10,10 +10,10 @@ import skyondark from '../Assets/skyondark.png';
 import firebase from '../firebase';
 
 //router
-import {Redirect, useHistory} from "react-router";
+import { Redirect, useHistory } from "react-router";
 
 //Context for authentication
-import {AuthContext} from "./Auth";
+import { AuthContext } from "./Auth";
 
 const {Content} = Layout;
 
@@ -25,7 +25,7 @@ function Register() {
 
     let history = useHistory();
 
-    const {currentUser} = useContext(AuthContext);
+    const { currentUser } = useContext(AuthContext);
 
     if (currentUser) {
         return <Redirect to='/invoice'/>
@@ -40,7 +40,6 @@ function Register() {
                 ) {
                     firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
                         .then(() => {
-                            firebase.auth().signOut();
                             history.push('/register/successful');
                         })
                 } else {
