@@ -65,7 +65,7 @@ function Invoicing() {
                     setData(doc.data());
                     setLoad(true);
                 } else {
-                    // Not found
+                    setLoad(true);
                 }
             }).catch(function (error) {
                 // Error

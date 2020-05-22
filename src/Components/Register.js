@@ -33,7 +33,20 @@ function Register() {
 
     //On finish
     const handleFinish = value => {
-        if (value.username.match(/^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)) {
+        if (value.email.match(/^(\d{1,5}|[^\W]{1,3}|[a-zA-Z]+)([a-z])+([!#$%^&*()<>_?:"}{[\]a-z])+@([a-zA-Z.])+\.([a-z])+$/)) {
+            if (value.password.match(/^[A-Za-z0-9]{6,32}$/) &&
+                value.password === value.confirmPassword
+            ) {
+                firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+                    .then(() => {
+                        history.push('/register/successful');
+                    })
+            } else {
+                message.error('Nije dozovljena takva lozinka!');
+            }
+        } else
+            message.error('Nije dozovljeno takvo korisničko ime!');
+        /*if (value.username.match(/^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)) {
             if (value.email.match(/^(\d{1,5}|[^\W]{1,3}|[a-zA-Z]+)([a-z])+([!#$%^&*()<>_?:"}{[\]a-z])+@([a-zA-Z.])+\.([a-z])+$/)) {
                 if (value.password.match(/^[A-Za-z0-9]{6,32}$/) &&
                     value.password === value.confirmPassword
@@ -48,7 +61,7 @@ function Register() {
             }
         } else {
             message.error('Nije dozovljeno takvo korisničko ime!');
-        }
+        }*/
     }
 
     //layout
@@ -73,12 +86,12 @@ function Register() {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item
+                    {/*<Form.Item
                         name='username'
                         label='Korisničko ime'
                         rules={[{required: true, message: 'Unesite korisničko ime!'}]}>
                         <Input/>
-                    </Form.Item>
+                    </Form.Item>*/}
 
                     <Form.Item
                         name='password'

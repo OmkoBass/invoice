@@ -47,28 +47,19 @@ function Profile(props) {
     let userCollection = firebase.firestore().collection('Users');
 
     // Saving
-    const handleOnFinish = value => {
-        if (form.getFieldValue('account') === data.account
-        && form.getFieldValue('city') === data.city
-        && form.getFieldValue('email') === data.email
-        && form.getFieldValue('firmName') === data.firmName
-        && form.getFieldValue('fromName') === data.fromName
-        && form.getFieldValue('pib') === data.pib
-        && form.getFieldValue('street') === data.street
-        ) {
-            openNotificationWithIcon('info')
-        } else {
-            userCollection.doc(userID).set({
-                account: value.account,
-                city: value.city,
-                email: value.email,
-                firmName: value.firmName,
-                fromName: value.fromName,
-                pib: value.pib,
-                street: value.street,
-            }).then(r => openNotificationWithIcon('success'))
-                .catch(r => openNotificationWithIcon('error'));
-        }
+    const handleSave = () => {
+        //TODO don't write to database if fields are the same
+        //Saves the collection at the users id in firebase
+        userCollection.doc(userID).set({
+            account: form.getFieldValue('account'),
+            city: form.getFieldValue('city') ? form.getFieldValue('city') : "",
+            email: form.getFieldValue('email') ? form.getFieldValue('email') : "",
+            firmName: form.getFieldValue('firmName') ? form.getFieldValue('firmName') : "",
+            fromName: form.getFieldValue('fromName') ? form.getFieldValue('fromName') : "",
+            pib: form.getFieldValue('pib') ? form.getFieldValue('pib') : "",
+            street: form.getFieldValue('street') ? form.getFieldValue('street') : "",
+        }).then(r => openNotificationWithIcon('success'))
+            .catch(r => openNotificationWithIcon('error'));
     }
 
     // notification
@@ -116,7 +107,6 @@ function Profile(props) {
                   className='form-style'
                   form={form}
                   name='profile'
-                  onFinish={handleOnFinish}
             >
                 <Form.Item name='logo'
                            label='Logo'>
@@ -160,7 +150,7 @@ function Profile(props) {
                     <Input/>
                 </Form.Item>
                 <Form.Item {...controlLayout}>
-                    <Button type='primary' htmlType='submit' size='large'>
+                    <Button type='primary' size='large' onClick={handleSave}>
                         Sačuvaj
                     </Button>
                 </Form.Item>
