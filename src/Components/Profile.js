@@ -12,19 +12,11 @@ import { AuthContext } from "./Auth";
 
 const { Title, Paragraph, Text } = Typography;
 
-function Profile() {
-    //This is just a state that stores data from the database
-    //So i don't need to waste requests when i can have it here
-    const [data, setData] = useState(null);
+function Profile(props) {
+    const [data, setData] = useState(props.data);
 
     useEffect(() => {
-        if(data === null)
-            setDataFromDatabase();
-    }, [])
-
-
-    useEffect(() => {
-        if(data) {
+        if(props.data) {
             form.setFieldsValue({
                 account: data.account,
                 city: data.city,
@@ -36,18 +28,10 @@ function Profile() {
             })
             setLoaded(true);
         } else {
-            form.setFieldsValue({
-                account: '',
-                city: '',
-                email: '',
-                firmName: '',
-                fromName: '',
-                pib: '',
-                street: '',
-            })
+            form.resetFields();
             setLoaded(true);
         }
-    }, [data, setData])
+    }, [])
 
     //Loaded state
     const [loaded, setLoaded] = useState(false);
@@ -61,19 +45,6 @@ function Profile() {
     let userID = currentUser.uid;
 
     let userCollection = firebase.firestore().collection('Users');
-
-    //When we enter profile it gets data from the database
-    function setDataFromDatabase() {
-        userCollection.doc(userID).get().then(function (doc) {
-            if(doc.exists) {
-                setData(doc.data());
-            } else {
-                // Not found
-            }
-        }).catch(function (error) {
-            // Error
-        });
-    }
 
     // Saving
     const handleOnFinish = value => {

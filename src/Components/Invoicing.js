@@ -4,7 +4,7 @@ import React, {useContext, useState} from 'react'
 import firebase from '../firebase';
 
 //antd
-import {Row, Col, Layout, Menu, Typography, Avatar, Modal, Button} from 'antd';
+import {Row, Col, Layout, Menu, Typography, Avatar, Modal, Button, Spin} from 'antd';
 
 //img
 import skyon from '../Assets/skyonlight.png'
@@ -22,7 +22,6 @@ import { Redirect } from "react-router";
 //Context for authentication
 import { AuthContext } from "./Auth";
 
-
 //for authentication
 require('firebase/auth');
 
@@ -39,23 +38,46 @@ function Invoicing() {
     //for modal
     const [show, setShow] = useState(null);
 
+    //If this is true then we got the data we needed
+    const [load, setLoad] = useState(false);
+
     //For switching between menus
     const [functions, setFunctions] = useState(0);
 
     //Invoice info
     const [invoice, setInvoice] = useState(null);
 
+    const { currentUser } = useContext(AuthContext);
+
+    //User data
+    const [data, setData] = useState(null);
+
+    //Collection /Users
+    let userCollection = firebase.firestore().collection('Users');
+
+    if(!currentUser) {
+        return <Redirect to='/' />
+    }
+    else {
+        if(currentUser !== data) {
+            userCollection.doc(currentUser.uid).get().then(function (doc) {
+                if(doc.exists) {
+                    setData(doc.data());
+                    setLoad(true);
+                } else {
+                    // Not found
+                }
+            }).catch(function (error) {
+                // Error
+            });
+        }
+    }
+
     function handleInvoice(childData) {
         setInvoice(childData);
     }
 
     const handleLogout = () => setShow(true);
-
-    const { currentUser } = useContext(AuthContext);
-
-    if(!currentUser) {
-        return <Redirect to='/' />
-    }
 
     return <Layout>
         <Sider
@@ -81,17 +103,29 @@ function Invoicing() {
             <Header style={{ padding: 0 }} />
             <Content>
                 <div style={{ padding: 24, minHeight: 360 }}>
+                    {/*If it's loaded show the panels, if it's the first function show invoice, else show the profile*/}
                     {
-                        functions === 0 ?
+                        load ?
                             <div>
-                                <Invoice returnInvoiceInfo={handleInvoice}/>
-                                {invoice ?
-                                <PDF info={invoice}/>
-                                :
-                                null}
+                                {
+                                    functions === 0 ?
+                                        <div>
+                                            <Invoice returnInvoiceInfo={handleInvoice} data={data}/>
+                                            {invoice ?
+                                                <PDF info={invoice}/>
+                                                :
+                                                null}
+                                        </div>
+                                        :
+                                        <Profile data={data}/>
+                                }
                             </div>
                             :
-                            <Profile/>
+                            <div style={{textAlign: 'center', marginTop: '8em', height: '100%'}}>
+                                <Spin size='large'
+                                    tip='Učitavanje'
+                                />
+                            </div>
                     }
                 </div>
             </Content>

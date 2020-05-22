@@ -1,12 +1,27 @@
 import React from 'react'
 
 //antd
-import {Form, Input, Button, Divider, Typography, Row, Col, Upload} from 'antd'
-import {UploadOutlined} from '@ant-design/icons';
+import { Form, Input, Button, Divider, Typography, Row, Col, Upload } from 'antd'
+import { UploadOutlined } from '@ant-design/icons';
 
-const {Title, Paragraph, Text} = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 function Invoice(props) {
+    //Form ref
+    let [form] = Form.useForm();
+
+    if(props.data) {
+        form.setFieldsValue({
+            account: props.data.account,
+            city: props.data.city,
+            email: props.data.email,
+            firmName: props.data.firmName,
+            fromName: props.data.fromName,
+            pib: props.data.pib,
+            street: props.data.street,
+        });
+    }
+
     function handleFinish() {
         props.returnInvoiceInfo(form.getFieldsValue());
     }
@@ -24,9 +39,6 @@ function Invoice(props) {
             offset: 6,
         }
     }
-
-    //Form ref
-    let [form] = Form.useForm();
 
     return <div>
         <Typography>
