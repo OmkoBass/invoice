@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 
 //firebase
 import firebase from "../firebase";
 
 //antd
 import {Form, Button, Input, Upload, Typography,
-    Divider, notification, Skeleton} from 'antd'
+    Divider, notification} from 'antd'
 import { UploadOutlined } from "@ant-design/icons";
 
 import { AuthContext } from "./Auth";
@@ -13,31 +13,24 @@ import { AuthContext } from "./Auth";
 const { Title, Paragraph, Text } = Typography;
 
 function Profile(props) {
-    const [data, setData] = useState(props.data);
-
-    useEffect(() => {
-        if(props.data) {
-            form.setFieldsValue({
-                account: data.account,
-                city: data.city,
-                email: data.email,
-                firmName: data.firmName,
-                fromName: data.fromName,
-                pib: data.pib,
-                street: data.street,
-            })
-            setLoaded(true);
-        } else {
-            form.resetFields();
-            setLoaded(true);
-        }
-    }, [])
-
-    //Loaded state
-    const [loaded, setLoaded] = useState(false);
-
     //Form ref
     let [form] = Form.useForm();
+
+    const [data, setData] = useState(props.data);
+
+    if(props.data) {
+        form.setFieldsValue({
+            account: data.account,
+            city: data.city,
+            email: data.email,
+            firmName: data.firmName,
+            fromName: data.fromName,
+            pib: data.pib,
+            street: data.street,
+        })
+    } else {
+        form.resetFields();
+    }
 
     //So i know who the current user is
     const { currentUser } = useContext(AuthContext);
@@ -48,18 +41,33 @@ function Profile(props) {
 
     // Saving
     const handleSave = () => {
-        //TODO don't write to database if fields are the same
-        //Saves the collection at the users id in firebase
+        let values = form.getFieldsValue();
+
+        let parsedValues = Object.entries(values).map(([key, value]) => value === undefined ? '' : value);
+
+        let objectForFirebase = {
+            //IMAGE
+            fromName: parsedValues[1],
+            firmName: parsedValues[2],
+            street: parsedValues[3],
+            city: parsedValues[4],
+            pib: parsedValues[5],
+            account: parsedValues[6],
+            email: parsedValues[7],
+        }
+
         userCollection.doc(userID).set({
-            account: form.getFieldValue('account'),
-            city: form.getFieldValue('city') ? form.getFieldValue('city') : "",
-            email: form.getFieldValue('email') ? form.getFieldValue('email') : "",
-            firmName: form.getFieldValue('firmName') ? form.getFieldValue('firmName') : "",
-            fromName: form.getFieldValue('fromName') ? form.getFieldValue('fromName') : "",
-            pib: form.getFieldValue('pib') ? form.getFieldValue('pib') : "",
-            street: form.getFieldValue('street') ? form.getFieldValue('street') : "",
-        }).then(r => openNotificationWithIcon('success'))
-            .catch(r => openNotificationWithIcon('error'));
+            account: objectForFirebase.account,
+            email: objectForFirebase.email,
+            firmName: objectForFirebase.firmName,
+            fromName: objectForFirebase.fromName,
+            city: objectForFirebase.city,
+            pib: objectForFirebase.pib,
+            street: objectForFirebase.street,
+        }).then(r => {
+            openNotificationWithIcon('success');
+        })
+        .catch(r => openNotificationWithIcon('error'));
     }
 
     // notification
@@ -99,14 +107,11 @@ function Profile(props) {
         </Typography>
 
         <Divider/>
-
-        {
-            loaded
-            ?
             <Form {...layout}
                   className='form-style'
                   form={form}
                   name='profile'
+                  initialValues={props.data}
             >
                 <Form.Item name='logo'
                            label='Logo'>
@@ -155,14 +160,6 @@ function Profile(props) {
                     </Button>
                 </Form.Item>
             </Form>
-            :
-            <div className='form-style'>
-                <Skeleton active/>
-                <Skeleton active/>
-                <Skeleton active/>
-                <Skeleton active/>
-            </div>
-        }
     </div>
 }
 

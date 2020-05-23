@@ -123,7 +123,8 @@ function Register() {
 
                         <Divider/>
 
-                        <Button type='default'
+                        <Button type='primary'
+                                ghost={true}
                                 size='large'
                                 block={true}
                                 onClick={() => history.push('/')}>

@@ -84,8 +84,9 @@ function LoginPage() {
 
                         <Divider/>
 
-                        <Button type='default'
+                        <Button type='primary'
                                 size='large'
+                                ghost={true}
                                 block={true}
                                 onClick={() => history.push('/register')}>
                             Registruj se!

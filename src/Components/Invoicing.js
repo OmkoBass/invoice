@@ -1,10 +1,10 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 
 //firebase
 import firebase from '../firebase';
 
 //antd
-import {Row, Col, Layout, Menu, Typography, Avatar, Modal, Button, Spin} from 'antd';
+import {Row, Col, Layout, Menu, Typography, Avatar, Modal, Button, Skeleton} from 'antd';
 
 //img
 import skyon from '../Assets/skyonlight.png'
@@ -55,11 +55,8 @@ function Invoicing() {
     //Collection /Users
     let userCollection = firebase.firestore().collection('Users');
 
-    if(!currentUser) {
-        return <Redirect to='/' />
-    }
-    else {
-        if(currentUser !== data) {
+    useEffect(() => {
+        if(currentUser !== null) {
             userCollection.doc(currentUser.uid).get().then(function (doc) {
                 if(doc.exists) {
                     setData(doc.data());
@@ -71,6 +68,10 @@ function Invoicing() {
                 // Error
             });
         }
+    }, [])
+
+    if(!currentUser) {
+        return <Redirect to='/' />
     }
 
     function handleInvoice(childData) {
@@ -78,6 +79,10 @@ function Invoicing() {
     }
 
     const handleLogout = () => setShow(true);
+
+    const setInvoices = () => setFunctions(0);
+
+    const setProfile = () => setFunctions(1);
 
     return <Layout>
         <Sider
@@ -88,16 +93,22 @@ function Invoicing() {
                 <img src={skyon} alt='skyon logo' style={logoStyle}/>
             </div>
                 <Menu theme="dark" defaultSelectedKeys={['1']}>
-                    <Menu.Item key="1" onClick={() => setFunctions(0)}>
+                    <Menu.Item key="1" onClick={setInvoices}>
                         Fakture
                     </Menu.Item>
-                    <Menu.Item key="2" onClick={() => setFunctions(1)}>
+                    <Menu.Item key="2" onClick={setProfile}>
                         Profil
                     </Menu.Item>
-                    <Menu.Item key="3" onClick={handleLogout}>
-                        Odjavi se
-                    </Menu.Item>
                 </Menu>
+            <div>
+                <Button type='primary'
+                        size='large'
+                        ghost={true}
+                        block={true}
+                        onClick={handleLogout}>
+                    Odjavi se
+                </Button>
+            </div>
         </Sider>
         <Layout>
             <Header style={{ padding: 0 }} />
@@ -120,12 +131,14 @@ function Invoicing() {
                                         <Profile data={data}/>
                                 }
                             </div>
-                            :
-                            <div style={{textAlign: 'center', marginTop: '8em', height: '100%'}}>
-                                <Spin size='large'
-                                    tip='Učitavanje'
-                                />
-                            </div>
+                        :
+                        <div className='form-style'>
+                            <Skeleton active/>
+                            <Skeleton active/>
+                            <Skeleton active/>
+                            <Skeleton active/>
+                            <Skeleton active/>
+                        </div>
                     }
                 </div>
             </Content>
@@ -159,7 +172,7 @@ function Invoicing() {
                         </Col>
                         <Col span={24} style={{marginTop: '2em'}}>
                             <a href='https://ictdc.rs/' target="_blank" rel="noopener noreferrer">
-                                <Avatar src={ictdc} shape='square' style={{width: '50%', height: '25%'}} alt='conmisi logo'/>
+                                <Avatar src={ictdc} shape='square' style={{width: '50%', height: '25%'}} alt='ictdc logo'/>
                             </a>
                         </Col>
                     </Col>

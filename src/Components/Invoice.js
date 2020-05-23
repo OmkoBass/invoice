@@ -10,18 +10,6 @@ function Invoice(props) {
     //Form ref
     let [form] = Form.useForm();
 
-    if(props.data) {
-        form.setFieldsValue({
-            account: props.data.account,
-            city: props.data.city,
-            email: props.data.email,
-            firmName: props.data.firmName,
-            fromName: props.data.fromName,
-            pib: props.data.pib,
-            street: props.data.street,
-        });
-    }
-
     function handleFinish() {
         props.returnInvoiceInfo(form.getFieldsValue());
     }
@@ -55,6 +43,7 @@ function Invoice(props) {
               layout='horizontal'
               name='info'
               onFinish={handleFinish}
+              initialValues={props.data}
         >
             <Row justify='center'>
                 <Col lg={12} xs={24} className='form-style'>
