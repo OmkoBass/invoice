@@ -92,6 +92,7 @@ function Invoicing() {
             <div>
                 <img src={skyon} alt='skyon logo' style={logoStyle}/>
             </div>
+            <div>
                 <Menu theme="dark" defaultSelectedKeys={['1']}>
                     <Menu.Item key="1" onClick={setInvoices}>
                         Fakture
@@ -100,14 +101,17 @@ function Invoicing() {
                         Profil
                     </Menu.Item>
                 </Menu>
-            <div>
-                <Button type='primary'
-                        size='large'
-                        ghost={true}
-                        block={true}
-                        onClick={handleLogout}>
-                    Odjavi se
-                </Button>
+                <Menu theme='dark'>
+                    <Menu.Item>
+                        <Button type='primary'
+                                size='large'
+                                ghost={true}
+                                block={true}
+                                onClick={handleLogout}>
+                            Odjavi se
+                        </Button>
+                    </Menu.Item>
+                </Menu>
             </div>
         </Sider>
         <Layout>
@@ -157,7 +161,7 @@ function Invoicing() {
                 </Row>
                 <Row justify='space-between'>
                     <Col span={12}>
-                        Naš tim
+
                     </Col>
                     <Col span={12}>
                         <Col span={24}>
