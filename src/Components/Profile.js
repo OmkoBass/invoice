@@ -4,9 +4,11 @@ import React, { useState, useContext } from 'react'
 import firebase from "../firebase";
 
 //antd
-import {Form, Button, Input, Upload, Typography,
+import {Form, Button, Input, Typography,
     Divider, notification} from 'antd'
-import { UploadOutlined } from "@ant-design/icons";
+
+//Components
+import FileUpload from "./FileUpload";
 
 import { AuthContext } from "./Auth";
 
@@ -17,6 +19,8 @@ function Profile(props) {
     let [form] = Form.useForm();
 
     const [data, setData] = useState(props.data);
+
+    const [img, setImg] = useState(null);
 
     if(props.data) {
         form.setFieldsValue({
@@ -46,14 +50,13 @@ function Profile(props) {
         let parsedValues = Object.entries(values).map(([key, value]) => value === undefined ? '' : value);
 
         let objectForFirebase = {
-            //IMAGE
-            fromName: parsedValues[1],
-            firmName: parsedValues[2],
-            street: parsedValues[3],
-            city: parsedValues[4],
-            pib: parsedValues[5],
-            account: parsedValues[6],
-            email: parsedValues[7],
+            fromName: parsedValues[0],
+            firmName: parsedValues[1],
+            street: parsedValues[2],
+            city: parsedValues[3],
+            pib: parsedValues[4],
+            account: parsedValues[5],
+            email: parsedValues[6],
         }
 
         userCollection.doc(userID).set({
@@ -79,13 +82,6 @@ function Profile(props) {
         });
     };
 
-    const uploadProps = {
-        fileList: null,
-        accept: '.png, .jpg, .jpeg',
-        listType: 'picture',
-        multiple: false,
-    }
-
     // Layout for positioning
     const layout = {
         labelCol: {span: 4},
@@ -95,6 +91,10 @@ function Profile(props) {
         wrapperCol: {
             offset: 4,
         }
+    }
+
+    const imgCallBack = childData => {
+        setImg(childData);
     }
 
     return <div>
@@ -113,13 +113,11 @@ function Profile(props) {
                   name='profile'
                   initialValues={props.data}
             >
-                <Form.Item name='logo'
-                           label='Logo'>
-                    <Upload {...uploadProps}>
-                        <Button>
-                            <UploadOutlined /> Upload
-                        </Button>
-                    </Upload>
+                <Form.Item label='Logo'>
+                    <FileUpload accept={'.png, .jpg, .jpeg'}
+                        multiple={false}
+                        imgCallBack={imgCallBack}
+                    />
                 </Form.Item>
                 <Form.Item name='fromName'
                            label='od'>

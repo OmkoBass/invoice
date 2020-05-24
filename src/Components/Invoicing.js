@@ -65,7 +65,7 @@ function Invoicing() {
                     setLoad(true);
                 }
             }).catch(function (error) {
-                // Error
+                //Result
             });
         }
     }, [])
