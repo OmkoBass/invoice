@@ -27,7 +27,7 @@ function Invoice(props) {
     }
 
     const layout = {
-        labelCol: {span: 8},
+        labelCol: {span: 4},
     }
 
     const controlLayout = {

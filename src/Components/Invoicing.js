@@ -12,6 +12,9 @@ import conmisi from '../Assets/conmisi.png';
 import ictdc from '../Assets/ictdc.png';
 import internetProblem from '../Assets/internet_problem.png';
 
+//axios
+import axios from 'axios';
+
 //Components
 import Invoice from "./Invoice";
 import PDF from "./PDF";
@@ -39,6 +42,10 @@ function Invoicing() {
     //for modal
     const [show, setShow] = useState(null);
 
+    //For the pulled image
+    const [img, setImg] = useState(null);
+
+    //If error happens i set this to true and show the error
     const [error, setError] = useState(false);
 
     //If this is true then we got the data we needed
@@ -60,6 +67,17 @@ function Invoicing() {
 
     useEffect(() => {
         if(currentUser !== null) {
+            /*let imageRef = firebase.storage().ref(currentUser.uid);
+
+            imageRef.getDownloadURL().then(function(url){
+                axios.get(url)
+                    .then(res => {
+                        setImg(res);
+                    })
+            }).catch(error => {
+                //Do something with the error
+            })*/
+
             userCollection.doc(currentUser.uid).get().then(function (doc) {
                 if(doc.exists) {
                     setData(doc.data());
@@ -108,11 +126,15 @@ function Invoicing() {
     function showAppropriateMenuItems() {
         if(functions === 0) {
             return <div>
-                <Invoice returnInvoiceInfo={handleInvoice} data={data}/>
+                <Invoice returnInvoiceInfo={handleInvoice}
+                         /*image={img}*/
+                         data={data}/>
                 {
                     invoice
                         ?
-                        <PDF info={invoice}/>
+                        <PDF
+                            /*image={img}*/
+                            info={invoice}/>
                         :
                         null
                 }

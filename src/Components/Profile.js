@@ -59,6 +59,12 @@ function Profile(props) {
             email: parsedValues[6],
         }
 
+        /*if(img) {
+            let storageRef = firebase.storage().ref(userID);
+
+            storageRef.put(img);
+        }*/
+
         userCollection.doc(userID).set({
             account: objectForFirebase.account,
             email: objectForFirebase.email,
@@ -113,12 +119,12 @@ function Profile(props) {
                   name='profile'
                   initialValues={props.data}
             >
-                <Form.Item label='Logo'>
+                {/*<Form.Item label='Logo'>
                     <FileUpload accept={'.png, .jpg, .jpeg'}
                         multiple={false}
                         imgCallBack={imgCallBack}
                     />
-                </Form.Item>
+                </Form.Item>*/}
                 <Form.Item name='fromName'
                            label='od'>
                     <Input/>

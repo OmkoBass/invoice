@@ -19,7 +19,8 @@ function FileUpload(props) {
                 <input type='file'
                        accept={props.accept}
                        multiple={props.multiple}
-                       onChange={handleInput}>
+                       onChange={handleInput}
+                >
                 </input>
                 <img style={file ? imgStyle : null}
                      src={file ? file : ''}/>
