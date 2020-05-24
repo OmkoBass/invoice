@@ -4,12 +4,13 @@ import React, {useContext, useEffect, useState} from 'react'
 import firebase from '../firebase';
 
 //antd
-import {Row, Col, Layout, Menu, Typography, Avatar, Modal, Button, Skeleton} from 'antd';
+import {Row, Col, Layout, Menu, Typography, Avatar, Modal, Button, Skeleton, Result} from 'antd';
 
 //img
 import skyon from '../Assets/skyonlight.png'
 import conmisi from '../Assets/conmisi.png';
-import ictdc from '../Assets/ictdc.png'
+import ictdc from '../Assets/ictdc.png';
+import internetProblem from '../Assets/internet_problem.png';
 
 //Components
 import Invoice from "./Invoice";
@@ -38,6 +39,8 @@ function Invoicing() {
     //for modal
     const [show, setShow] = useState(null);
 
+    const [error, setError] = useState(false);
+
     //If this is true then we got the data we needed
     const [load, setLoad] = useState(false);
 
@@ -65,7 +68,7 @@ function Invoicing() {
                     setLoad(true);
                 }
             }).catch(function (error) {
-                //Result
+                setError(true);
             });
         }
     }, [])
@@ -83,6 +86,58 @@ function Invoicing() {
     const setInvoices = () => setFunctions(0);
 
     const setProfile = () => setFunctions(1);
+
+    function showAppropriate() {
+        if(error) {
+            return errorResult();
+        } else {
+            if(load) {
+                return showAppropriateMenuItems();
+            } else {
+                return <div className='form-style'>
+                    <Skeleton active/>
+                    <Skeleton active/>
+                    <Skeleton active/>
+                    <Skeleton active/>
+                    <Skeleton active/>
+                </div>
+            }
+        }
+    }
+
+    function showAppropriateMenuItems() {
+        if(functions === 0) {
+            return <div>
+                <Invoice returnInvoiceInfo={handleInvoice} data={data}/>
+                {
+                    invoice
+                        ?
+                        <PDF info={invoice}/>
+                        :
+                        null
+                }
+            </div>
+        }
+        else
+            return <Profile data={data}/>
+    }
+
+    //Failed connection to firebase
+    const errorResult = () => {
+        return <Result
+            status='error'
+            title='Proverite konekciju sa internetom.'
+            subTitle='Došlo je do greške. Osvežite stranicu.'
+            style={{backgroundColor: 'white'}}
+            extra={[
+                <img style={{width: '100%', maxWidth: '450px'}}
+                     src={internetProblem}
+                     alt='illustration'
+                     key={1}
+                />
+            ]}
+        />
+    }
 
     return <Layout>
         <Sider
@@ -117,36 +172,9 @@ function Invoicing() {
         <Layout>
             <Header style={{ padding: 0 }} />
             <Content>
-                <div style={{ padding: 24, minHeight: 360 }}>
+                <div style={{ padding: 24, minHeight: 410 }}>
                     {/*If it's loaded show the panels, if it's the first function show invoice, else show the profile*/}
-                    {
-                        load ?
-                            <div>
-                                {
-                                    functions === 0 ?
-                                        <div>
-                                            <Invoice returnInvoiceInfo={handleInvoice} data={data}/>
-                                            {
-                                                invoice
-                                                ?
-                                                <PDF info={invoice}/>
-                                                :
-                                                null
-                                            }
-                                        </div>
-                                        :
-                                        <Profile data={data}/>
-                                }
-                            </div>
-                        :
-                        <div className='form-style'>
-                            <Skeleton active/>
-                            <Skeleton active/>
-                            <Skeleton active/>
-                            <Skeleton active/>
-                            <Skeleton active/>
-                        </div>
-                    }
+                    {showAppropriate()}
                 </div>
             </Content>
             <Footer style={{
