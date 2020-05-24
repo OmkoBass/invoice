@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 //antd
-import { Form, Input, Button, Divider, Typography, Row, Col, Upload } from 'antd'
-import { UploadOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Divider, Typography, Row, Col } from 'antd'
+
+//Components
+import FileUpload from "./FileUpload";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -10,12 +12,18 @@ function Invoice(props) {
     //Form ref
     let [form] = Form.useForm();
 
+    const [img, setImg] = useState(props.img);
+
     function handleFinish() {
-        props.returnInvoiceInfo(form.getFieldsValue());
+        props.returnInvoiceInfo([form.getFieldsValue(), img]);
     }
 
     function handleClear() {
         form.resetFields();
+    }
+
+    const imgCallBack = childData => {
+        setImg(childData);
     }
 
     const layout = {
@@ -51,43 +59,31 @@ function Invoice(props) {
                     <Divider/>
                     <Form.Item name='invoice'
                                label='Faktura:'
-                               rules={[{required: true, message: 'Unesite fakturu!'}]}
                     >
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item name='logo'
-                               label='Logo'
-                    >
-                        {/*Horrible documentation for upload, i have no idea why it works like it does*/}
-                        <Upload
-                            multiple={false}
-                            listType='picture'
-                            fileList={null}
-                        >
-                            <Button>
-                                <UploadOutlined/> Otpremi
-                            </Button>
-                        </Upload>
+                    <Form.Item label='Logo:' name='logo'>
+                        <FileUpload accept={'.png, .jpg, .jpeg'}
+                                    multiple={false}
+                                    imgCallBack={imgCallBack}
+                        />
                     </Form.Item>
 
                     <Form.Item name='dateInvoice'
                                label='Datum fakture:'
-                               rules={[{required: true, message: 'Unesite datum fakture!'}]}
                     >
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='dateTraffic'
                                label='Datum prometa:'
-                               rules={[{required: true, message: 'Unesite datum prometa!'}]}
                     >
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='place'
                                label='Mesto prometa'
-                               rules={[{required: true, message: 'Unesite mesto prometa!'}]}
                     >
                         <Input/>
                     </Form.Item>
@@ -102,48 +98,37 @@ function Invoice(props) {
                     <Divider/>
                     <Form.Item name='fromName'
                                label='Od:'
-                               rules={[{required: true, message: 'Unesite od koga informacije!'}]}>
+                    >
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='firmName'
-                               label='Ime firme:'
-                               rules={[{required: true, message: 'Unesite ime firme!'}]}>
+                               label='Ime firme:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='street'
-                               label='Ulica:'
-                               rules={[{required: true, message: 'Unesite ulicu!'}]}
-                    >
+                               label='Ulica:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='city'
-                               label='Grad:'
-                               rules={[{required: true, message: 'Unesite grad!'}]}
-                    >
+                               label='Grad:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='pib'
-                               label='PIB:'
-                               rules={[{required: true, message: 'Unesite PIB!'}]}
-                    >
+                               label='PIB:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='account'
-                               label='ŽIRO RAČUN:'
-                               rules={[{required: true, message: 'Unesite žiro račun!'}]}
-                    >
+                               label='ŽIRO RAČUN:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='email'
-                               label='E-mail:'
-                               rules={[{required: true, message: 'Unesite email!'}]}
-                    >
+                               label='E-mail:'>
                         <Input/>
                     </Form.Item>
                 </Col>
@@ -156,29 +141,22 @@ function Invoice(props) {
                     <Col><Title>Kome</Title></Col>
                     <Divider/>
                     <Form.Item name='toName'
-                               label='Komitet:'
-                               rules={[{required: true, message: 'Unesite komitet!'}]}
-                    >
+                               label='Komitet:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='toAddress'
-                               label='Adresa:'
-                               rules={[{required: true, message: 'Unesite adresu!'}]}
-                    >
+                               label='Adresa:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='toCity'
-                               label='Grad:'
-                               rules={[{required: true, message: 'Unesite grad!'}]}
-                    >
+                               label='Grad:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='toPib'
-                               label='PIB/JMBG:'
-                               rules={[{required: true, message: 'Unesite PIB/JMBG!'}]}>
+                               label='PIB/JMBG:'>
                         <Input/>
                     </Form.Item>
                 </Col>
@@ -191,33 +169,27 @@ function Invoice(props) {
                     <Col><Title>Usluga</Title></Col>
                     <Divider/>
                     <Form.Item name='serviceType'
-                               label='Vrsta usluge:'
-                               rules={[{required: true, message: 'Unesite vrstu usluge!'}]}>
+                               label='Vrsta usluge:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='unit'
-                               label='Jedinica:'
-                               rules={[{required: true, message: 'Unesite jedinicu!'}]}>
+                               label='Jedinica:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='amount'
-                               label='Količina:'
-
-                               rules={[{required: true, message: 'Unesite količinu!'}]}>
+                               label='Količina:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='price'
-                               label='Cena:'
-                               rules={[{required: true, message: 'Unesite cenu!'}]}>
+                               label='Cena:'>
                         <Input/>
                     </Form.Item>
 
                     <Form.Item name='total'
-                               label='Ukupno:'
-                               rules={[{required: true, message: 'Unesite ukupno!'}]}>
+                               label='Ukupno:'>
                         <Input/>
                     </Form.Item>
                 </Col>

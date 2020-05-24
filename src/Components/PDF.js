@@ -9,40 +9,32 @@ function PDF(props) {
             <Page size="A4" style={styles.page}>
                 <View style={[styles.section, styles.flexRow, styles.text]}>
                     <View style={[styles.flexCol]}>
-                        <Text style={styles.title}>Faktura: {props.info.invoice}</Text>
-
-                        {/*This image shit works, i just need to figure out how to put it in here*/}
+                        <Text style={styles.title}>Faktura: {props.info[0].invoice}</Text>
                         {
-                            props.info.logo
-                            ?
-                                <Image src={props.info.logo.file.originFileObj.name} alt='user logo'
-                                       style={{position: 'absolute', width: '150px', marginTop: '75px'}}/>
-                            :
-                            null
+                            props.info[1]
+                                ?
+                                <Image
+                                    style={{height: '20px'}}
+                                    src={URL.createObjectURL(props.info[1])}/>
+                                :
+                                null
                         }
                     </View>
 
-                    {/*{
-                        props.info.logo ?
-                            <Image src={props.info.logo.file}/>
-                        :
-                        null
-                    }*/}
-
                     <View style={styles.flexCol}>
                         <Text>Datum fakture:</Text>
-                        <Text>{props.info.dateInvoice}</Text>
+                        <Text>{props.info[0].dateInvoice}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>Datum prometa:</Text>
-                        <Text>{props.info.dateTraffic}</Text>
+                        <Text>{props.info[0].dateTraffic}</Text>
                     </View>
                 </View>
 
                 <View style={[styles.section, styles.text]}>
                     <View style={[styles.flexCol, {marginLeft: 'auto'}]}>
                         <Text>Mesto prometa:</Text>
-                        <Text>{props.info.place}</Text>
+                        <Text>{props.info[0].place}</Text>
                     </View>
                 </View>
 
@@ -58,24 +50,24 @@ function PDF(props) {
                     <View style={[styles.section, styles.text]}>
                         <Text>Od:</Text>
                         <Text> </Text>
-                        <Text style={styles.subtitle}>{props.info.fromName}</Text>
+                        <Text style={styles.subtitle}>{props.info[0].fromName}</Text>
                         <Text> </Text>
-                        <Text>{props.info.firmName}</Text>
-                        <Text>{props.info.street}</Text>
-                        <Text>{props.info.city}</Text>
-                        <Text>{props.info.pib}</Text>
-                        <Text>{props.info.account}</Text>
-                        <Text>{props.info.email}</Text>
+                        <Text>{props.info[0].firmName}</Text>
+                        <Text>{props.info[0].street}</Text>
+                        <Text>{props.info[0].city}</Text>
+                        <Text>{props.info[0].pib}</Text>
+                        <Text>{props.info[0].account}</Text>
+                        <Text>{props.info[0].email}</Text>
                     </View>
 
                     <View style={[styles.section, styles.text]}>
                         <Text>Komitet:</Text>
                         <Text> </Text>
-                        <Text style={styles.subtitle}>{props.info.toName}</Text>
+                        <Text style={styles.subtitle}>{props.info[0].toName}</Text>
                         <Text> </Text>
-                        <Text>Adresa: {props.info.toAddress}</Text>
-                        <Text>{props.info.toCity}</Text>
-                        <Text>PIB/JMBG: {props.info.toPib}</Text>
+                        <Text>Adresa: {props.info[0].toAddress}</Text>
+                        <Text>{props.info[0].toCity}</Text>
+                        <Text>PIB/JMBG: {props.info[0].toPib}</Text>
                     </View>
                 </View>
 
@@ -90,23 +82,23 @@ function PDF(props) {
                 <View style={[styles.section, styles.subtitle, styles.flexRow]}>
                     <View style={styles.flexCol}>
                         <Text>VRSTA USLUGE</Text>
-                        <Text>{props.info.serviceType}</Text>
+                        <Text>{props.info[0].serviceType}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>JEDINICA</Text>
-                        <Text>{props.info.unit}</Text>
+                        <Text>{props.info[0].unit}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>KOLICINA</Text>
-                        <Text>{props.info.amount}</Text>
+                        <Text>{props.info[0].amount}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>CENA</Text>
-                        <Text>{props.info.price}</Text>
+                        <Text>{props.info[0].price}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>TOTAL</Text>
-                        <Text>{props.info.total}</Text>
+                        <Text>{props.info[0].total}</Text>
                     </View>
                 </View>
 
@@ -119,8 +111,8 @@ function PDF(props) {
                 />
 
                 <View style={[styles.section, styles.flexRow, styles.bottom]}>
-                    <Text style={styles.subtitle}>Ukupno: {props.info.total}</Text>
-                    <Text style={[styles.title, styles.total]}>{props.info.total}</Text>
+                    <Text style={styles.subtitle}>Ukupno: {props.info[0].total}</Text>
+                    <Text style={[styles.title, styles.total]}>{props.info[0].total}</Text>
                 </View>
 
                 <View

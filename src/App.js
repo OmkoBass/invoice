@@ -24,7 +24,6 @@ import Success from "./Components/Success";
 //css
 import './Styles/global.css';
 
-
 function App() {
     return <AuthProvider>
         <Router>
