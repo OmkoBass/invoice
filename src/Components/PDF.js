@@ -14,7 +14,14 @@ function PDF(props) {
                             props.info[1]
                                 ?
                                 <Image
-                                    style={{height: '20px'}}
+                                    style={
+                                        {
+                                            position: 'absolute',
+                                            top: '40px',
+                                            height: '100px',
+                                            width: '100px',
+                                        }
+                                    }
                                     src={URL.createObjectURL(props.info[1])}/>
                                 :
                                 null
@@ -179,7 +186,7 @@ function PDF(props) {
         src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
     });
 
-    return <PDFViewer style={{width: '100%', height: '100vh'}}>
+    return <PDFViewer className='pdfviewer'>
             {document()}
         </PDFViewer>
 }

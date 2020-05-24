@@ -13,6 +13,19 @@
     background-color: white;
 }
 
+.pdfviewer {
+    display: block;
+    margin: auto;
+    height: 100vh;
+    width: 70%;
+}
+
+@media only screen and (max-width: 1286px) {
+    .pdfviewer {
+        width: 100%;
+    }
+}
+
 @media only screen and (max-width: 512px) {
     .login {
         margin: auto;

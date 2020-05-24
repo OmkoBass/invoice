@@ -126,10 +126,13 @@ function Invoicing() {
                                     functions === 0 ?
                                         <div>
                                             <Invoice returnInvoiceInfo={handleInvoice} data={data}/>
-                                            {invoice ?
+                                            {
+                                                invoice
+                                                ?
                                                 <PDF info={invoice}/>
                                                 :
-                                                null}
+                                                null
+                                            }
                                         </div>
                                         :
                                         <Profile data={data}/>
