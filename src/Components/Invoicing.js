@@ -54,6 +54,9 @@ function Invoicing() {
     //For the pulled image
     //const [img, setImg] = useState(null);
 
+    //Which key in the menu is selected
+    const [selectedKey, setSelectedKey] = useState('1');
+
     //If error happens i set this to true and show the error
     const [error, setError] = useState(false);
 
@@ -108,11 +111,19 @@ function Invoicing() {
         setInvoice(childData);
     }
 
-    const handleLogout = () => setShow(true);
+    const handleLogout = () => {
+        setShow(true);
+    }
 
-    const setInvoices = () => setFunctions(0);
+    const setInvoices = () => {
+        setSelectedKey('1');
+        setFunctions(0);
+    }
 
-    const setProfile = () => setFunctions(1);
+    const setProfile = () => {
+        setSelectedKey('2');
+        setFunctions(1);
+    }
 
     const toggleSider = () => setSider(!sider);
 
@@ -182,26 +193,24 @@ function Invoicing() {
                     <img src={skyon} alt='skyon logo' style={logoStyle}/>
                 </div>
                 <div>
-                    <Menu theme="dark" defaultSelectedKeys={['1']}>
+                    <Menu theme="dark"
+                          defaultSelectedKeys={[selectedKey]}
+                          selectedKeys={[selectedKey]}>
                         <Menu.Item key="1"
-                                   icon={<EditOutlined/>}
                                    onClick={setInvoices}>
-                            Fakture
+                            <EditOutlined/>
+                            <span>Fakture</span>
                         </Menu.Item>
                         <Menu.Item key="2"
-                                   icon={<ProfileOutlined/>}
                                    onClick={setProfile}>
-                            Profil
+                            <ProfileOutlined/>
+                            <span>Profil</span>
                         </Menu.Item>
-                        <Menu.Item key="3">
-                            <Button type='primary'
-                                    size='large'
-                                    ghost={true}
-                                    block={true}
-                                    icon={<LogoutOutlined/>}
-                                    onClick={handleLogout}>
-                                Odjavi se
-                            </Button>
+                        <Menu.Item key='3'
+                                   onClick={handleLogout}
+                        >
+                            <LogoutOutlined/>
+                            <span>Odjavi se</span>
                         </Menu.Item>
                     </Menu>
                 </div>
