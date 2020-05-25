@@ -13,7 +13,7 @@ import complete from "../Assets/success.png";
 import {AuthContext} from "./Auth";
 
 //firebase
-import firebase from 'firebase';
+import firebase from '../firebase';
 
 function Success() {
     let history = useHistory();

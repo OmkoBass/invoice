@@ -20,6 +20,7 @@ function Invoice(props) {
 
     function handleClear() {
         form.resetFields();
+        window.scrollTo(0, 0);
     }
 
     const imgCallBack = childData => {
@@ -27,7 +28,7 @@ function Invoice(props) {
     }
 
     const layout = {
-        labelCol: {span: 4},
+        labelCol: {span: 6},
     }
 
     const controlLayout = {
@@ -53,8 +54,8 @@ function Invoice(props) {
               onFinish={handleFinish}
               initialValues={props.data}
         >
-            <Row justify='center'>
-                <Col lg={12} xs={24} className='form-style'>
+            <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
+                <Col span={24} className='form-style'>
                     <Col><Title>Faktura</Title></Col>
                     <Divider/>
                     <Form.Item name='invoice'
@@ -92,8 +93,8 @@ function Invoice(props) {
 
             <Divider/>
 
-            <Row justify='center'>
-                <Col lg={12} xs={24} className='form-style'>
+            <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
+                <Col span={24} className='form-style'>
                     <Col><Title>Od</Title></Col>
                     <Divider/>
                     <Form.Item name='fromName'
@@ -136,8 +137,8 @@ function Invoice(props) {
 
             <Divider/>
 
-            <Row justify='center'>
-                <Col lg={12} xs={24} className='form-style'>
+            <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
+                <Col span={24} className='form-style'>
                     <Col><Title>Kome</Title></Col>
                     <Divider/>
                     <Form.Item name='toName'
@@ -164,8 +165,8 @@ function Invoice(props) {
 
             <Divider/>
 
-            <Row justify='center'>
-                <Col lg={12} xs={24} className='form-style'>
+            <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
+                <Col span={24} className='form-style'>
                     <Col><Title>Usluga</Title></Col>
                     <Divider/>
                     <Form.Item name='serviceType'

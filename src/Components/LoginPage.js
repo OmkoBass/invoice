@@ -47,7 +47,7 @@ function LoginPage() {
     return <Layout>
         <Content style={{height: '100vh'}}>
             <div className='login'>
-                <img src={skyon} alt='skyon logo' style={{width: '100%', height: '25%'}}/>
+                <img src={skyon} alt='skyon logo' style={{width: '100%'}}/>
                 <Form
                     name="login"
                     initialValues={{ remember: true }}

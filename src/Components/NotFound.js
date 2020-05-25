@@ -1,7 +1,7 @@
 import React from 'react'
 
 //router
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 
 //antd
 import {Row, Col, Layout, Button, Result} from 'antd'

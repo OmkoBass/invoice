@@ -33,7 +33,7 @@ function Register() {
 
     //On finish
     const handleFinish = value => {
-        if (value.email.match(/^(\d{1,5}|[^\W]{1,3}|[a-zA-Z]+)([a-z])+([!#$%^&*()<>_?:"}{[\]a-z])+@([a-zA-Z.])+\.([a-z])+$/)) {
+        if (value.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
             if (value.password.match(/^[A-Za-z0-9]{6,32}$/) &&
                 value.password === value.confirmPassword
             ) {
@@ -45,7 +45,7 @@ function Register() {
                 message.error('Nije dozovljena takva lozinka!');
             }
         } else
-            message.error('Nije dozovljeno takvo korisničko ime!');
+            message.error('Nije dozovljen takav e-mail!');
         /*if (value.username.match(/^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)) {
             if (value.email.match(/^(\d{1,5}|[^\W]{1,3}|[a-zA-Z]+)([a-z])+([!#$%^&*()<>_?:"}{[\]a-z])+@([a-zA-Z.])+\.([a-z])+$/)) {
                 if (value.password.match(/^[A-Za-z0-9]{6,32}$/) &&
@@ -73,7 +73,7 @@ function Register() {
     return <Layout>
         <Content style={{height: '100vh'}}>
             <div className='login'>
-                <img src={skyondark} alt='skyon logo' style={{width: '100%', height: '25%'}}/>
+                <img src={skyondark} alt='skyon logo' style={{width: '100%'}}/>
                 <Form {...layout}
                       name='register'
                       form={form}

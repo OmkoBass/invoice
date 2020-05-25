@@ -23,7 +23,8 @@ function FileUpload(props) {
                 >
                 </input>
                 <img style={file ? imgStyle : null}
-                     src={file ? file : ''}/>
+                     src={file ? file : ''}
+                alt=''/>
             </div>
         </div>
     </div>

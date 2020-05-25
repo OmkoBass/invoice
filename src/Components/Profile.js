@@ -8,7 +8,7 @@ import {Form, Button, Input, Typography,
     Divider, notification} from 'antd'
 
 //Components
-import FileUpload from "./FileUpload";
+//import FileUpload from "./FileUpload";
 
 import { AuthContext } from "./Auth";
 
@@ -20,7 +20,7 @@ function Profile(props) {
 
     const [data, setData] = useState(props.data);
 
-    const [img, setImg] = useState(null);
+    // const [img, setImg] = useState(null);
 
     if(props.data) {
         form.setFieldsValue({
@@ -73,7 +73,8 @@ function Profile(props) {
             city: objectForFirebase.city,
             pib: objectForFirebase.pib,
             street: objectForFirebase.street,
-        }).then(r => {
+        }).then(() => {
+            setData(objectForFirebase);
             openNotificationWithIcon('success');
         })
         .catch(r => openNotificationWithIcon('error'));
@@ -97,10 +98,6 @@ function Profile(props) {
         wrapperCol: {
             offset: 4,
         }
-    }
-
-    const imgCallBack = childData => {
-        setImg(childData);
     }
 
     return <div>
