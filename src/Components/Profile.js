@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 
 //firebase
 import firebase from "../firebase";
@@ -22,19 +22,20 @@ function Profile(props) {
 
     // const [img, setImg] = useState(null);
 
-    if(props.data) {
-        form.setFieldsValue({
-            account: data.account,
-            city: data.city,
-            email: data.email,
-            firmName: data.firmName,
-            fromName: data.fromName,
-            pib: data.pib,
-            street: data.street,
-        })
-    } else {
-        form.resetFields();
-    }
+    useEffect(() => {
+        if(props.data) {
+            form.setFieldsValue({
+                account: data.account,
+                city: data.city,
+                email: data.email,
+                firmName: data.firmName,
+                fromName: data.fromName,
+                pib: data.pib,
+                street: data.street,
+            })
+        }
+    }, [])
+
 
     //So i know who the current user is
     const { currentUser } = useContext(AuthContext);
