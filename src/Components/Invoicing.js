@@ -182,38 +182,43 @@ function Invoicing() {
         />
     }
 
+    const handleBreakpoint = value => {
+        //TODO: If needed improve the sidebar for mobile
+    }
+
+
     return <Layout style={{minHeight: '100vh'}}>
         <Sider
+            breakpoint='lg'
             collapsible={true}
             collapsed={sider}
             onCollapse={toggleSider}
+            onBreakpoint={handleBreakpoint}
         >
             <Affix>
                 <div>
                     <img src={skyon} alt='skyon logo' style={logoStyle}/>
                 </div>
-                <div>
-                    <Menu theme="dark"
-                          defaultSelectedKeys={[selectedKey]}
-                          selectedKeys={[selectedKey]}>
-                        <Menu.Item key="1"
-                                   onClick={setInvoices}>
-                            <EditOutlined/>
-                            <span>Fakture</span>
-                        </Menu.Item>
-                        <Menu.Item key="2"
-                                   onClick={setProfile}>
-                            <ProfileOutlined/>
-                            <span>Profil</span>
-                        </Menu.Item>
-                        <Menu.Item key='3'
-                                   onClick={handleLogout}
-                        >
-                            <LogoutOutlined/>
-                            <span>Odjavi se</span>
-                        </Menu.Item>
-                    </Menu>
-                </div>
+                <Menu theme="dark"
+                      defaultSelectedKeys={[selectedKey]}
+                      selectedKeys={[selectedKey]}>
+                    <Menu.Item key="1"
+                               onClick={setInvoices}>
+                        <EditOutlined/>
+                        <span>Fakture</span>
+                    </Menu.Item>
+                    <Menu.Item key="2"
+                               onClick={setProfile}>
+                        <ProfileOutlined/>
+                        <span>Profil</span>
+                    </Menu.Item>
+                    <Menu.Item key='3'
+                               onClick={handleLogout}
+                    >
+                        <LogoutOutlined/>
+                        <span>Odjavi se</span>
+                    </Menu.Item>
+                </Menu>
             </Affix>
         </Sider>
         <Layout>
