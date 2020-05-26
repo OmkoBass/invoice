@@ -173,11 +173,12 @@ function Invoice(props) {
             <Form.List name="services">
                 {(fields, { add, remove }) => {
                     return (
-                        <div>
+                        <div style={{margin: 'auto', maxWidth: '960px'}}>
                             {fields.map((field, index) => (
                                 <div className='form-style'
-                                     style={{marginTop: '2em'}}
-                                     key={field.key}>
+                                     key={field.key}
+                                     style={field.key !== 0 ? {marginTop: '3.5em'} : null}
+                                >
                                     <Row>
                                         <Col><Title>Usluga</Title></Col>
                                     </Row>
