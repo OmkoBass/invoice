@@ -231,6 +231,17 @@ function Invoice(props) {
 
                                     <Row>
                                         <Col span={24}>
+                                            <Form.Item name={[field.name, 'total']}
+                                                       label='Ukupno:'
+                                                       fieldKey={[field.fieldKey, 'price']}
+                                            >
+                                                <Input/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col span={24}>
                                             <Button type='danger'
                                                     block={true}
                                                     ghost={true}
@@ -261,11 +272,6 @@ function Invoice(props) {
                     );
                 }}
             </Form.List>
-
-            {/*<Form.Item name='total'
-                               label='Ukupno:'>
-                        <Input/>
-            </Form.Item>*/}
 
             <Row justify='center' style={{marginTop: '2em'}}>
                 <Col>
