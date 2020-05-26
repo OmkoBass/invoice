@@ -13,21 +13,22 @@ function FileUpload(props) {
         height: '150px'
     }
 
-    return <div>
-        <div>
-            <div className='upload'>
+    return <div className='upload'>
+            <label className='upload-button'>
                 <input type='file'
                        accept={props.accept}
                        multiple={props.multiple}
                        onChange={handleInput}
                 >
                 </input>
-                <img style={file ? imgStyle : null}
-                     src={file ? file : ''}
-                alt=''/>
-            </div>
+                <span>
+                    Otpremite sliku
+                </span>
+            </label>
+            <img style={file ? imgStyle : null}
+                 src={file ? file : ''}
+            alt=''/>
         </div>
-    </div>
 }
 
 export default FileUpload;
