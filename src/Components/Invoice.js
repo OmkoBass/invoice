@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 //antd
 import { Form, Input, Button, Divider, Typography, Row, Col } from 'antd'
 
+//icon
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+
 //Components
 import FileUpload from "./FileUpload";
 
@@ -14,8 +17,10 @@ function Invoice(props) {
 
     const [img, setImg] = useState(props.img);
 
-    function handleFinish() {
-        props.returnInvoiceInfo([form.getFieldsValue(), img]);
+    const handleFinish = value => {
+        console.log(value);
+
+        props.returnInvoiceInfo([value, img]);
     }
 
     function handleClear() {
@@ -165,36 +170,101 @@ function Invoice(props) {
 
             <Divider/>
 
-            <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
-                <Col span={24} className='form-style'>
-                    <Col><Title>Usluga</Title></Col>
-                    <Divider/>
-                    <Form.Item name='serviceType'
-                               label='Vrsta usluge:'>
-                        <Input/>
-                    </Form.Item>
+            <Form.List name="services">
+                {(fields, { add, remove }) => {
+                    return (
+                        <div>
+                            {fields.map((field, index) => (
+                                <div className='form-style'
+                                     style={{marginTop: '2em'}}
+                                     key={field.key}>
+                                    <Row>
+                                        <Col><Title>Usluga</Title></Col>
+                                    </Row>
 
-                    <Form.Item name='unit'
-                               label='Jedinica:'>
-                        <Input/>
-                    </Form.Item>
+                                    <Divider/>
 
-                    <Form.Item name='amount'
-                               label='Količina:'>
-                        <Input/>
-                    </Form.Item>
+                                    <Row>
+                                        <Col span={24}>
+                                            <Form.Item name={[field.name, 'serviceType']}
+                                                       label='Vrsta usluge:'
+                                                       fieldKey={[field.fieldKey, 'serviceType']}
+                                            >
+                                                <Input/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
 
-                    <Form.Item name='price'
-                               label='Cena:'>
-                        <Input/>
-                    </Form.Item>
+                                    <Row>
+                                        <Col span={24}>
+                                            <Form.Item name={[field.name, 'unit']}
+                                                       label='Jedinica:'
+                                                       fieldKey={[field.fieldKey, 'unit']}
+                                            >
+                                                <Input/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
 
-                    <Form.Item name='total'
+                                    <Row>
+                                        <Col span={24}>
+                                            <Form.Item name={[field.name, 'amount']}
+                                                       label='Količina:'
+                                                       fieldKey={[field.fieldKey, 'amount']}
+                                            >
+                                                <Input/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col span={24}>
+                                            <Form.Item name={[field.name, 'price']}
+                                                       label='Cena:'
+                                                       fieldKey={[field.fieldKey, 'price']}
+                                            >
+                                                <Input/>
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col span={24}>
+                                            <Button type='danger'
+                                                    block={true}
+                                                    ghost={true}
+                                                    icon={<MinusCircleOutlined />}
+                                                    onClick={() => remove(field.name)}
+                                            >
+                                                Ukloni
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            ))}
+                            <Form.Item
+                                style={{marginTop: '2em'}}
+                            >
+                                <Button
+                                    type="primary"
+                                    ghost={true}
+                                    block={true}
+                                    onClick={() => {
+                                        add();
+                                    }}
+                                >
+                                    <PlusOutlined /> Dodaj polje
+                                </Button>
+                            </Form.Item>
+                        </div>
+                    );
+                }}
+            </Form.List>
+
+            {/*<Form.Item name='total'
                                label='Ukupno:'>
                         <Input/>
-                    </Form.Item>
-                </Col>
-            </Row>
+            </Form.Item>*/}
 
             <Row justify='center' style={{marginTop: '2em'}}>
                 <Col>

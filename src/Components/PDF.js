@@ -4,6 +4,51 @@ import React from 'react'
 import {Document, Page, View, Text, StyleSheet, Font, PDFViewer, Image} from '@react-pdf/renderer';
 
 function PDF(props) {
+    const blackLine = () => {
+        return <View
+            style={{
+                margin: '0 10 0 10',
+                borderBottomColor: 'black',
+                borderBottomWidth: 1,
+            }}
+        />
+    }
+
+    const blackLineMargin = () => {
+        return <View
+            style={{
+                margin: 10,
+                borderBottomColor: 'black',
+                borderBottomWidth: 1,
+            }}
+        />
+    }
+
+    const service = () => {
+        return <View style={[styles.miniSection, styles.flexRow, styles.articles]}>
+            <View style={[styles.flexCol]}>
+                <Text>VRSTA USLUGE</Text>
+                <Text>{props.info[0].serviceType}</Text>
+            </View>
+            <View style={styles.flexCol}>
+                <Text>JEDINICA</Text>
+                <Text>{props.info[0].unit}</Text>
+            </View>
+            <View style={styles.flexCol}>
+                <Text>KOLICINA</Text>
+                <Text>{props.info[0].amount}</Text>
+            </View>
+            <View style={styles.flexCol}>
+                <Text>CENA</Text>
+                <Text>{props.info[0].price}</Text>
+            </View>
+            <View style={styles.flexCol}>
+                <Text>TOTAL</Text>
+                <Text>{props.info[0].total}</Text>
+            </View>
+        </View>
+    }
+
     const document = () => {
         return <Document>
             <Page size="A4" style={styles.page}>
@@ -45,13 +90,7 @@ function PDF(props) {
                     </View>
                 </View>
 
-                <View
-                    style={{
-                        margin: 10,
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }}
-                />
+                {blackLineMargin()}
 
                 <View style={styles.flexRow}>
                     <View style={[styles.section, styles.text]}>
@@ -78,68 +117,38 @@ function PDF(props) {
                     </View>
                 </View>
 
-                <View
-                    style={{
-                        margin: 10,
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }}
-                />
+                {blackLine()}
 
-                <View style={[styles.section, styles.subtitle, styles.flexRow]}>
-                    <View style={styles.flexCol}>
-                        <Text>VRSTA USLUGE</Text>
-                        <Text>{props.info[0].serviceType}</Text>
-                    </View>
-                    <View style={styles.flexCol}>
-                        <Text>JEDINICA</Text>
-                        <Text>{props.info[0].unit}</Text>
-                    </View>
-                    <View style={styles.flexCol}>
-                        <Text>KOLICINA</Text>
-                        <Text>{props.info[0].amount}</Text>
-                    </View>
-                    <View style={styles.flexCol}>
-                        <Text>CENA</Text>
-                        <Text>{props.info[0].price}</Text>
-                    </View>
-                    <View style={styles.flexCol}>
-                        <Text>TOTAL</Text>
-                        <Text>{props.info[0].total}</Text>
-                    </View>
-                </View>
+                {service()}
 
-                <View
-                    style={{
-                        margin: 10,
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }}
-                />
+                {blackLine()}
 
                 <View style={[styles.section, styles.flexRow, styles.bottom]}>
                     <Text style={styles.subtitle}>Ukupno: {props.info[0].total}</Text>
                     <Text style={[styles.title, styles.total]}>{props.info[0].total}</Text>
                 </View>
 
-                <View
-                    style={{
-                        margin: 10,
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }}
-                />
+                {blackLine()}
             </Page>
         </Document>
     }
 
     const styles = StyleSheet.create({
+        articles: {
+            fontSize: 12,
+            fontFamily: 'Times-Roman',
+            fontWeight: 'bold'
+        },
         page: {
             backgroundColor: 'white' /*#E4E4E4*/
         },
         section: {
-            margin: 10,
-            padding: 25,
+            margin: 6,
+            padding: 12,
+        },
+        miniSection: {
+          margin: 6,
+          padding: 6,
         },
         flexRow: {
             display: 'flex',
