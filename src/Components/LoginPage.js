@@ -55,7 +55,16 @@ function LoginPage() {
                 >
                     <Form.Item
                         name="username"
-                        rules={[{ required: true, message: 'Unesite korisničko ime ili E-mail!' }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'E-mail ne sme biti prazan!'
+                            },
+                            {
+                                type: 'email',
+                                message: 'Unesite ispravan E-mail!'
+                            }
+                            ]}
                     >
                         <Input prefix={<UserOutlined/>} placeholder="Korisničko ime ili E-mail" />
                     </Form.Item>

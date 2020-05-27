@@ -261,9 +261,7 @@ function Invoice(props) {
                                     type="primary"
                                     ghost={true}
                                     block={true}
-                                    onClick={() => {
-                                        add();
-                                    }}
+                                    onClick={() => add()}
                                 >
                                     <PlusOutlined /> Dodaj polje
                                 </Button>

@@ -82,7 +82,16 @@ function Register() {
                     <Form.Item
                         name='email'
                         label='E-mail'
-                        rules={[{required: true, message: 'Unesite E-mail ime!'}]}>
+                        rules={[
+                            {
+                                required: true,
+                                message: 'E-mail ne sme biti prazan!'
+                            },
+                            {
+                                type: 'email',
+                                message: 'Unesite ispravan E-mail!'
+                            }
+                        ]}>
                         <Input/>
                     </Form.Item>
 
