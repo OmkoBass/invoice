@@ -18,8 +18,6 @@ function Invoice(props) {
     const [img, setImg] = useState(props.img);
 
     const handleFinish = value => {
-        console.log(value);
-
         props.returnInvoiceInfo([value, img]);
     }
 
