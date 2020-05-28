@@ -30,12 +30,12 @@ function Invoice(props) {
         setImg(childData);
     }
 
-    let test = null;
+    let triggerAdd = null;
 
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        test();
+        triggerAdd();
     }, loaded);
 
     const layout = {
@@ -178,7 +178,7 @@ function Invoice(props) {
 
             <Form.List name="services">
                 {(fields, { add, remove }) => {
-                    test = () => {
+                    triggerAdd = () => {
                         add();
                     }
                     setLoaded(true);
