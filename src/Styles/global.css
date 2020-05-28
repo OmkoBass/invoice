@@ -57,6 +57,17 @@ label.upload-button input[type="file"] {
     width: 70%;
 }
 
+.mobile-nav-icon {
+    padding: 0.6em;
+    font-size: 2em;
+    color: white;
+}
+
+.mobile-nav-icon:hover {
+    color: #1890ff;
+    transition: 0.3s all ease-in-out;
+}
+
 @media only screen and (max-width: 1286px) {
     .pdfviewer {
         width: 100%;

@@ -20,7 +20,6 @@ const { Content } = Layout;
 //antd password field
 const { Password } = Input;
 
-
 function LoginPage() {
     let history = useHistory();
 
@@ -31,10 +30,13 @@ function LoginPage() {
     }
 
     const onFinish = value => {
+        //If authentication is successful go to /invoice
         firebase.auth().signInWithEmailAndPassword(value.username, value.password).then(() => {
             history.push('/invoice');
         })
 
+
+        //If authentication failed show an error message
         const promise = firebase.auth().signInWithEmailAndPassword(value.username, value.password);
         promise.catch(() => failed());
     }

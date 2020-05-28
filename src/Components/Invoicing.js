@@ -6,11 +6,11 @@ import firebase from '../firebase';
 //antd
 import {
     Row, Col, Layout, Menu, Typography, Avatar, Modal,
-    Button, Skeleton, Result, Affix
+    Button, Skeleton, Result, Affix, Drawer
 } from 'antd';
 
 //antd icons
-import {EditOutlined, ProfileOutlined, LogoutOutlined} from "@ant-design/icons";
+import {EditOutlined, ProfileOutlined, LogoutOutlined, AlignLeftOutlined} from "@ant-design/icons";
 
 //img
 import skyon from '../Assets/skyonlight.png'
@@ -18,22 +18,16 @@ import conmisi from '../Assets/conmisi.png';
 import ictdc from '../Assets/ictdc.png';
 import internetProblem from '../Assets/internet_problem.png';
 
-//axios
-// import axios from 'axios';
-
 //Components
 import Invoice from "./Invoice";
 import PDF from "./PDF";
 import Profile from "./Profile";
 
 //router
-import {Redirect} from "react-router";
+import { Redirect } from "react-router";
 
 //Context for authentication
-import {AuthContext} from "./Auth";
-
-//for authentication
-require('firebase/auth');
+import { AuthContext } from "./Auth";
 
 //Style
 const logoStyle = {
@@ -45,11 +39,17 @@ const logoStyle = {
 const {Header, Content, Sider, Footer} = Layout;
 
 function Invoicing() {
-    //For modal
+    //For logout modal
     const [show, setShow] = useState(null);
+
+    //If this is true a different sider will be shown
+    const [mobile, setMobile] = useState(false);
 
     //For sider
     const [sider, setSider] = useState(false);
+
+    //Drawer for the sider
+    const [drawer, setDrawer] = useState(false);
 
     //For the pulled image
     //const [img, setImg] = useState(null);
@@ -165,10 +165,45 @@ function Invoicing() {
             return <Profile data={data}/>
     }
 
+    const logoutModal = () => {
+        return <Modal
+            title='Jeste li sigurni da hocete da se odjavite?'
+            footer={false}
+            visible={show}
+            onCancel={() => setShow(false)}
+        >
+            <Row>
+                <Col span={9}>
+                    <Button
+                        block={true}
+                        type='danger'
+                        size='large'
+                        onClick={() => {
+                            firebase.auth().signOut();
+                        }}
+                    >
+                        Da
+                    </Button>
+                </Col>
+                <Col offset={6} span={9}>
+                    <Button
+                        block={true}
+                        type='primary'
+                        size='large'
+                        onClick={() => setShow(false)}
+                    >
+                        Ne
+                    </Button>
+                </Col>
+            </Row>
+        </Modal>
+    }
+
     //Failed connection to firebase
     const errorResult = () => {
         return <Result
             status='error'
+
             title='Proverite konekciju sa internetom.'
             subTitle='Došlo je do greške. Osvežite stranicu.'
             style={{backgroundColor: 'white'}}
@@ -183,12 +218,54 @@ function Invoicing() {
     }
 
     const handleBreakpoint = value => {
-        //TODO: If needed improve the sidebar for mobile
+        console.log(value);
+        if(value)
+            setMobile(true);
+        else
+            setMobile(false);
     }
 
+    //This can be refactored so i don't need to type Menu again
+    const mobileDrawer = () => {
+        return <Drawer
+            headerStyle={{backgroundColor: 'black'}}
+            bodyStyle={{backgroundColor: 'black', padding: 0}}
+            onClose={() => setDrawer(false)}
+            visible={drawer}
+            width={200}
+            placement='left'
+        >
+            <div>
+                <img src={skyon} alt='skyon logo' style={logoStyle}/>
+            </div>
+            <Menu theme="dark"
+                  defaultSelectedKeys={[selectedKey]}
+                  selectedKeys={[selectedKey]}
+                  style={{width: '100%'}}
+            >
+                <Menu.Item key="1"
+                           onClick={setInvoices}>
+                    <EditOutlined/>
+                    <span>Fakture</span>
+                </Menu.Item>
+                <Menu.Item key="2"
+                           onClick={setProfile}>
+                    <ProfileOutlined/>
+                    <span>Profil</span>
+                </Menu.Item>
+                <Menu.Item key='3'
+                           onClick={handleLogout}
+                >
+                    <LogoutOutlined/>
+                    <span>Odjavi se</span>
+                </Menu.Item>
+            </Menu>
+        </Drawer>
+    }
 
     return <Layout style={{minHeight: '100vh'}}>
         <Sider
+            style={mobile ? {display: 'none'} : {display: 'flex'}}
             breakpoint='lg'
             collapsible={true}
             collapsed={sider}
@@ -222,7 +299,18 @@ function Invoicing() {
             </Affix>
         </Sider>
         <Layout>
-            <Header style={{padding: 0}}/>
+            <Header style={{padding: 0}}>
+                {
+                    mobile
+                    ?
+                    <AlignLeftOutlined
+                        onClick={() => setDrawer(true)}
+                        className={'mobile-nav-icon'}
+                    />
+                    :
+                    null
+                }
+            </Header>
             <Content>
                 <div style={{padding: 24}}>
                     {/*If it's loaded show the panels, if it's the first function show invoice, else show the profile*/}
@@ -270,37 +358,10 @@ function Invoicing() {
             </Footer>
         </Layout>
 
-        <Modal
-            title='Jeste li sigurni da hocete da se odjavite?'
-            footer={false}
-            visible={show}
-            onCancel={() => setShow(false)}
-        >
-            <Row>
-                <Col span={9}>
-                    <Button
-                        block={true}
-                        type='danger'
-                        size='large'
-                        onClick={() => {
-                            firebase.auth().signOut();
-                        }}
-                    >
-                        Da
-                    </Button>
-                </Col>
-                <Col offset={6} span={9}>
-                    <Button
-                        block={true}
-                        type='primary'
-                        size='large'
-                        onClick={() => setShow(false)}
-                    >
-                        Ne
-                    </Button>
-                </Col>
-            </Row>
-        </Modal>
+        {logoutModal()}
+
+        {mobileDrawer()}
+
     </Layout>
 }
 
