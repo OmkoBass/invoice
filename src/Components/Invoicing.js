@@ -218,7 +218,6 @@ function Invoicing() {
     }
 
     const handleBreakpoint = value => {
-        console.log(value);
         if(value)
             setMobile(true);
         else

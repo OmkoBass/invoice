@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 
 //antd
 import { Form, Input, Button, Divider, Typography, Row, Col } from 'antd'
@@ -29,6 +29,14 @@ function Invoice(props) {
     const imgCallBack = childData => {
         setImg(childData);
     }
+
+    let test = null;
+
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        test();
+    }, loaded);
 
     const layout = {
         labelCol: {span: 6},
@@ -170,6 +178,10 @@ function Invoice(props) {
 
             <Form.List name="services">
                 {(fields, { add, remove }) => {
+                    test = () => {
+                        add();
+                    }
+                    setLoaded(true);
                     return (
                         <div style={{margin: 'auto', maxWidth: '960px'}}>
                             {fields.map((field, index) => (
@@ -238,7 +250,9 @@ function Invoice(props) {
                                         </Col>
                                     </Row>
 
-                                    <Row>
+                                    <Row
+                                        style={field.fieldKey === 0 ? {display:'none'} : {display:'flex'}}
+                                    >
                                         <Col span={24}>
                                             <Button type='danger'
                                                     block={true}

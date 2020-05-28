@@ -13,6 +13,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 //skyon
 import skyon from '../Assets/skyondark.png'
 
+//Context import
 import { AuthContext } from "./Auth";
 
 const { Content } = Layout;
@@ -21,9 +22,9 @@ const { Content } = Layout;
 const { Password } = Input;
 
 function LoginPage() {
-    let history = useHistory();
-
     const { currentUser } = useContext(AuthContext);
+
+    let history = useHistory();
 
     if(currentUser) {
         return <Redirect to='/invoice' />
@@ -34,7 +35,6 @@ function LoginPage() {
         firebase.auth().signInWithEmailAndPassword(value.username, value.password).then(() => {
             history.push('/invoice');
         })
-
 
         //If authentication failed show an error message
         const promise = firebase.auth().signInWithEmailAndPassword(value.username, value.password);
