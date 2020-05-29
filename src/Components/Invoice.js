@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 
 //antd
-import { Form, Input, Button, Divider, Typography, Row, Col } from 'antd'
+import { Form, Input, Button, Divider, Typography, Row, Col, Space } from 'antd'
 
 //icon
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -31,6 +31,9 @@ function Invoice(props) {
     }
 
     let triggerAdd = null;
+
+    //We need this set to one because we increment it at the begging with triggerAdd
+    let serviceNumber = 1;
 
     const [loaded, setLoaded] = useState(false);
 
@@ -176,6 +179,28 @@ function Invoice(props) {
 
             <Divider/>
 
+            <Row style={{margin: 'auto', maxWidth: '960px'}}>
+                <Col offset={1} span={4}>
+                    <Typography.Title level={4}>Vrsta usluge</Typography.Title>
+                </Col>
+
+                <Col offset={1} span={4}>
+                    <Typography.Title level={4}>Jedinica</Typography.Title>
+                </Col>
+
+                <Col offset={1} span={4}>
+                    <Typography.Title level={4}>Količina</Typography.Title>
+                </Col>
+
+                <Col offset={1} span={4}>
+                    <Typography.Title level={4}>Cena</Typography.Title>
+                </Col>
+
+                <Col span={4}>
+                    <Typography.Title level={4}>Ukupno</Typography.Title>
+                </Col>
+            </Row>
+
             <Form.List name="services">
                 {(fields, { add, remove }) => {
                     triggerAdd = () => {
@@ -185,99 +210,80 @@ function Invoice(props) {
                     return (
                         <div style={{margin: 'auto', maxWidth: '960px'}}>
                             {fields.map((field, index) => (
-                                <div className='form-style'
-                                     key={field.key}
-                                     style={field.key !== 0 ? {marginTop: '3.5em'} : null}
-                                >
+                                <div key={field.key}>
                                     <Row>
-                                        <Col><Title>Usluga</Title></Col>
-                                    </Row>
-
-                                    <Divider/>
-
-                                    <Row>
-                                        <Col span={24}>
+                                        <Col span={4}>
                                             <Form.Item name={[field.name, 'serviceType']}
-                                                       label='Vrsta usluge:'
                                                        fieldKey={[field.fieldKey, 'serviceType']}
                                             >
                                                 <Input/>
                                             </Form.Item>
                                         </Col>
-                                    </Row>
 
-                                    <Row>
-                                        <Col span={24}>
+                                        <Col offset={1} span={4}>
                                             <Form.Item name={[field.name, 'unit']}
-                                                       label='Jedinica:'
                                                        fieldKey={[field.fieldKey, 'unit']}
                                             >
                                                 <Input/>
                                             </Form.Item>
                                         </Col>
-                                    </Row>
 
-                                    <Row>
-                                        <Col span={24}>
+                                        <Col offset={1} span={4}>
                                             <Form.Item name={[field.name, 'amount']}
-                                                       label='Količina:'
                                                        fieldKey={[field.fieldKey, 'amount']}
                                             >
                                                 <Input/>
                                             </Form.Item>
                                         </Col>
-                                    </Row>
 
-                                    <Row>
-                                        <Col span={24}>
+                                        <Col offset={1} span={4}>
                                             <Form.Item name={[field.name, 'price']}
-                                                       label='Cena:'
                                                        fieldKey={[field.fieldKey, 'price']}
                                             >
                                                 <Input/>
                                             </Form.Item>
                                         </Col>
-                                    </Row>
 
-                                    <Row>
-                                        <Col span={24}>
+                                        <Col offset={1} span={4}>
                                             <Form.Item name={[field.name, 'total']}
-                                                       label='Ukupno:'
                                                        fieldKey={[field.fieldKey, 'price']}
                                             >
                                                 <Input/>
                                             </Form.Item>
-                                        </Col>
-                                    </Row>
-
-                                    <Row
-                                        style={field.fieldKey === 0 ? {display:'none'} : {display:'flex'}}
-                                    >
-                                        <Col span={24}>
-                                            <Button type='danger'
-                                                    block={true}
-                                                    ghost={true}
-                                                    icon={<MinusCircleOutlined />}
-                                                    onClick={() => remove(field.name)}
-                                            >
-                                                Ukloni
-                                            </Button>
                                         </Col>
                                     </Row>
                                 </div>
                             ))}
-                            <Form.Item
-                                style={{marginTop: '2em'}}
-                            >
-                                <Button
-                                    type="primary"
-                                    ghost={true}
-                                    block={true}
-                                    onClick={() => add()}
-                                >
-                                    <PlusOutlined /> Dodaj polje
-                                </Button>
-                            </Form.Item>
+
+
+                            <Row justify='space-between'>
+                                <Col span={24} style={serviceNumber === 1 ? {display: 'none'} : {display: 'block'}}>
+                                    <Form.Item>
+                                        <Button
+                                            type="danger"
+                                            ghost={true}
+                                            block={true}
+                                            icon={<MinusCircleOutlined/>}
+                                            onClick={() => {serviceNumber--; remove(serviceNumber)}}
+                                        >
+                                            Ukloni polje
+                                        </Button>
+                                    </Form.Item>
+                                </Col>
+
+                                <Col span={24}>
+                                    <Form.Item>
+                                        <Button
+                                            type="primary"
+                                            ghost={true}
+                                            block={true}
+                                            onClick={() => {serviceNumber++; add();}}
+                                        >
+                                            <PlusOutlined /> Dodaj polje
+                                        </Button>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
                         </div>
                     );
                 }}
