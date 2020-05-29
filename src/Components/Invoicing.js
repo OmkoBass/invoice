@@ -322,24 +322,19 @@ function Invoicing() {
                 backgroundColor: 'black',
             }}>
                 <Row justify='space-between'>
-                    <Col span={24}>
-                        <Typography.Title level={3} style={{color: 'white'}}> Dodatno </Typography.Title>
-                    </Col>
-                </Row>
-                <Row justify='space-between'>
                     <Col>
                         <a href='https://skayon.agency/' target="_blank" rel="noopener noreferrer">
-                            <img src={skyon} alt='skyon logo' style={{width: '100%'}}/>
+                            <img src={skyon} alt='skyon logo' style={{width: '25%'}}/>
                         </a>
                     </Col>
                     <Col>
                         <a href='https://conmisi.com/' target="_blank" rel="noopener noreferrer">
-                            <img src={conmisi} alt='conmisi logo' style={{width: '100%'}}/>
+                            <img src={conmisi} alt='conmisi logo' style={{width: '25%'}}/>
                         </a>
                     </Col>
                     <Col>
                         <a href='https://ictdc.rs/' target="_blank" rel="noopener noreferrer">
-                            <img src={ictdc} alt='ictdc logo' style={{width: '100%'}}/>
+                            <img src={ictdc} alt='ictdc logo' style={{width: '25%'}}/>
                         </a>
                     </Col>
                 </Row>

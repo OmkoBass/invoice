@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 
 //antd
-import { Form, Input, Button, Divider, Typography, Row, Col, Space } from 'antd'
+import { Form, Input, Button, Divider, Typography, Row, Col } from 'antd'
 
 //icon
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -22,7 +22,12 @@ function Invoice(props) {
     }
 
     function handleClear() {
+        serviceNumber = -1;
+
         form.resetFields();
+
+        triggerAdd();
+
         window.scrollTo(0, 0);
     }
 
@@ -32,14 +37,13 @@ function Invoice(props) {
 
     let triggerAdd = null;
 
-    //We need this set to one because we increment it at the begging with triggerAdd
-    let serviceNumber = 1;
+    let triggerRemove = null;
 
-    const [loaded, setLoaded] = useState(false);
+    let serviceNumber = -1;
 
     useEffect(() => {
         triggerAdd();
-    }, loaded);
+    });
 
     const layout = {
         labelCol: {span: 6},
@@ -205,66 +209,60 @@ function Invoice(props) {
                 {(fields, { add, remove }) => {
                     triggerAdd = () => {
                         add();
+                        serviceNumber++;
                     }
-                    setLoaded(true);
+
+                    triggerRemove = val => {
+                        remove(val);
+                        serviceNumber--;
+                    }
                     return (
                         <div style={{margin: 'auto', maxWidth: '960px'}}>
                             {fields.map((field, index) => (
                                 <div key={field.key}>
-                                    <Row>
-                                        <Col span={4}>
-                                            <Form.Item name={[field.name, 'serviceType']}
-                                                       fieldKey={[field.fieldKey, 'serviceType']}
-                                            >
-                                                <Input/>
-                                            </Form.Item>
-                                        </Col>
+                                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                                        <Form.Item name={[field.name, 'serviceType']}
+                                                   fieldKey={[field.fieldKey, 'serviceType']}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
 
-                                        <Col offset={1} span={4}>
-                                            <Form.Item name={[field.name, 'unit']}
-                                                       fieldKey={[field.fieldKey, 'unit']}
-                                            >
-                                                <Input/>
-                                            </Form.Item>
-                                        </Col>
+                                        <Form.Item name={[field.name, 'unit']}
+                                                   fieldKey={[field.fieldKey, 'unit']}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
 
-                                        <Col offset={1} span={4}>
-                                            <Form.Item name={[field.name, 'amount']}
-                                                       fieldKey={[field.fieldKey, 'amount']}
-                                            >
-                                                <Input/>
-                                            </Form.Item>
-                                        </Col>
+                                        <Form.Item name={[field.name, 'amount']}
+                                                   fieldKey={[field.fieldKey, 'amount']}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
 
-                                        <Col offset={1} span={4}>
-                                            <Form.Item name={[field.name, 'price']}
-                                                       fieldKey={[field.fieldKey, 'price']}
-                                            >
-                                                <Input/>
-                                            </Form.Item>
-                                        </Col>
+                                        <Form.Item name={[field.name, 'price']}
+                                                   fieldKey={[field.fieldKey, 'price']}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
 
-                                        <Col offset={1} span={4}>
-                                            <Form.Item name={[field.name, 'total']}
-                                                       fieldKey={[field.fieldKey, 'price']}
-                                            >
-                                                <Input/>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
+                                        <Form.Item name={[field.name, 'total']}
+                                                   fieldKey={[field.fieldKey, 'price']}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                    </div>
                                 </div>
                             ))}
 
-
                             <Row justify='space-between'>
-                                <Col span={24} style={serviceNumber === 1 ? {display: 'none'} : {display: 'block'}}>
+                                <Col span={24} style={serviceNumber  <= 0 ? {display: 'none'} : {display: 'block'}}>
                                     <Form.Item>
                                         <Button
                                             type="danger"
                                             ghost={true}
                                             block={true}
                                             icon={<MinusCircleOutlined/>}
-                                            onClick={() => {serviceNumber--; remove(serviceNumber)}}
+                                            onClick={() => {triggerRemove(serviceNumber)}}
                                         >
                                             Ukloni polje
                                         </Button>
@@ -277,7 +275,7 @@ function Invoice(props) {
                                             type="primary"
                                             ghost={true}
                                             block={true}
-                                            onClick={() => {serviceNumber++; add();}}
+                                            onClick={() => {triggerAdd()}}
                                         >
                                             <PlusOutlined /> Dodaj polje
                                         </Button>
