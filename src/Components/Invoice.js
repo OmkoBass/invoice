@@ -22,8 +22,6 @@ function Invoice(props) {
     }
 
     function handleClear() {
-        serviceNumber = -1;
-
         form.resetFields();
 
         triggerAdd();
@@ -37,13 +35,9 @@ function Invoice(props) {
 
     let triggerAdd = null;
 
-    let triggerRemove = null;
-
-    let serviceNumber = -1;
-
     useEffect(() => {
         triggerAdd();
-    });
+    }, []);
 
     const layout = {
         labelCol: {span: 6},
@@ -209,18 +203,14 @@ function Invoice(props) {
                 {(fields, { add, remove }) => {
                     triggerAdd = () => {
                         add();
-                        serviceNumber++;
-                    }
-
-                    triggerRemove = val => {
-                        remove(val);
-                        serviceNumber--;
                     }
                     return (
                         <div style={{margin: 'auto', maxWidth: '960px'}}>
                             {fields.map((field, index) => (
                                 <div key={field.key}>
                                     <div style={{display: 'flex', flexDirection: 'row'}}>
+                                        <Typography.Title level={4}>{field.fieldKey + 1}.</Typography.Title>
+
                                         <Form.Item name={[field.name, 'serviceType']}
                                                    fieldKey={[field.fieldKey, 'serviceType']}
                                         >
@@ -250,38 +240,28 @@ function Invoice(props) {
                                         >
                                             <Input/>
                                         </Form.Item>
+
+                                        <Button
+                                            style={field.fieldKey === 0 ? {display: 'none'} : {display: 'block'}}
+                                            type="danger"
+                                            ghost={true}
+                                            icon={<MinusCircleOutlined/>}
+                                            onClick={() => remove(field.name)}
+                                        />
                                     </div>
                                 </div>
                             ))}
 
-                            <Row justify='space-between'>
-                                <Col span={24} style={serviceNumber  <= 0 ? {display: 'none'} : {display: 'block'}}>
-                                    <Form.Item>
-                                        <Button
-                                            type="danger"
-                                            ghost={true}
-                                            block={true}
-                                            icon={<MinusCircleOutlined/>}
-                                            onClick={() => {triggerRemove(serviceNumber)}}
-                                        >
-                                            Ukloni polje
-                                        </Button>
-                                    </Form.Item>
-                                </Col>
-
-                                <Col span={24}>
-                                    <Form.Item>
-                                        <Button
-                                            type="primary"
-                                            ghost={true}
-                                            block={true}
-                                            onClick={() => {triggerAdd()}}
-                                        >
-                                            <PlusOutlined /> Dodaj polje
-                                        </Button>
-                                    </Form.Item>
-                                </Col>
-                            </Row>
+                            <Form.Item>
+                                <Button
+                                    type="primary"
+                                    ghost={true}
+                                    block={true}
+                                    onClick={() => add()}
+                                >
+                                    <PlusOutlined /> Dodaj polje
+                                </Button>
+                            </Form.Item>
                         </div>
                     );
                 }}
