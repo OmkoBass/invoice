@@ -1,0 +1,14 @@
+.footer {
+    color: white;
+    text-align: center;
+    background-color: black;
+}
+
+.footer a {
+    color: white;
+}
+
+.footer a:hover {
+    color: #1890ff;
+    transition: 0.3s all ease-in-out;
+}

@@ -23,6 +23,8 @@ import Success from "./Components/Success";
 
 //css
 import './Styles/global.css';
+import './Styles/FileUpload.css';
+import './Styles/Footer.css';
 
 function App() {
     return <AuthProvider>

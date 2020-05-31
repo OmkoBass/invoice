@@ -5,8 +5,8 @@ import firebase from '../firebase';
 
 //antd
 import {
-    Row, Col, Layout, Menu, Typography, Avatar, Modal,
-    Button, Skeleton, Result, Affix, Drawer
+    Row, Col, Layout, Menu, Modal,
+    Button, Skeleton, Result, Drawer
 } from 'antd';
 
 //antd icons
@@ -172,7 +172,7 @@ function Invoicing() {
             visible={show}
             onCancel={() => setShow(false)}
         >
-            <Row>
+            <Row justify='center'>
                 <Col span={9}>
                     <Button
                         block={true}
@@ -227,8 +227,7 @@ function Invoicing() {
     //This can be refactored so i don't need to type Menu again
     const mobileDrawer = () => {
         return <Drawer
-            headerStyle={{backgroundColor: 'black'}}
-            bodyStyle={{backgroundColor: 'black', padding: 0}}
+            bodyStyle={{backgroundColor: '#001529', padding: 0}}
             onClose={() => setDrawer(false)}
             visible={drawer}
             width={200}
@@ -271,31 +270,29 @@ function Invoicing() {
             onCollapse={toggleSider}
             onBreakpoint={handleBreakpoint}
         >
-            <Affix>
-                <div>
-                    <img src={skyon} alt='skyon logo' style={logoStyle}/>
-                </div>
-                <Menu theme="dark"
-                      defaultSelectedKeys={[selectedKey]}
-                      selectedKeys={[selectedKey]}>
-                    <Menu.Item key="1"
-                               onClick={setInvoices}>
-                        <EditOutlined/>
-                        <span>Fakture</span>
-                    </Menu.Item>
-                    <Menu.Item key="2"
-                               onClick={setProfile}>
-                        <ProfileOutlined/>
-                        <span>Profil</span>
-                    </Menu.Item>
-                    <Menu.Item key='3'
-                               onClick={handleLogout}
-                    >
-                        <LogoutOutlined/>
-                        <span>Odjavi se</span>
-                    </Menu.Item>
-                </Menu>
-            </Affix>
+            <div>
+                <img src={skyon} alt='skyon logo' style={logoStyle}/>
+            </div>
+            <Menu theme="dark"
+                  defaultSelectedKeys={[selectedKey]}
+                  selectedKeys={[selectedKey]}>
+                <Menu.Item key="1"
+                           onClick={setInvoices}>
+                    <EditOutlined/>
+                    <span>Fakture</span>
+                </Menu.Item>
+                <Menu.Item key="2"
+                           onClick={setProfile}>
+                    <ProfileOutlined/>
+                    <span>Profil</span>
+                </Menu.Item>
+                <Menu.Item key='3'
+                           onClick={handleLogout}
+                >
+                    <LogoutOutlined/>
+                    <span>Odjavi se</span>
+                </Menu.Item>
+            </Menu>
         </Sider>
         <Layout>
             <Header style={{padding: 0}}>
@@ -316,26 +313,39 @@ function Invoicing() {
                     {showAppropriate()}
                 </div>
             </Content>
-            <Footer style={{
-                textAlign: 'center',
-                color: 'white',
-                backgroundColor: 'black',
-            }}>
-                <Row justify='space-between'>
-                    <Col>
-                        <a href='https://skayon.agency/' target="_blank" rel="noopener noreferrer">
-                            <img src={skyon} alt='skyon logo' style={{width: '25%'}}/>
-                        </a>
+            <Footer
+                className={'footer'}>
+                <Row justify='center'>
+                    <Col md={12} sm={24}>
+
                     </Col>
-                    <Col>
-                        <a href='https://conmisi.com/' target="_blank" rel="noopener noreferrer">
-                            <img src={conmisi} alt='conmisi logo' style={{width: '25%'}}/>
-                        </a>
-                    </Col>
-                    <Col>
-                        <a href='https://ictdc.rs/' target="_blank" rel="noopener noreferrer">
-                            <img src={ictdc} alt='ictdc logo' style={{width: '25%'}}/>
-                        </a>
+                    <Col md={12} sm={24}>
+                        Dodatno
+                        <div style={{marginTop: '2em'}}>
+                            <div>
+                                <img src={conmisi}
+                                     alt={'conmisi'}
+                                     style={{width: '20%'}}
+                                />
+                                <a href='https://skayon.agency/' target="_blank" rel="noopener noreferrer">Platforma za zubare</a>
+                            </div>
+
+                            <div>
+                                <img src={skyon}
+                                     alt={'skyon'}
+                                     style={{width: '20%'}}
+                                />
+                                <a href='https://conmisi.com/' target="_blank" rel="noopener noreferrer">Kompanija za IT solucije</a>
+                            </div>
+
+                            <div>
+                                <img src={ictdc}
+                                     alt={'ictdc'}
+                                     style={{width: '20%'}}
+                                />
+                                <a href='https://ictdc.rs/' target="_blank" rel="noopener noreferrer">Development Center</a>
+                            </div>
+                        </div>
                     </Col>
                 </Row>
             </Footer>

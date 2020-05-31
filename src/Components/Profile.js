@@ -124,7 +124,7 @@ function Profile(props) {
                     />
                 </Form.Item>*/}
                 <Form.Item name='fromName'
-                           label='od'>
+                           label='Od'>
                     <Input/>
                 </Form.Item>
                 <Form.Item name='firmName'
@@ -152,7 +152,7 @@ function Profile(props) {
                     <Input/>
                 </Form.Item>
                 <Form.Item name='email'
-                           label='E-mail:'
+                           label='email:'
                 >
                     <Input/>
                 </Form.Item>

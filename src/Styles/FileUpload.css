@@ -1,0 +1,32 @@
+.upload label.upload-button input[type="file"] {
+    position:absolute;
+    top: -1000px;
+}
+
+.upload-button {
+    border: 1px solid black;
+    padding: 2px 5px;
+    margin: 2px;
+    background: white;
+    text-align: center;
+    transition: 0.3s all ease-in-out;
+}
+
+.upload-button {
+    color: black;
+}
+
+.upload-button:hover {
+    color: #1890ff;
+    border: 1px solid #1890ff;
+}
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    max-width: 150px;
+}
+
+.upload img {
+    margin-top: 1em;
+}

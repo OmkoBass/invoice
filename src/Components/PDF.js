@@ -3,6 +3,9 @@ import React from 'react'
 //React pdf
 import {Document, Page, View, Text, StyleSheet, Font, PDFViewer, Image} from '@react-pdf/renderer';
 
+//Moment
+import moment from "moment";
+
 function PDF(props) {
     const styles = StyleSheet.create({
         articles: {
@@ -149,11 +152,11 @@ function PDF(props) {
 
                     <View style={styles.flexCol}>
                         <Text>Datum fakture:</Text>
-                        <Text>{props.info[0].dateInvoice}</Text>
+                        <Text>{moment(props.info[0].dateInvoice).format('DD.MM.YYYY')}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>Datum prometa:</Text>
-                        <Text>{props.info[0].dateTraffic}</Text>
+                        <Text>{moment(props.info[0].dateTraffic).format('DD.MM.YYYY')}</Text>
                     </View>
                 </View>
 

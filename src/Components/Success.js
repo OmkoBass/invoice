@@ -27,7 +27,7 @@ function Success() {
         status='success'
         title='Uspešno ste se registrovali!'
         subTitle='Sada se možete prijaviti na vas profil!'
-        style={{margin: 'auto'}}
+        style={{margin: 'auto', height: '100vh'}}
         extra={[
             <Row justify='center' key={1}>
                 <Col xl={12} lg={18} xs={24}>

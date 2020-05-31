@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 //antd
-import { Layout, Form, Input, Button, message, Divider } from 'antd';
+import { Layout, Form, Input, Button, message, Divider, Tooltip } from 'antd';
 
 //logo
 import skyondark from '../Assets/skyondark.png';
@@ -34,7 +34,7 @@ function Register() {
     //On finish
     const handleFinish = value => {
         if (value.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-            if (value.password.match(/^[A-Za-z0-9]{6,32}$/) &&
+            if (value.password.match(/^[A-Za-z0-9]{8,32}$/) &&
                 value.password === value.confirmPassword
             ) {
                 firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
@@ -45,7 +45,7 @@ function Register() {
                 message.error('Nije dozovljena takva lozinka!');
             }
         } else
-            message.error('Nije dozovljen takav e-mail!');
+            message.error('Nije dozovljen takav email!');
         /*if (value.username.match(/^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)) {
             if (value.email.match(/^(\d{1,5}|[^\W]{1,3}|[a-zA-Z]+)([a-z])+([!#$%^&*()<>_?:"}{[\]a-z])+@([a-zA-Z.])+\.([a-z])+$/)) {
                 if (value.password.match(/^[A-Za-z0-9]{6,32}$/) &&
@@ -85,29 +85,27 @@ function Register() {
                         rules={[
                             {
                                 required: true,
-                                message: 'E-mail ne sme biti prazan!'
+                                message: 'email ne sme biti prazan!'
                             },
                             {
                                 type: 'email',
-                                message: 'Unesite ispravan E-mail!'
+                                message: 'Unesite ispravan email!'
                             }
                         ]}>
                         <Input/>
                     </Form.Item>
 
-                    {/*<Form.Item
-                        name='username'
-                        label='Korisničko ime'
-                        rules={[{required: true, message: 'Unesite korisničko ime!'}]}>
-                        <Input/>
-                    </Form.Item>*/}
-
-                    <Form.Item
-                        name='password'
-                        label='Lozinka'
-                        rules={[{required: true, message: 'Unesite lozinku!'}]}>
-                        <Password/>
-                    </Form.Item>
+                    <Tooltip
+                        title='Pasvord mora imati najmanje 8 karaktera.'
+                        trigger='focus'
+                    >
+                        <Form.Item
+                            name='password'
+                            label='Lozinka'
+                            rules={[{required: true, message: 'Unesite lozinku!'}]}>
+                            <Password/>
+                        </Form.Item>
+                    </Tooltip>
 
                     <Form.Item
                         name='confirmPassword'

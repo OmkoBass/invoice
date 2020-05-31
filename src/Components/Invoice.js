@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 
 //antd
-import { Form, Input, Button, Divider, Typography, Row, Col } from 'antd'
+import { Form, Input, Button, Divider, Typography, Row, Col, DatePicker } from 'antd'
 
 //icon
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -86,13 +86,19 @@ function Invoice(props) {
                     <Form.Item name='dateInvoice'
                                label='Datum fakture:'
                     >
-                        <Input/>
+                        <DatePicker
+                            format={'DD-MM-YYYY'}
+                            placeholder={'Izaberite datum...'}
+                        />
                     </Form.Item>
 
                     <Form.Item name='dateTraffic'
                                label='Datum prometa:'
                     >
-                        <Input/>
+                        <DatePicker
+                            format={'DD-MM-YYYY'}
+                            placeholder={'Izaberite datum...'}
+                        />
                     </Form.Item>
 
                     <Form.Item name='place'
