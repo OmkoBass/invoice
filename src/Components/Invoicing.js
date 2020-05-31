@@ -224,22 +224,14 @@ function Invoicing() {
             setMobile(false);
     }
 
-    //This can be refactored so i don't need to type Menu again
-    const mobileDrawer = () => {
-        return <Drawer
-            bodyStyle={{backgroundColor: '#001529', padding: 0}}
-            onClose={() => setDrawer(false)}
-            visible={drawer}
-            width={200}
-            placement='left'
-        >
+    const menu = (
+        <div style={{position: 'sticky', top: '0'}}>
             <div>
                 <img src={skyon} alt='skyon logo' style={logoStyle}/>
             </div>
             <Menu theme="dark"
                   defaultSelectedKeys={[selectedKey]}
                   selectedKeys={[selectedKey]}
-                  style={{width: '100%'}}
             >
                 <Menu.Item key="1"
                            onClick={setInvoices}>
@@ -258,6 +250,19 @@ function Invoicing() {
                     <span>Odjavi se</span>
                 </Menu.Item>
             </Menu>
+        </div>
+    )
+
+    //This can be refactored so i don't need to type Menu again
+    const mobileDrawer = () => {
+        return <Drawer
+            bodyStyle={{backgroundColor: '#001529', padding: 0}}
+            onClose={() => setDrawer(false)}
+            visible={drawer}
+            width={200}
+            placement='left'
+        >
+            {menu}
         </Drawer>
     }
 
@@ -270,29 +275,7 @@ function Invoicing() {
             onCollapse={toggleSider}
             onBreakpoint={handleBreakpoint}
         >
-            <div>
-                <img src={skyon} alt='skyon logo' style={logoStyle}/>
-            </div>
-            <Menu theme="dark"
-                  defaultSelectedKeys={[selectedKey]}
-                  selectedKeys={[selectedKey]}>
-                <Menu.Item key="1"
-                           onClick={setInvoices}>
-                    <EditOutlined/>
-                    <span>Fakture</span>
-                </Menu.Item>
-                <Menu.Item key="2"
-                           onClick={setProfile}>
-                    <ProfileOutlined/>
-                    <span>Profil</span>
-                </Menu.Item>
-                <Menu.Item key='3'
-                           onClick={handleLogout}
-                >
-                    <LogoutOutlined/>
-                    <span>Odjavi se</span>
-                </Menu.Item>
-            </Menu>
+            {menu}
         </Sider>
         <Layout>
             <Header style={{padding: 0}}>

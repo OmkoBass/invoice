@@ -215,8 +215,6 @@ function Invoice(props) {
                             {fields.map((field, index) => (
                                 <div key={field.key}>
                                     <div style={{display: 'flex', flexDirection: 'row'}}>
-                                        <Typography.Title level={4}>{field.fieldKey + 1}.</Typography.Title>
-
                                         <Form.Item name={[field.name, 'serviceType']}
                                                    fieldKey={[field.fieldKey, 'serviceType']}
                                         >
@@ -248,7 +246,6 @@ function Invoice(props) {
                                         </Form.Item>
 
                                         <Button
-                                            style={field.fieldKey === 0 ? {display: 'none'} : {display: 'block'}}
                                             type="danger"
                                             ghost={true}
                                             icon={<MinusCircleOutlined/>}
