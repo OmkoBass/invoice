@@ -57,7 +57,7 @@ function PDF(props) {
         total: {
             width: '200px',
             height: '100px',
-            backgroundColor: 'gray',
+            backgroundColor: 'dimgray',
             textAlign: 'center',
             fontSize: 32,
             fontWeight: 'bold',

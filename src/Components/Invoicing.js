@@ -176,6 +176,17 @@ function Invoicing() {
                 <Col span={9}>
                     <Button
                         block={true}
+                        type='primary'
+                        size='large'
+                        onClick={() => setShow(false)}
+                    >
+                        Ne
+                    </Button>
+                </Col>
+
+                <Col offset={6} span={9}>
+                    <Button
+                        block={true}
                         type='danger'
                         size='large'
                         onClick={() => {
@@ -183,16 +194,6 @@ function Invoicing() {
                         }}
                     >
                         Da
-                    </Button>
-                </Col>
-                <Col offset={6} span={9}>
-                    <Button
-                        block={true}
-                        type='primary'
-                        size='large'
-                        onClick={() => setShow(false)}
-                    >
-                        Ne
                     </Button>
                 </Col>
             </Row>
@@ -203,7 +204,6 @@ function Invoicing() {
     const errorResult = () => {
         return <Result
             status='error'
-
             title='Proverite konekciju sa internetom.'
             subTitle='Došlo je do greške. Osvežite stranicu.'
             style={{backgroundColor: 'white'}}
@@ -256,7 +256,7 @@ function Invoicing() {
     //This can be refactored so i don't need to type Menu again
     const mobileDrawer = () => {
         return <Drawer
-            bodyStyle={{backgroundColor: '#001529', padding: 0}}
+            bodyStyle={{backgroundColor: '#2A2D34', padding: 0}}
             onClose={() => setDrawer(false)}
             visible={drawer}
             width={200}
@@ -291,7 +291,7 @@ function Invoicing() {
                 }
             </Header>
             <Content>
-                <div style={{padding: 24}}>
+                <div style={{ padding: 24 }}>
                     {/*If it's loaded show the panels, if it's the first function show invoice, else show the profile*/}
                     {showAppropriate()}
                 </div>
