@@ -90,7 +90,14 @@ function Invoicing() {
                 //Do something with the error
             })*/
 
-            userCollection.doc(currentUser.uid).get().then(function (doc) {
+            //Works on snapshot meaning it changes in real time
+            userCollection.doc(currentUser.uid).onSnapshot(function(doc) {
+               setData(doc.data());
+               setLoad(true);
+            });
+
+            //Old way
+            /*userCollection.doc(currentUser.uid).get().then(function (doc) {
                 if (doc.exists) {
                     setData(doc.data());
                     setLoad(true);
@@ -99,7 +106,7 @@ function Invoicing() {
                 }
             }).catch(function (error) {
                 setError(true);
-            });
+            });*/
         }
     }, [])
 
@@ -256,7 +263,7 @@ function Invoicing() {
     //This can be refactored so i don't need to type Menu again
     const mobileDrawer = () => {
         return <Drawer
-            bodyStyle={{backgroundColor: '#2A2D34', padding: 0}}
+            bodyStyle={{backgroundColor: '#001529', padding: 0}}
             onClose={() => setDrawer(false)}
             visible={drawer}
             width={200}
