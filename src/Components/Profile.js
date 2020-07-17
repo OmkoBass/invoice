@@ -24,17 +24,9 @@ function Profile(props) {
 
     useEffect(() => {
         if(props.data) {
-            form.setFieldsValue({
-                account: data.account,
-                city: data.city,
-                email: data.email,
-                firmName: data.firmName,
-                fromName: data.fromName,
-                pib: data.pib,
-                street: data.street,
-            })
+            form.setFieldsValue({data})
         }
-    }, [])
+    }, [data, form, props.data])
 
 
     //So i know who the current user is

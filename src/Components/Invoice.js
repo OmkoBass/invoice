@@ -37,7 +37,7 @@ function Invoice(props) {
 
     useEffect(() => {
         triggerAdd();
-    }, []);
+    }, [triggerAdd]);
 
     const layout = {
         labelCol: {span: 6},
