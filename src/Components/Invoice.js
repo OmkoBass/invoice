@@ -37,7 +37,7 @@ function Invoice(props) {
 
     useEffect(() => {
         triggerAdd();
-    }, [triggerAdd]);
+    }, []);
 
     const layout = {
         labelCol: {span: 6},
@@ -87,7 +87,7 @@ function Invoice(props) {
                                label='Datum fakture:'
                     >
                         <DatePicker
-                            format={'DD-MM-YYYY'}
+                            format={'DD.MM.YYYY'}
                             placeholder={'Izaberite datum...'}
                         />
                     </Form.Item>
@@ -96,7 +96,7 @@ function Invoice(props) {
                                label='Datum prometa:'
                     >
                         <DatePicker
-                            format={'DD-MM-YYYY'}
+                            format={'DD.MM.YYYY'}
                             placeholder={'Izaberite datum...'}
                         />
                     </Form.Item>

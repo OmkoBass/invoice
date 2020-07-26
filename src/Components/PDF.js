@@ -9,7 +9,7 @@ import moment from "moment";
 function PDF(props) {
     const styles = StyleSheet.create({
         articles: {
-            fontSize: 12,
+            fontSize: 8,
             fontFamily: 'Times-Roman',
             fontWeight: 'bold'
         },
@@ -17,11 +17,7 @@ function PDF(props) {
             backgroundColor: 'white' /*#E4E4E4*/
         },
         section: {
-            margin: 6,
-            padding: 12,
-        },
-        miniSection: {
-            margin: 6,
+            margin: 2,
             padding: 6,
         },
         flexRow: {
@@ -31,18 +27,18 @@ function PDF(props) {
             textAlign: 'left',
         },
         title: {
-            fontSize: 24,
+            fontSize: 16,
             fontFamily: 'Times-Roman',
             fontWeight: 'bold'
         },
         subtitle: {
-            fontSize: 18,
+            fontSize: 12,
             fontFamily: 'Times-Roman',
             fontWeight: 'bold'
         },
         text: {
             margin: 12,
-            fontSize: 14,
+            fontSize: 12,
             textAlign: 'justify',
             fontFamily: 'Times-Roman',
         },
@@ -59,7 +55,7 @@ function PDF(props) {
             height: '100px',
             backgroundColor: 'gray',
             textAlign: 'center',
-            fontSize: 32,
+            fontSize: 28,
             fontWeight: 'bold',
         }
     });
@@ -79,6 +75,16 @@ function PDF(props) {
         />
     }
 
+    const grayLine = () => {
+        return <View
+            style={{
+                margin: '0 10 0 10',
+                borderBottomColor: 'gray',
+                borderBottomWidth: 1,
+            }}
+        />
+    }
+
     const blackLineMargin = () => {
         return <View
             style={{
@@ -91,38 +97,32 @@ function PDF(props) {
 
     let TOTAL = 0;
 
-    for(let i = 0; i < props.info[0].services.length; i++)
+    for (let i = 0; i < props.info[0].services.length; i++)
         TOTAL += parseInt(props.info[0].services[i].total, 10);
 
     // IT CAN BE DONE WITHOUT THIS COUNTER VARIABLE BUT I FORGOT HOW
     // WILL REFACTOR
-    let counter = -1;
 
-    const services = props.info[0].services.map(service => {
-        return <View key={++counter}>
-            <View style={[styles.miniSection, styles.flexRow, styles.articles]}>
+    const services = props.info[0].services.map((service, index) => {
+        return <View key={index}>
+            <View style={[styles.section, styles.flexRow, styles.articles]}>
                 <View style={[styles.flexCol]}>
-                    <Text>VRSTA USLUGE</Text>
                     <Text>{service.serviceType}</Text>
                 </View>
                 <View style={styles.flexCol}>
-                    <Text>JEDINICA</Text>
                     <Text>{service.unit}</Text>
                 </View>
                 <View style={styles.flexCol}>
-                    <Text>KOLICINA</Text>
                     <Text>{service.amount}</Text>
                 </View>
                 <View style={styles.flexCol}>
-                    <Text>CENA</Text>
                     <Text>{service.price}</Text>
                 </View>
                 <View style={styles.flexCol}>
-                    <Text>TOTAL</Text>
                     <Text>{service.total}</Text>
                 </View>
             </View>
-            {blackLine()}
+            {grayLine()}
         </View>
     });
 
@@ -139,9 +139,9 @@ function PDF(props) {
                                     style={
                                         {
                                             position: 'absolute',
-                                            top: '40px',
-                                            height: '100px',
-                                            width: '100px',
+                                            top: '30px',
+                                            height: '80px',
+                                            width: '80px',
                                         }
                                     }
                                     src={URL.createObjectURL(props.info[1])}/>
@@ -196,13 +196,21 @@ function PDF(props) {
 
                 {blackLine()}
 
-                {services}
+                <View style={[styles.section, styles.flexRow, styles.articles]}>
+                    <Text>VRSTA USLUGE</Text>
+                    <Text>JEDINICA</Text>
+                    <Text>KOLICINA</Text>
+                    <Text>CENA</Text>
+                    <Text>TOTAL</Text>
+                </View>
 
                 {blackLine()}
 
+                {services}
+
                 <View style={[styles.section, styles.flexRow, styles.bottom]}>
-                    <Text style={styles.subtitle}>Ukupno: {TOTAL}</Text>
-                    <Text style={[styles.title, styles.total]}>{TOTAL}</Text>
+                    <Text style={styles.subtitle}>Ukupno: {`${TOTAL ? TOTAL : 0}RSD`}</Text>
+                    <Text style={[styles.title, styles.total]}>{`${TOTAL ? TOTAL : 0}RSD`}</Text>
                 </View>
 
                 {blackLine()}
@@ -211,8 +219,8 @@ function PDF(props) {
     }
 
     return <PDFViewer className='pdfviewer'>
-            {document()}
-        </PDFViewer>
+        {document()}
+    </PDFViewer>
 }
 
 export default PDF;

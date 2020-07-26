@@ -24,9 +24,17 @@ function Profile(props) {
 
     useEffect(() => {
         if(props.data) {
-            form.setFieldsValue({data})
+            form.setFieldsValue({
+                account: data.account,
+                city: data.city,
+                email: data.email,
+                firmName: data.firmName,
+                fromName: data.fromName,
+                pib: data.pib,
+                street: data.street,
+            })
         }
-    }, [data, form, props.data])
+    }, [])
 
 
     //So i know who the current user is
@@ -144,7 +152,7 @@ function Profile(props) {
                     <Input/>
                 </Form.Item>
                 <Form.Item name='email'
-                           label='email:'
+                           label='Email:'
                 >
                     <Input/>
                 </Form.Item>

@@ -79,17 +79,36 @@ function Invoicing() {
 
     useEffect(() => {
         if (currentUser !== null) {
+            /*let imageRef = firebase.storage().ref(currentUser.uid);
+
+            imageRef.getDownloadURL().then(function(url){
+                axios.get(url)
+                    .then(res => {
+                        setImg(res);
+                    })
+            }).catch(error => {
+                //Do something with the error
+            })*/
+
             //Works on snapshot meaning it changes in real time
             userCollection.doc(currentUser.uid).onSnapshot(function(doc) {
-                if(doc.data()) {
+               setData(doc.data());
+               setLoad(true);
+            });
+
+            //Old way
+            /*userCollection.doc(currentUser.uid).get().then(function (doc) {
+                if (doc.exists) {
                     setData(doc.data());
                     setLoad(true);
                 } else {
-                    setError(true);
+                    setLoad(true);
                 }
-            })
+            }).catch(function (error) {
+                setError(true);
+            });*/
         }
-    }, [currentUser, userCollection])
+    }, [])
 
     if (!currentUser) {
         return <Redirect to='/'/>
@@ -99,7 +118,9 @@ function Invoicing() {
         setInvoice(childData);
     }
 
-    const handleLogout = () => setShow(true);
+    const handleLogout = () => {
+        setShow(true);
+    }
 
     const setInvoices = () => {
         setSelectedKey('1');
