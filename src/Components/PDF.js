@@ -6,14 +6,20 @@ import {Document, Page, View, Text, StyleSheet, Font, PDFViewer, Image} from '@r
 //Moment
 import moment from "moment";
 
+//Poppins
+import Poppins from '../Fonts/Poppins/Poppins-Regular.ttf';
+
 function PDF(props) {
+    // Register font
+    Font.register({ family: 'Poppins', src: Poppins });
+
     const styles = StyleSheet.create({
         articles: {
             fontSize: 8,
-            fontFamily: 'Times-Roman',
             fontWeight: 'bold'
         },
         page: {
+            fontFamily: 'Poppins',
             backgroundColor: 'white' /*#E4E4E4*/
         },
         section: {
@@ -28,19 +34,16 @@ function PDF(props) {
         },
         title: {
             fontSize: 16,
-            fontFamily: 'Times-Roman',
             fontWeight: 'bold'
         },
         subtitle: {
             fontSize: 12,
-            fontFamily: 'Times-Roman',
             fontWeight: 'bold'
         },
         text: {
             margin: 12,
             fontSize: 12,
             textAlign: 'justify',
-            fontFamily: 'Times-Roman',
         },
         bottom: {
             marginTop: 'auto',

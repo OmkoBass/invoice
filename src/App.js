@@ -32,7 +32,7 @@ function App() {
             <Switch>
                 <Route path='/register/successful' component={Success}/>
                 <Route path='/register' component={Register}/>
-                <Route exact path='/invoice' component={Invoicing}/>
+                <Route path='/invoice' component={Invoicing}/>
                 <Route path='/404' component={NotFound}/>
                 <Route path='/' component={LoginPage}/>
 
