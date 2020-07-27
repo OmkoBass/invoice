@@ -11,7 +11,7 @@ import {
 //Context
 import { AuthProvider } from "./Components/Auth";
 
-//antd css
+//Ant css
 import 'antd/dist/antd.css';
 
 //Components
@@ -30,11 +30,12 @@ function App() {
     return <AuthProvider>
         <Router>
             <Switch>
-                <Route exact path='/' component={LoginPage}/>
-                <Route exact path='/register' component={Register}/>
-                <Route exact path='/register/successful' component={Success}/>
+                <Route path='/register/successful' component={Success}/>
+                <Route path='/register' component={Register}/>
                 <Route exact path='/invoice' component={Invoicing}/>
-                <Route exact path='/404' component={NotFound}/>
+                <Route path='/404' component={NotFound}/>
+                <Route path='/' component={LoginPage}/>
+
                 <Redirect to='/404'/>
             </Switch>
         </Router>
