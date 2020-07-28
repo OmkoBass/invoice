@@ -1,7 +1,8 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, { useContext, useEffect } from 'react'
 
 //firebase
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 //Ant components
 import { Form, Button, Input, Typography, Divider, notification } from 'antd'
@@ -14,15 +15,13 @@ function Profile(props) {
     //Form ref
     let [form] = Form.useForm();
 
-    const [data, setData] = useState(props.data);
-
     // const [img, setImg] = useState(null);
 
     useEffect(() => {
         if (props.data) {
-            form.setFieldsValue({data});
+            form.setFieldsValue(props.data);
         }
-    }, [data, form, props.data]);
+    }, [form, props.data]);
 
 
     //So i know who the current user is
@@ -31,8 +30,9 @@ function Profile(props) {
     // Saving
     const handleOnFinish = values => {
         firebase.database().ref(`users/${currentUser.uid}`).set(values)
-            .then(() => successNotification())
-            .catch(() => failNotification());
+            .then(() => {
+                successNotification();
+            }).catch(() => failNotification());
     }
 
     const successNotification = () => {
