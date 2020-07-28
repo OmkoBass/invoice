@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
 //Ant components
 import { Form, Input, Button, Divider, Typography, Row, Col, DatePicker } from 'antd'
@@ -17,9 +17,7 @@ function Invoice(props) {
 
     const [img, setImg] = useState(props.img);
 
-    const handleFinish = value => {
-        props.returnInvoiceInfo([value, img]);
-    }
+    const handleFinish = value => props.returnInvoiceInfo([value, img]);
 
     function handleClear() {
         form.resetFields();
@@ -43,12 +41,6 @@ function Invoice(props) {
         labelCol: {span: 6},
     }
 
-    const controlLayout = {
-        wrapperCol: {
-            offset: 6,
-        }
-    }
-
     return <div>
         <Typography>
             <Title>Nova Faktura</Title>
@@ -62,7 +54,6 @@ function Invoice(props) {
         <Form {...layout}
               form={form}
               layout='horizontal'
-              name='info'
               onFinish={handleFinish}
               initialValues={props.data}
         >
@@ -212,7 +203,7 @@ function Invoice(props) {
                     }
                     return (
                         <div style={{margin: 'auto', maxWidth: '960px'}}>
-                            {fields.map((field, index) => (
+                            {fields.map((field) => (
                                 <div key={field.key}>
                                     <div style={{display: 'flex', flexDirection: 'row'}}>
                                         <Form.Item name={[field.name, 'serviceType']}
@@ -270,9 +261,9 @@ function Invoice(props) {
                 }}
             </Form.List>
 
-            <Row justify='center' style={{marginTop: '2em'}}>
+            <Row justify='center' gutter={32}>
                 <Col>
-                    <Form.Item {...controlLayout}>
+                    <Form.Item>
                         <Button type='primary'
                                 size='large'
                                 htmlType='submit'
@@ -280,7 +271,7 @@ function Invoice(props) {
                     </Form.Item>
                 </Col>
                 <Col>
-                    <Form.Item {...controlLayout}>
+                    <Form.Item>
                         <Button type='default'
                                 size='large'
                                 onClick={handleClear}
