@@ -12,7 +12,6 @@ import FileUpload from "./FileUpload";
 const { Title, Paragraph, Text } = Typography;
 
 function Invoice(props) {
-    console.log(props);
     //Form ref
     let [form] = Form.useForm();
 
@@ -38,7 +37,7 @@ function Invoice(props) {
 
     useEffect(() => {
         triggerAdd();
-    }, []);
+    }, [triggerAdd]);
 
     const layout = {
         labelCol: {span: 6},

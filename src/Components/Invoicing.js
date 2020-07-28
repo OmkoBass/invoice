@@ -107,7 +107,7 @@ function Invoicing() {
                     {
                         invoice
                             ?
-                            <PDF /*image={img}*/ info={invoice} style={{height: '100vh'}}/>
+                            <PDF /*image={img}*/ info={invoice} style={{height: '100vh', width: '100%'}}/>
                             :
                             null
                     }
