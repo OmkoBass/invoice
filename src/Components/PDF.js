@@ -57,11 +57,11 @@ function PDF(props) {
             justifyContent: 'space-between',
         },
         total: {
-            width: '200px',
-            height: '100px',
-            backgroundColor: 'gray',
+            width: '160px',
+            height: '60px',
+            backgroundColor: '#e7e7e7',
             textAlign: 'center',
-            fontSize: 28,
+            fontSize: 24,
             fontWeight: 'bold',
         }
     });
