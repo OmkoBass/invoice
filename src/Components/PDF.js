@@ -14,6 +14,9 @@ function PDF(props) {
     Font.register({ family: 'Poppins', src: Poppins });
 
     const styles = StyleSheet.create({
+        skyBlue: {
+          color: '#37a3c7'
+        },
         articles: {
             fontSize: 8,
             fontWeight: 'bold'
@@ -68,31 +71,21 @@ function PDF(props) {
         src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
     });
 
-    const blackLine = () => {
+    const seperator = () => {
         return <View
             style={{
                 margin: '0 10 0 10',
-                borderBottomColor: 'black',
+                borderBottomColor: '#e7e7e7',
                 borderBottomWidth: 1,
             }}
         />
     }
 
-    const grayLine = () => {
-        return <View
-            style={{
-                margin: '0 10 0 10',
-                borderBottomColor: 'gray',
-                borderBottomWidth: 1,
-            }}
-        />
-    }
-
-    const blackLineMargin = () => {
+    const seperatorMargin = () => {
         return <View
             style={{
                 margin: 10,
-                borderBottomColor: 'black',
+                borderBottomColor: '#e7e7e7',
                 borderBottomWidth: 1,
             }}
         />
@@ -125,7 +118,7 @@ function PDF(props) {
                     <Text>{service.total}</Text>
                 </View>
             </View>
-            {grayLine()}
+            {seperator()}
         </View>
     });
 
@@ -134,7 +127,7 @@ function PDF(props) {
             <Page size="A4" style={styles.page}>
                 <View style={[styles.section, styles.flexRow, styles.text]}>
                     <View style={[styles.flexCol]}>
-                        <Text style={styles.title}>Faktura: {props.info[0].invoice}</Text>
+                        <Text style={[styles.title, styles.skyBlue]}>Faktura: {props.info[0].invoice}</Text>
                         {
                             props.info[1]
                                 ?
@@ -170,7 +163,7 @@ function PDF(props) {
                     </View>
                 </View>
 
-                {blackLineMargin()}
+                {seperatorMargin()}
 
                 <View style={styles.flexRow}>
                     <View style={[styles.section, styles.text]}>
@@ -197,7 +190,7 @@ function PDF(props) {
                     </View>
                 </View>
 
-                {blackLine()}
+                {seperator()}
 
                 <View style={[styles.section, styles.flexRow, styles.articles]}>
                     <Text>VRSTA USLUGE</Text>
@@ -207,7 +200,7 @@ function PDF(props) {
                     <Text>TOTAL</Text>
                 </View>
 
-                {blackLine()}
+                {seperator()}
 
                 {services}
 
@@ -216,7 +209,7 @@ function PDF(props) {
                     <Text style={[styles.title, styles.total]}>{`${TOTAL ? TOTAL : 0}RSD`}</Text>
                 </View>
 
-                {blackLine()}
+                {seperator()}
             </Page>
         </Document>
     }
