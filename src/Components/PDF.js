@@ -99,8 +99,8 @@ function PDF(props) {
     // IT CAN BE DONE WITHOUT THIS COUNTER VARIABLE BUT I FORGOT HOW
     // WILL REFACTOR
     const services = props.info[0].services.map((service, index) => {
-        return <View>
-            <View key={index} style={[styles.section, styles.flexRow, styles.articles]}>
+        return <View key={index}>
+            <View style={[styles.section, styles.flexRow, styles.articles]}>
                 <Text>{service.serviceType}</Text>
                 <Text>{service.unit}</Text>
                 <Text>{service.amount}</Text>
