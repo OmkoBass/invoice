@@ -10,12 +10,11 @@ import { Layout } from 'antd';
 import Invoice from "./Invoice";
 import PDF from "./PDF";
 import Profile from "./Profile";
-import LogoutModal from "./Smaller/LogoutModal";
 import HEADER from "./Smaller/Header";
 import FOOTER from "./Smaller/Footer";
 import SiderMenu from "./Smaller/SiderMenu";
 import MobileDrawer from "./Smaller/MobileDrawer";
-import ErrorResult from "./Smaller/ErrorResult";
+import Skeletons from "./Smaller/Skeletons";
 
 //Router
 import {Redirect, Switch, Route} from "react-router";
@@ -103,7 +102,7 @@ function Invoicing() {
                         <Route path='/invoice/profile' component={() => <Profile data={data}/>}/>
 
                         <Route path='/invoice'
-                               component={() => <Invoice returnInvoiceInfo={invoiceData => setInvoice(invoiceData)}/>}/>
+                               component={() => load ? <Skeletons/> : <Invoice data={data} returnInvoiceInfo={invoiceData => setInvoice(invoiceData)}/>}/>
                     </Switch>
                     {
                         invoice

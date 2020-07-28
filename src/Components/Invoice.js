@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
 
-//antd
+//Ant components
 import { Form, Input, Button, Divider, Typography, Row, Col, DatePicker } from 'antd'
 
-//icon
+//Ant icons
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 //Components
@@ -12,6 +12,7 @@ import FileUpload from "./FileUpload";
 const { Title, Paragraph, Text } = Typography;
 
 function Invoice(props) {
+    console.log(props);
     //Form ref
     let [form] = Form.useForm();
 
