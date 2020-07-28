@@ -4,7 +4,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import firebase from '../firebase';
 
 //Ant components
-import { Layout } from 'antd';
+import {Layout} from 'antd';
 
 //Components
 import Invoice from "./Invoice";
@@ -21,6 +21,7 @@ import {Redirect, Switch, Route} from "react-router";
 
 //Context for authentication
 import {AuthContext} from "./Auth";
+import ErrorResult from "./Smaller/ErrorResult";
 
 const {Content, Sider} = Layout;
 
@@ -41,6 +42,7 @@ function Invoicing() {
 
     //If this is true then we got the data we needed
     const [load, setLoad] = useState(true);
+    const [error, setError] = useState(false);
 
     //Invoice info
     const [invoice, setInvoice] = useState(null);
@@ -48,29 +50,14 @@ function Invoicing() {
     //User data
     const [data, setData] = useState(null);
 
-    //Collection /Users
-    let userCollection = firebase.firestore().collection('Users');
-
     useEffect(() => {
         if (currentUser !== null) {
-            /*let imageRef = firebase.storage().ref(currentUser.uid);
-
-            imageRef.getDownloadURL().then(function(url){
-                axios.get(url)
-                    .then(res => {
-                        setImg(res);
-                    })
-            }).catch(error => {
-                //Do something with the error
-            })*/
-
-            //Works on snapshot meaning it changes in real time
-            userCollection.doc(currentUser.uid).onSnapshot(function (doc) {
-                setData(doc.data());
-                setLoad(false);
-            });
+            firebase.database().ref(`users/${currentUser.uid}`).once('value')
+                .then(data => setData(data.val()))
+                .then(() => setLoad(false))
+                .catch(() => setError(true));
         }
-    }, []);
+    }, [currentUser]);
 
     if (!currentUser) {
         return <Redirect to='/'/>
@@ -98,19 +85,29 @@ function Invoicing() {
             <HEADER mobile={mobile} callBack={() => setDrawer(!drawer)}/>
             <Content>
                 <div style={{padding: 24}}>
-                    <Switch>
-                        <Route path='/invoice/profile' component={() => <Profile data={data}/>}/>
-
-                        <Route path='/invoice'
-                               component={() => load ? <Skeletons/> : <Invoice data={data} returnInvoiceInfo={invoiceData => setInvoice(invoiceData)}/>}/>
-                    </Switch>
                     {
-                        invoice
+                        error
                             ?
-                            <PDF /*image={img}*/ info={invoice} style={{height: '100vh', width: '100%'}}/>
+                            <ErrorResult/>
                             :
-                            null
+                            <div>
+                                <Switch>
+                                    <Route path='/invoice/profile' component={() => <Profile data={data}/>}/>
+
+                                    <Route path='/invoice'
+                                           component={() => load ? <Skeletons/> : <Invoice data={data}
+                                                                                           returnInvoiceInfo={invoiceData => setInvoice(invoiceData)}/>}/>
+                                </Switch>
+                                {
+                                    invoice
+                                        ?
+                                        <PDF /*image={img}*/ info={invoice} style={{height: '100vh', width: '100%'}}/>
+                                        :
+                                        null
+                                }
+                            </div>
                     }
+
                 </div>
             </Content>
             <FOOTER/>

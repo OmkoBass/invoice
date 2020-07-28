@@ -98,25 +98,14 @@ function PDF(props) {
 
     // IT CAN BE DONE WITHOUT THIS COUNTER VARIABLE BUT I FORGOT HOW
     // WILL REFACTOR
-
     const services = props.info[0].services.map((service, index) => {
-        return <View key={index}>
-            <View style={[styles.section, styles.flexRow, styles.articles]}>
-                <View style={[styles.flexCol]}>
-                    <Text>{service.serviceType}</Text>
-                </View>
-                <View style={styles.flexCol}>
-                    <Text>{service.unit}</Text>
-                </View>
-                <View style={styles.flexCol}>
-                    <Text>{service.amount}</Text>
-                </View>
-                <View style={styles.flexCol}>
-                    <Text>{service.price}</Text>
-                </View>
-                <View style={styles.flexCol}>
-                    <Text>{service.total}</Text>
-                </View>
+        return <View>
+            <View key={index} style={[styles.section, styles.flexRow, styles.articles]}>
+                <Text>{service.serviceType}</Text>
+                <Text>{service.unit}</Text>
+                <Text>{service.amount}</Text>
+                <Text>{service.price}</Text>
+                <Text>{service.total}</Text>
             </View>
             {seperator()}
         </View>
@@ -200,9 +189,9 @@ function PDF(props) {
                     <Text>TOTAL</Text>
                 </View>
 
-                {seperator()}
-
                 {services}
+
+                {seperator()}
 
                 <View style={[styles.section, styles.flexRow, styles.bottom]}>
                     <Text style={styles.subtitle}>Ukupno: {`${TOTAL ? TOTAL : 0}RSD`}</Text>
