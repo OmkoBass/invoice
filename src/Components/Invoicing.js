@@ -10,6 +10,7 @@ import {Layout} from 'antd';
 import Invoice from "./Invoice";
 import PDF from "./PDF";
 import Profile from "./Profile";
+import History from "./History";
 import HEADER from "./Smaller/Header";
 import FOOTER from "./Smaller/Footer";
 import SiderMenu from "./Smaller/SiderMenu";
@@ -93,6 +94,8 @@ function Invoicing() {
                             <div>
                                 <Switch>
                                     <Route path='/invoice/profile' component={() => <Profile data={data}/>}/>
+
+                                    <Route path='/invoice/history' component={() => <History/>}/>
 
                                     <Route path='/invoice'
                                            component={() => load ? <Skeletons/> : <Invoice data={data}

@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import {Menu} from "antd";
 
 //Ant icons
-import {EditOutlined, LogoutOutlined, ProfileOutlined} from "@ant-design/icons";
+import {EditOutlined, LogoutOutlined, ProfileOutlined, HistoryOutlined} from "@ant-design/icons";
 
 import skyon from "../../Assets/skyonlight.png";
 import LogoutModal from "./LogoutModal";
@@ -41,7 +41,12 @@ function SiderMenu() {
                 <ProfileOutlined/>
                 <span>Profil</span>
             </Menu.Item>
-            <Menu.Item key='3'
+            <Menu.Item key="3"
+                       onClick={() => history.push('/invoice/history')}>
+                <HistoryOutlined />
+                <span>Istorija</span>
+            </Menu.Item>
+            <Menu.Item key='4'
                        onClick={() => setVisibleModal(true)}
             >
                 <LogoutOutlined/>
