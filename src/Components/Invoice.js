@@ -210,6 +210,10 @@ function Invoice(props) {
                             {fields.map((field, index) => (
                                 <div key={field.key}>
                                     <div style={{display: 'flex', flexDirection: 'row'}}>
+                                        <Typography.Title strong level={4}
+                                                         style={{padding: '0.3em'}}
+                                        >{index + 1}.
+                                        </Typography.Title>
                                         <Form.Item name={[field.name, 'serviceType']}
                                                    fieldKey={[field.fieldKey, 'serviceType']}
                                         >
