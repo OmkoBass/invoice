@@ -8,6 +8,7 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 //Components
 import FileUpload from "./FileUpload";
+import PDF from "./PDF";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -15,9 +16,12 @@ function Invoice(props) {
     //Form ref
     let [form] = Form.useForm();
 
+    const [pdfData, setPdfData] = useState(null);
     const [img, setImg] = useState(props.img);
 
-    const handleFinish = value => props.returnInvoiceInfo([value, img]);
+    const handleFinish = values => {
+        setPdfData([values, img]);
+    }
 
     function handleClear() {
         form.resetFields();
@@ -280,6 +284,13 @@ function Invoice(props) {
                 </Col>
             </Row>
         </Form>
+        {
+            pdfData
+            ?
+            <PDF /*image={img}*/ info={pdfData} style={{height: '100vh', width: '100%'}}/>
+            :
+            null
+        }
     </div>
 }
 

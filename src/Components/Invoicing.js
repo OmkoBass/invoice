@@ -45,9 +45,6 @@ function Invoicing() {
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
 
-    //Invoice info
-    const [invoice, setInvoice] = useState(null);
-
     //User data
     const [data, setData] = useState(null);
 
@@ -98,19 +95,10 @@ function Invoicing() {
                                     <Route path='/invoice/history' component={() => <History/>}/>
 
                                     <Route path='/invoice'
-                                           component={() => load ? <Skeletons/> : <Invoice data={data}
-                                                                                           returnInvoiceInfo={invoiceData => setInvoice(invoiceData)}/>}/>
+                                           component={() => load ? <Skeletons/> : <Invoice data={data}/>}/>
                                 </Switch>
-                                {
-                                    invoice
-                                        ?
-                                        <PDF /*image={img}*/ info={invoice} style={{height: '100vh', width: '100%'}}/>
-                                        :
-                                        null
-                                }
                             </div>
                     }
-
                 </div>
             </Content>
             <FOOTER/>
