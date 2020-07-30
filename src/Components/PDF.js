@@ -63,6 +63,10 @@ function PDF(props) {
             textAlign: 'center',
             fontSize: 24,
             fontWeight: 'bold',
+        },
+        cell: {
+            flexBasis: '22%',
+            textAlign: 'left'
         }
     });
 
@@ -101,11 +105,25 @@ function PDF(props) {
     const services = props.info[0].services.map((service, index) => {
         return <View key={index}>
             <View style={[styles.section, styles.flexRow, styles.articles]}>
-                <Text>{service.serviceType}</Text>
-                <Text>{service.unit}</Text>
-                <Text>{service.amount}</Text>
-                <Text>{service.price}</Text>
-                <Text>{service.total}</Text>
+                <View style={[styles.cell]}>
+                    <Text>{service.serviceType}</Text>
+                </View>
+
+                <View style={[styles.cell]}>
+                    <Text>{service.unit}</Text>
+                </View>
+
+                <View style={[styles.cell]}>
+                    <Text>{service.amount}</Text>
+                </View>
+
+                <View style={[styles.cell]}>
+                    <Text>{service.price}</Text>
+                </View>
+
+                <View style={[styles.cell]}>
+                    <Text>{service.total}</Text>
+                </View>
             </View>
             {seperator()}
         </View>
@@ -182,12 +200,28 @@ function PDF(props) {
                 {seperator()}
 
                 <View style={[styles.section, styles.flexRow, styles.articles]}>
-                    <Text>VRSTA USLUGE</Text>
-                    <Text>JEDINICA</Text>
-                    <Text>KOLICINA</Text>
-                    <Text>CENA</Text>
-                    <Text>TOTAL</Text>
+                    <View style={[styles.cell]}>
+                        <Text>VRSTA USLUGE</Text>
+                    </View>
+
+                    <View style={[styles.cell]}>
+                        <Text>JEDINICA</Text>
+                    </View>
+
+                    <View style={[styles.cell]}>
+                        <Text>KOLICINA</Text>
+                    </View>
+
+                    <View style={[styles.cell]}>
+                        <Text>CENA</Text>
+                    </View>
+
+                    <View style={[styles.cell]}>
+                        <Text>TOTAL</Text>
+                    </View>
                 </View>
+
+                {seperator()}
 
                 {services}
 
