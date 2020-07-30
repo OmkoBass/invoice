@@ -207,7 +207,7 @@ function Invoice(props) {
                     }
                     return (
                         <div style={{margin: 'auto', maxWidth: '960px'}}>
-                            {fields.map((field) => (
+                            {fields.map((field, index) => (
                                 <div key={field.key}>
                                     <div style={{display: 'flex', flexDirection: 'row'}}>
                                         <Form.Item name={[field.name, 'serviceType']}
@@ -225,13 +225,33 @@ function Invoice(props) {
                                         <Form.Item name={[field.name, 'amount']}
                                                    fieldKey={[field.fieldKey, 'amount']}
                                         >
-                                            <Input/>
+                                            <Input onChange={() => {
+                                                let services = form.getFieldValue('services');
+
+                                                if(services[index].amount && services[index].price) {
+                                                    services[index].total = services[index].amount * services[index].price;
+
+                                                    form.setFieldsValue({
+                                                        services: services
+                                                    });
+                                                }
+                                            }}/>
                                         </Form.Item>
 
                                         <Form.Item name={[field.name, 'price']}
                                                    fieldKey={[field.fieldKey, 'price']}
                                         >
-                                            <Input/>
+                                            <Input onChange={() => {
+                                                let services = form.getFieldValue('services');
+
+                                                if(services[index].amount && services[index].price) {
+                                                    services[index].total = services[index].amount * services[index].price;
+
+                                                    form.setFieldsValue({
+                                                        services: services
+                                                    });
+                                                }
+                                            }}/>
                                         </Form.Item>
 
                                         <Form.Item name={[field.name, 'total']}

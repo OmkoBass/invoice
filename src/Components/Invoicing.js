@@ -8,7 +8,6 @@ import {Layout} from 'antd';
 
 //Components
 import Invoice from "./Invoice";
-import PDF from "./PDF";
 import Profile from "./Profile";
 import History from "./History";
 import HEADER from "./Smaller/Header";
@@ -16,13 +15,13 @@ import FOOTER from "./Smaller/Footer";
 import SiderMenu from "./Smaller/SiderMenu";
 import MobileDrawer from "./Smaller/MobileDrawer";
 import Skeletons from "./Smaller/Skeletons";
+import ErrorResult from "./Smaller/ErrorResult";
 
 //Router
 import {Redirect, Switch, Route} from "react-router";
 
 //Context for authentication
 import {AuthContext} from "./Auth";
-import ErrorResult from "./Smaller/ErrorResult";
 
 const {Content, Sider} = Layout;
 
