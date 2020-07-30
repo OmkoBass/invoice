@@ -3,14 +3,14 @@ import React from 'react'
 //router
 import { useHistory } from "react-router";
 
-//antd
+//Ant Components
 import {Row, Col, Layout, Button, Result} from 'antd'
 
 //not found image
 import notFound from '../Assets/404.png'
 
-//skyon
-import skyon from '../Assets/skyonlight.png'
+//skayon
+import skayon from '../Assets/skyonlight.png'
 
 const { Header, Content } = Layout
 
@@ -21,7 +21,7 @@ function NotFound() {
 
     return <Layout>
         <Header style={{height: '8vh'}}>
-            <img src={skyon} alt='skyon logo' style={{width:'100px'}}/>
+            <img src={skayon} alt='skyon logo' style={{width:'100px'}}/>
         </Header>
         <Content style={{backgroundColor: 'white', height: '92vh'}}>
             <Result

@@ -10,15 +10,13 @@ import firebase from '../firebase';
 import { Form, Input, Button, Layout, message, Divider} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-//skyon
-import skyon from '../Assets/skyondark.png'
+//Skayon
+import skayon from '../Assets/skyondark.png'
 
-//Context import
+//Context
 import { AuthContext } from "./Auth";
 
 const { Content } = Layout;
-
-//antd password field
 const { Password } = Input;
 
 function LoginPage() {
@@ -49,7 +47,7 @@ function LoginPage() {
     return <Layout>
         <Content style={{height: '100vh'}}>
             <div className='login'>
-                <img src={skyon} alt='skyon logo' style={{width: '100%'}}/>
+                <img src={skayon} alt='skayon logo' style={{width: '100%'}}/>
                 <Form
                     name="login"
                     initialValues={{ remember: true }}
