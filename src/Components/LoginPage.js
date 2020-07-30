@@ -89,11 +89,9 @@ function LoginPage() {
                             Prijavi se!
                         </Button>
 
-                        <Divider/>
-
-                        <p style={{textAlign: 'center'}}> Nemate profil? </p>
-
-                        <Divider/>
+                        <Divider>
+                            Nemate profil?
+                        </Divider>
 
                         <Button type='primary'
                                 size='large'

@@ -119,13 +119,9 @@ function Register() {
                             Registruj se!
                         </Button>
 
-                        <Divider/>
-
-                        <p style={{textAlign: 'center'}}>
+                        <Divider>
                             Već imate profil?
-                        </p>
-
-                        <Divider/>
+                        </Divider>
 
                         <Button type='primary'
                                 ghost={true}
