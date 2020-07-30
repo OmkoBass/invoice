@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 
-//antd
-import { Layout, Form, Input, Button, message, Divider, Tooltip } from 'antd';
+//Ant Components
+import { Layout, Form, Input, Button, Divider } from 'antd';
 
 //logo
-import skyondark from '../Assets/skyondark.png';
+import skayondark from '../Assets/skyondark.png';
 
 //firebase
 import firebase from '../firebase';
@@ -31,40 +31,27 @@ function Register() {
         return <Redirect to='/invoice'/>
     }
 
-    //On finish
     const handleFinish = value => {
-        if (value.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-            if (value.password.match(/^[A-Za-z0-9]{8,32}$/) &&
-                value.password === value.confirmPassword
-            ) {
-                firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
-                    .then(() => {
-                        history.push('/register/successful');
-                    })
-            } else {
-                message.error('Nije dozovljena takva lozinka!');
-            }
-        } else
-            message.error('Nije dozovljen takav email!');
-        /*if (value.username.match(/^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)) {
-            if (value.email.match(/^(\d{1,5}|[^\W]{1,3}|[a-zA-Z]+)([a-z])+([!#$%^&*()<>_?:"}{[\]a-z])+@([a-zA-Z.])+\.([a-z])+$/)) {
-                if (value.password.match(/^[A-Za-z0-9]{6,32}$/) &&
-                    value.password === value.confirmPassword
-                ) {
-                    firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
-                        .then(() => {
-                            history.push('/register/successful');
-                        })
-                } else {
-                    message.error('Nije dozovljena takva lozinka!');
-                }
-            }
-        } else {
-            message.error('Nije dozovljeno takvo korisničko ime!');
-        }*/
+        firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+            .then(() => {
+                history.push('/register/successful');
+            });
     }
 
-    //layout
+    const handleValidatePassword = (rule, value) => {
+        if (value.length < 8) {
+            return Promise.reject('Minimalno 8 karaktera!');
+        }
+        return Promise.resolve();
+    }
+
+    const handleValidateConfirmPassword = (rule, value) => {
+        if (value === form.getFieldValue('password')) {
+            return Promise.resolve();
+        }
+        return Promise.reject('Lozinke moraju biti iste!');
+    }
+
     const layout = {
         labelCol: {span: 8},
         wrapperCol: {span: 24},
@@ -73,10 +60,10 @@ function Register() {
     return <Layout>
         <Content style={{height: '100vh'}}>
             <div className='login'>
-                <img src={skyondark} alt='skyon logo' style={{width: '100%'}}/>
+                <img src={skayondark} alt='skayon logo' style={{width: '100%'}}/>
                 <Form {...layout}
-                      name='register'
                       form={form}
+                      name='register'
                       onFinish={handleFinish}
                 >
                     <Form.Item
@@ -85,7 +72,7 @@ function Register() {
                         rules={[
                             {
                                 required: true,
-                                message: 'email ne sme biti prazan!'
+                                message: 'Email ne sme biti prazan!'
                             },
                             {
                                 type: 'email',
@@ -95,22 +82,32 @@ function Register() {
                         <Input/>
                     </Form.Item>
 
-                    <Tooltip
-                        title='Pasvord mora imati najmanje 8 karaktera.'
-                        trigger='focus'
-                    >
-                        <Form.Item
-                            name='password'
-                            label='Lozinka'
-                            rules={[{required: true, message: 'Unesite lozinku!'}]}>
-                            <Password/>
-                        </Form.Item>
-                    </Tooltip>
+                    <Form.Item
+                        name='password'
+                        label='Lozinka'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Unesite lozinku!',
+                            },
+                            {
+                                validator: handleValidatePassword
+                            }]}>
+                        <Password/>
+                    </Form.Item>
 
                     <Form.Item
                         name='confirmPassword'
                         label='Potvrdite lozinku'
-                        rules={[{required: true, message: 'Potvrdite lozinku!'}]}>
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Potvrdite lozinku!',
+                            },
+                            {
+                                validator: handleValidateConfirmPassword
+                            }
+                            ]}>
                         <Password/>
                     </Form.Item>
 
