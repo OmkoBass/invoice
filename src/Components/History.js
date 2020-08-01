@@ -4,7 +4,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import firebase from "../firebase";
 
 //Ant components
-import {Table} from "antd";
+import {Table, Row, Col, Button} from "antd";
 
 //Context
 import {AuthContext} from "./Auth";
@@ -20,8 +20,13 @@ function History() {
     const [pdfData, setPdfData] = useState(null);
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
+    const [selected, setSelected] = useState(null);
 
     const columns = [
+        {
+            title: 'ID fakture',
+            dataIndex: 'id'
+        },
         {
             title: 'Faktura',
             dataIndex: 'invoice'
@@ -37,10 +42,6 @@ function History() {
         {
             title: 'Datum izdavanja',
             dataIndex: 'dateCreated'
-        },
-        {
-            title: 'ID fakture',
-            dataIndex: 'id'
         }
     ];
 
@@ -53,6 +54,14 @@ function History() {
             .catch(() => setError(true));
     }, [currentUser.uid]);
 
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => setSelected(selectedRows)
+    };
+
+    useEffect(() => {
+        console.log(selected);
+    }, [selected]);
+
     return <div>
         {
             error
@@ -61,13 +70,14 @@ function History() {
                 :
                 <Table
                     bordered
+                    rowSelection={rowSelection}
                     loading={load}
                     columns={columns}
-                    onRow={(record) => {
+                    /*onRow={(record) => {
                         return {
                             onClick: _ => setPdfData(record)
                         }
-                    }}
+                    }}*/
                     dataSource={invoices?.map((invoice, index) => {
                     return {
                         ...invoice[1],
@@ -83,6 +93,25 @@ function History() {
                 :
                 null
         }
+        <Row gutter={12}>
+            <Col>
+                <Button
+                    type='primary'
+                    disabled={selected?.length === 1 ? false : true}
+                >
+                    Prikaži
+                </Button>
+            </Col>
+            <Col>
+                <Button
+                    type='primary'
+                    danger
+                    disabled={selected?.length > 0 ? false : true}
+                >
+                    Izbriši
+                </Button>
+            </Col>
+        </Row>
     </div>
 }
 
