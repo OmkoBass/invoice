@@ -13,6 +13,8 @@ function PDF(props) {
     // Register font
     Font.register({ family: 'Poppins', src: Poppins });
 
+    console.log(props);
+
     const styles = StyleSheet.create({
         skyBlue: {
           color: '#37a3c7'
@@ -97,12 +99,12 @@ function PDF(props) {
 
     let TOTAL = 0;
 
-    for (let i = 0; i < props.info[0].services.length; i++)
-        TOTAL += parseInt(props.info[0].services[i].total, 10);
+    for (let i = 0; i < props.info.services.length; i++)
+        TOTAL += parseInt(props.info.services[i].total, 10);
 
     // IT CAN BE DONE WITHOUT THIS COUNTER VARIABLE BUT I FORGOT HOW
     // WILL REFACTOR
-    const services = props.info[0].services.map((service, index) => {
+    const services = props.info.services.map((service, index) => {
         return <View key={index} wrap={false}>
             <View style={[styles.section, styles.flexRow, styles.articles]}>
                 <View style={[styles.cell]}>
@@ -134,7 +136,7 @@ function PDF(props) {
             <Page size="A4" style={styles.page}>
                 <View style={[styles.section, styles.flexRow, styles.text]}>
                     <View style={[styles.flexCol]}>
-                        <Text style={[styles.title, styles.skyBlue]}>Faktura: {props.info[0].invoice}</Text>
+                        <Text style={[styles.title, styles.skyBlue]}>Faktura: {props.info.invoice}</Text>
                         {
                             props.info[1]
                                 ?
@@ -147,7 +149,7 @@ function PDF(props) {
                                             width: '80px',
                                         }
                                     }
-                                    src={URL.createObjectURL(props.info[1])}/>
+                                    src={URL.createObjectURL(props.info.img)}/>
                                 :
                                 null
                         }
@@ -155,18 +157,18 @@ function PDF(props) {
 
                     <View style={styles.flexCol}>
                         <Text>Datum fakture:</Text>
-                        <Text>{moment(props.info[0].dateInvoice).format('DD.MM.YYYY')}</Text>
+                        <Text>{moment(props.info.dateInvoice).format('DD.MM.YYYY')}</Text>
                     </View>
                     <View style={styles.flexCol}>
                         <Text>Datum prometa:</Text>
-                        <Text>{moment(props.info[0].dateTraffic).format('DD.MM.YYYY')}</Text>
+                        <Text>{moment(props.info.dateTraffic).format('DD.MM.YYYY')}</Text>
                     </View>
                 </View>
 
                 <View style={[styles.section, styles.text]}>
                     <View style={[styles.flexCol, {marginLeft: 'auto'}]}>
                         <Text>Mesto prometa:</Text>
-                        <Text>{props.info[0].place}</Text>
+                        <Text>{props.info.place}</Text>
                     </View>
                 </View>
 
@@ -176,24 +178,24 @@ function PDF(props) {
                     <View style={[styles.section, styles.text]}>
                         <Text>Od:</Text>
                         <Text> </Text>
-                        <Text style={styles.subtitle}>{props.info[0].fromName}</Text>
+                        <Text style={styles.subtitle}>{props.info.fromName}</Text>
                         <Text> </Text>
-                        <Text>{props.info[0].firmName}</Text>
-                        <Text>{props.info[0].street}</Text>
-                        <Text>{props.info[0].city}</Text>
-                        <Text>{props.info[0].pib}</Text>
-                        <Text>{props.info[0].account}</Text>
-                        <Text>{props.info[0].email}</Text>
+                        <Text>{props.info.firmName}</Text>
+                        <Text>{props.info.street}</Text>
+                        <Text>{props.info.city}</Text>
+                        <Text>{props.info.pib}</Text>
+                        <Text>{props.info.account}</Text>
+                        <Text>{props.info.email}</Text>
                     </View>
 
                     <View style={[styles.section, styles.text]}>
                         <Text>Komitet:</Text>
                         <Text> </Text>
-                        <Text style={styles.subtitle}>{props.info[0].toName}</Text>
+                        <Text style={styles.subtitle}>{props.info.toName}</Text>
                         <Text> </Text>
-                        <Text>Adresa: {props.info[0].toAddress}</Text>
-                        <Text>{props.info[0].toCity}</Text>
-                        <Text>PIB/JMBG: {props.info[0].toPib}</Text>
+                        <Text>Adresa: {props.info.toAddress}</Text>
+                        <Text>{props.info.toCity}</Text>
+                        <Text>PIB/JMBG: {props.info.toPib}</Text>
                     </View>
                 </View>
 
@@ -230,7 +232,7 @@ function PDF(props) {
                 <View style={[styles.section, styles.flexRow, styles.bottom]} wrap={false}>
                     <View style={[styles.flexCol]}>
                         <Text style={styles.subtitle}>Ukupno: {`${TOTAL ? TOTAL : 0}RSD`}</Text>
-                        <Text style={styles.subtitle}>Broj: {props.info[0].services.length}</Text>
+                        <Text style={styles.subtitle}>Broj: {props.info.services.length}</Text>
                     </View>
                     <Text style={[styles.title, styles.total]}>{`${TOTAL ? TOTAL : 0}RSD`}</Text>
                 </View>

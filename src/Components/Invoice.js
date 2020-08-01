@@ -42,7 +42,7 @@ function Invoice(props) {
     }
 
     const handleFinish = values => {
-        setPdfData([values, img]);
+        setPdfData({...values, img});
 
         values.dateInvoice = moment(values.dateInvoice).format('DD.MM.YYYY');
         values.dateTraffic = moment(values.dateTraffic).format('DD.MM.YYYY');
