@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 //Ant Components
-import { Layout, Form, Input, Button, Divider } from 'antd';
+import {Layout, Form, Input, Button, Divider, notification} from 'antd';
 
 //logo
 import skayondark from '../Assets/skyondark.png';
@@ -31,11 +31,18 @@ function Register() {
         return <Redirect to='/invoice'/>
     }
 
+    const alreadyExists = () => {
+        notification.error({
+            message: 'Greška!',
+            description: 'Email adresa je vec registorvana.'
+        });
+    }
+
     const handleFinish = value => {
         firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
             .then(() => {
                 history.push('/register/successful');
-            });
+            }).catch(() => alreadyExists());
     }
 
     const handleValidatePassword = (rule, value) => {
