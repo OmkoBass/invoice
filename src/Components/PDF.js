@@ -11,13 +11,13 @@ import Poppins from '../Fonts/Poppins/Poppins-Regular.ttf';
 
 function PDF(props) {
     // Register font
-    Font.register({ family: 'Poppins', src: Poppins });
+    Font.register({family: 'Poppins', src: Poppins});
 
     console.log(props);
 
     const styles = StyleSheet.create({
         skyBlue: {
-          color: '#37a3c7'
+            color: '#37a3c7'
         },
         articles: {
             fontSize: 8,
@@ -157,11 +157,23 @@ function PDF(props) {
 
                     <View style={styles.flexCol}>
                         <Text>Datum fakture:</Text>
-                        <Text>{moment(props.info.dateInvoice).format('DD.MM.YYYY')}</Text>
+                        {
+                            props.info.id
+                                ?
+                                <Text>{moment(props.info.dateInvoice, 'DD.MM.YYYY').format('DD.MM.YYYY')}</Text>
+                                :
+                                <Text>{moment(props.info.dateInvoice).format('DD.MM.YYYY')}</Text>
+                        }
                     </View>
                     <View style={styles.flexCol}>
                         <Text>Datum prometa:</Text>
-                        <Text>{moment(props.info.dateTraffic).format('DD.MM.YYYY')}</Text>
+                        {
+                            props.info.id
+                                ?
+                                <Text>{moment(props.info.dateTraffic, 'DD.MM.YYYY').format('DD.MM.YYYY')}</Text>
+                                :
+                                <Text>{moment(props.info.dateTraffic).format('DD.MM.YYYY')}</Text>
+                        }
                     </View>
                 </View>
 
