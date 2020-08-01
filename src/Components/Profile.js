@@ -11,28 +11,35 @@ import {AuthContext} from "./Auth";
 
 const {Title, Paragraph, Text} = Typography;
 
-function Profile(props) {
+function Profile() {
     //Form ref
     let [form] = Form.useForm();
+
+    //So i know who the current user is
+    const {profileData, setProfileData, currentUser} = useContext(AuthContext);
 
     // const [img, setImg] = useState(null);
 
     useEffect(() => {
-        if (props.data) {
-            form.setFieldsValue(props.data);
+        if (profileData) {
+            form.setFieldsValue(profileData);
         }
-    }, [form, props.data]);
-
-
-    //So i know who the current user is
-    const {currentUser} = useContext(AuthContext);
+    }, [form, profileData]);
 
     // Saving
     const handleOnFinish = values => {
-        firebase.database().ref(`users/${currentUser.uid}`).set(values)
-            .then(() => {
-                successNotification();
-            }).catch(() => failNotification());
+        const formValues = Object.values(values).sort();
+        const propsData = Object.values(profileData).sort();
+
+        if(JSON.stringify(formValues) !== JSON.stringify(propsData)) {
+            firebase.database().ref(`users/${currentUser.uid}`).set(values)
+                .then(() => {
+                    setProfileData(values);
+                    successNotification();
+                }).catch(() => failNotification());
+        } else {
+            sameDataNotification();
+        }
     }
 
     const successNotification = () => {
@@ -45,6 +52,12 @@ function Profile(props) {
         notification.error({
             message: 'Greška!'
         });
+    }
+
+    const sameDataNotification = () => {
+        notification.info({
+            message: 'Podaci su isti.'
+        })
     }
 
     // Layout for positioning
@@ -73,7 +86,6 @@ function Profile(props) {
               form={form}
               name='profile'
               onFinish={handleOnFinish}
-              initialValues={props.data}
         >
             {/*<Form.Item label='Logo'>
                     <FileUpload accept={'.png, .jpg, .jpeg'}

@@ -26,7 +26,7 @@ import {AuthContext} from "./Auth";
 const {Content, Sider} = Layout;
 
 function Invoicing() {
-    const {currentUser} = useContext(AuthContext);
+    const {currentUser, setProfileData} = useContext(AuthContext);
 
     const { path } = useRouteMatch();
 
@@ -46,13 +46,10 @@ function Invoicing() {
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
 
-    //User data
-    const [data, setData] = useState(null);
-
     useEffect(() => {
         if (currentUser !== null) {
             firebase.database().ref(`users/${currentUser.uid}`).once('value')
-                .then(data => setData(data.val()))
+                .then(data => setProfileData(data.val()))
                 .then(() => setLoad(false))
                 .catch(() => setError(true));
         }
@@ -91,12 +88,12 @@ function Invoicing() {
                             :
                             <div>
                                 <Switch>
-                                    <Route path={`${path}/profile`} component={() => <Profile data={data}/>}/>
+                                    <Route path={`${path}/profile`} component={() => <Profile/>}/>
 
                                     <Route path={`${path}/history`} component={() => <History/>}/>
 
                                     <Route path={`${path}`}
-                                           component={() => load ? <Skeletons/> : <Invoice data={data}/>}/>
+                                           component={() => load ? <Skeletons/> : <Invoice/>}/>
                                 </Switch>
                             </div>
                     }

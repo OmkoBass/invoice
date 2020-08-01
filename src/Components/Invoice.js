@@ -25,14 +25,14 @@ import moment from "moment";
 
 const { Title, Paragraph, Text } = Typography;
 
-function Invoice(props) {
+function Invoice() {
     //Form ref
     let [form] = Form.useForm();
 
-    const {currentUser} = useContext(AuthContext);
+    const {currentUser, profileData} = useContext(AuthContext);
 
     const [pdfData, setPdfData] = useState(null);
-    const [img, setImg] = useState(props.img);
+    const [img, setImg] = useState(null);
 
     const failNotification = () => {
         notification.error({
@@ -90,7 +90,7 @@ function Invoice(props) {
               form={form}
               layout='horizontal'
               onFinish={handleFinish}
-              initialValues={props.data}
+              initialValues={profileData}
         >
             <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
                 <Col span={24} className='form-style'>
