@@ -49,7 +49,7 @@ function History() {
     useEffect(() => {
         firebase.database().ref(`users/${currentUser.uid}/invoices`).once('value')
             .then(data => {
-                if(data.val())
+                if (data.val())
                     setInvoices(Object.entries(data.val()));
             })
             .then(() => setLoad(false))
@@ -112,15 +112,15 @@ function History() {
                             <Button
                                 onClick={() => {
                                     //Delete from firebase
-                                    selected.map(selected => {
+                                    selected.filter(selected =>
                                         firebase.database().ref(`users/${currentUser.uid}/invoices/${selected.id}`).set(null)
-                                            .then().catch(() => failNotification());
-                                    });
+                                            .then().catch(() => failNotification())
+                                    );
                                     deleteNotification();
 
                                     //Update the table
                                     setInvoices(invoices?.filter(invoice => {
-                                        selected.filter(data =>  data.id !== invoice.id ? invoice : null)
+                                        selected.filter(data => data.id !== invoice.id ? invoice : null)
                                     }))
                                 }}
                                 type='primary'
