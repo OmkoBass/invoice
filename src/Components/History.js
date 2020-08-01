@@ -34,12 +34,16 @@ function History() {
             title: 'Datum izdavanja',
             dataIndex: 'dateCreated'
         },
+        {
+            title: 'ID fakture',
+            dataIndex: 'id'
+        }
     ];
 
     useEffect(() => {
         firebase.database().ref(`users/${currentUser.uid}/invoices`).once('value')
             .then(data => {
-                setInvoices(Object.values(data.val()));
+                setInvoices(Object.entries(data.val()));
             })
             .then(() => setLoad(false))
             .catch(() => setError(true));
@@ -58,10 +62,11 @@ function History() {
                     dataSource={invoices.map((invoice, index) => {
                     return {
                         key: index,
-                        invoice: invoice.invoice,
-                        toName: invoice.toName,
-                        toAddress: invoice.toAddress,
-                        dateCreated: invoice.dateCreated
+                        invoice: invoice[1].invoice,
+                        toName: invoice[1].toName,
+                        toAddress: invoice[1].toAddress,
+                        dateCreated: invoice[1].dateCreated,
+                        id: invoice[0]
                     }
                 })}/>
         }
