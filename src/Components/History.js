@@ -12,7 +12,6 @@ import {AuthContext} from "./Auth";
 //Components
 import PDF from "./PDF";
 import ErrorResult from "./Smaller/ErrorResult";
-import {nanoid} from "nanoid";
 
 function History() {
     const {currentUser} = useContext(AuthContext);

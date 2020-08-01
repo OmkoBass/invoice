@@ -6,7 +6,7 @@ import { useHistory, Redirect} from "react-router";
 //Firebase
 import firebase from '../firebase';
 
-//antd
+//Ant Components
 import { Form, Input, Button, Layout, message, Divider} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
@@ -29,20 +29,11 @@ function LoginPage() {
     }
 
     const onFinish = value => {
-        //If authentication is successful go to /invoice
-        firebase.auth().signInWithEmailAndPassword(value.username, value.password).then(() => {
-            history.push('/invoice');
-        })
-
-        //If authentication failed show an error message
-        const promise = firebase.auth().signInWithEmailAndPassword(value.username, value.password);
-        promise.catch(() => failed());
+        firebase.auth().signInWithEmailAndPassword(value.username, value.password).then().catch(() => failed());
     }
 
     //Failed message when input is bad
-    const failed = () => {
-        message.error('Proverite korisničko ime i lozinku!');
-    };
+    const failed = () => message.error('Proverite korisničko ime i lozinku!');
 
     return <Layout>
         <Content style={{height: '100vh'}}>
