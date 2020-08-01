@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
+
+//firebase
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 //Ant components
-import { Form, Input, Button, Divider, Typography, Row, Col, DatePicker } from 'antd'
+import {Form, Input, Button, Divider, Typography, Row, Col, DatePicker, notification} from 'antd'
 
 //Ant icons
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -10,17 +14,44 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import FileUpload from "./FileUpload";
 import PDF from "./PDF";
 
+//Context
+import {AuthContext} from "./Auth";
+
+//Id generator
+import { nanoid } from "nanoid";
+
+//Moment for dates
+import moment from "moment";
+
 const { Title, Paragraph, Text } = Typography;
 
 function Invoice(props) {
     //Form ref
     let [form] = Form.useForm();
 
+    const {currentUser} = useContext(AuthContext);
+
     const [pdfData, setPdfData] = useState(null);
     const [img, setImg] = useState(props.img);
 
+    const failNotification = () => {
+        notification.error({
+            message: 'Greška!',
+            description: 'Došlo je do greške pri čuvanju fakture.'
+        });
+    }
+
     const handleFinish = values => {
         setPdfData([values, img]);
+
+        values.dateInvoice = moment(values.dateInvoice).format('DD.MM.YYYY');
+        values.dateTraffic = moment(values.dateTraffic).format('DD.MM.YYYY');
+
+        values.dateCreated = moment().format('DD.MM.YYYY:HH:mm');
+        
+        firebase.database().ref(`users/${currentUser.uid}/invoices/${nanoid()}`).set(values)
+            .then(() => {
+            }).catch(() => failNotification());
     }
 
     function handleClear() {
@@ -71,7 +102,7 @@ function Invoice(props) {
                         <Input/>
                     </Form.Item>
 
-                    <Form.Item label='Logo:' name='logo'>
+                    <Form.Item label='Logo:'>
                         <FileUpload accept={'.png, .jpg, .jpeg'}
                                     multiple={false}
                                     imgCallBack={imgCallBack}

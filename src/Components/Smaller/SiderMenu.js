@@ -41,11 +41,11 @@ function SiderMenu() {
                 <ProfileOutlined/>
                 <span>Profil</span>
             </Menu.Item>
-            {/*<Menu.Item key="3"
+            <Menu.Item key="3"
                        onClick={() => history.push('/invoice/history')}>
                 <HistoryOutlined />
                 <span>Istorija</span>
-            </Menu.Item>*/}
+            </Menu.Item>
             <Menu.Item key='4'
                        onClick={() => setVisibleModal(true)}
             >
