@@ -8,12 +8,16 @@ import {Table} from "antd";
 
 //Context
 import {AuthContext} from "./Auth";
+
+//Components
+import PDF from "./PDF";
 import ErrorResult from "./Smaller/ErrorResult";
 
 function History() {
     const {currentUser} = useContext(AuthContext);
 
-    const [invoices, setInvoices] = useState([]);
+    const [invoices, setInvoices] = useState(null);
+    const [pdfData, setPdfData] = useState(null);
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
 
@@ -59,16 +63,25 @@ function History() {
                     bordered
                     loading={load}
                     columns={columns}
-                    dataSource={invoices.map((invoice, index) => {
+                    onRow={(record) => {
+                        return {
+                            onClick: _ => setPdfData(record)
+                        }
+                    }}
+                    dataSource={invoices?.map((invoice, index) => {
                     return {
+                        ...invoice[1],
                         key: index,
-                        invoice: invoice[1].invoice,
-                        toName: invoice[1].toName,
-                        toAddress: invoice[1].toAddress,
-                        dateCreated: invoice[1].dateCreated,
                         id: invoice[0]
                     }
                 })}/>
+        }
+        {
+            pdfData
+                ?
+                <PDF /*image={img}*/ info={pdfData} style={{height: '100vh', width: '100%'}}/>
+                :
+                null
         }
     </div>
 }
