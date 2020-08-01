@@ -18,7 +18,7 @@ import Skeletons from "./Smaller/Skeletons";
 import ErrorResult from "./Smaller/ErrorResult";
 
 //Router
-import {Redirect, Switch, Route} from "react-router";
+import {Redirect, Switch, Route, useRouteMatch} from "react-router";
 
 //Context for authentication
 import {AuthContext} from "./Auth";
@@ -27,6 +27,8 @@ const {Content, Sider} = Layout;
 
 function Invoicing() {
     const {currentUser} = useContext(AuthContext);
+
+    const { path } = useRouteMatch();
 
     //If this is true a different sider will be shown
     const [mobile, setMobile] = useState(false);
@@ -89,11 +91,11 @@ function Invoicing() {
                             :
                             <div>
                                 <Switch>
-                                    <Route path='/invoice/profile' component={() => <Profile data={data}/>}/>
+                                    <Route path={`${path}/profile`} component={() => <Profile data={data}/>}/>
 
-                                    <Route path='/invoice/history' component={() => <History/>}/>
+                                    <Route path={`${path}/history`} component={() => <History/>}/>
 
-                                    <Route path='/invoice'
+                                    <Route path={`${path}`}
                                            component={() => load ? <Skeletons/> : <Invoice data={data}/>}/>
                                 </Switch>
                             </div>

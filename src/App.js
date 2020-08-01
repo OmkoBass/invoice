@@ -30,11 +30,11 @@ function App() {
     return <AuthProvider>
         <Router>
             <Switch>
-                <Route path='/register/successful' component={Success}/>
-                <Route path='/register' component={Register}/>
+                <Route exact path='/register/successful' component={Success}/>
+                <Route exact path='/register' component={Register}/>
                 <Route path='/invoice' component={Invoicing}/>
-                <Route path='/404' component={NotFound}/>
-                <Route path='/' component={LoginPage}/>
+                <Route exact path='/404' component={NotFound}/>
+                <Route exact path='/' component={LoginPage}/>
 
                 <Redirect to='/404'/>
             </Switch>
