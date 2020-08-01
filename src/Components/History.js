@@ -4,7 +4,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import firebase from "../firebase";
 
 //Ant components
-import {Table, Row, Col, Button} from "antd";
+import {Table, Row, Col, Button, notification} from "antd";
 
 //Context
 import {AuthContext} from "./Auth";
@@ -12,6 +12,7 @@ import {AuthContext} from "./Auth";
 //Components
 import PDF from "./PDF";
 import ErrorResult from "./Smaller/ErrorResult";
+import {nanoid} from "nanoid";
 
 function History() {
     const {currentUser} = useContext(AuthContext);
@@ -48,7 +49,8 @@ function History() {
     useEffect(() => {
         firebase.database().ref(`users/${currentUser.uid}/invoices`).once('value')
             .then(data => {
-                setInvoices(Object.entries(data.val()));
+                if(data.val())
+                    setInvoices(Object.entries(data.val()));
             })
             .then(() => setLoad(false))
             .catch(() => setError(true));
@@ -58,9 +60,18 @@ function History() {
         onChange: (selectedRowKeys, selectedRows) => setSelected(selectedRows)
     };
 
-    useEffect(() => {
-        console.log(selected);
-    }, [selected]);
+    const failNotification = () => {
+        notification.error({
+            message: 'Greška!',
+            description: 'Došlo je do greške pri čuvanju fakture.'
+        });
+    }
+
+    const deleteNotification = () => {
+        notification.success({
+            message: 'Uspešno!',
+        })
+    }
 
     return <div>
         {
@@ -68,24 +79,55 @@ function History() {
                 ?
                 <ErrorResult/>
                 :
-                <Table
-                    bordered
-                    rowSelection={rowSelection}
-                    loading={load}
-                    columns={columns}
-                    /*onRow={(record) => {
-                        return {
-                            onClick: _ => setPdfData(record)
-                        }
-                    }}*/
-                    dataSource={invoices?.map((invoice, index) => {
-                    return {
-                        ...invoice[1],
-                        key: index,
-                        id: invoice[0]
-                    }
-                })}/>
+                <div>
+                    <Table
+                        bordered
+                        rowSelection={rowSelection}
+                        loading={load}
+                        columns={columns}
+                        /*onRow={(record) => {
+                            return {
+                                onClick: _ => setPdfData(record)
+                            }
+                        }}*/
+                        dataSource={invoices?.map((invoice, index) => {
+                            return {
+                                ...invoice[1],
+                                key: index,
+                                id: invoice[0]
+                            }
+                        })}/>
+
+                    <Row gutter={12}>
+                        <Col>
+                            <Button
+                                onClick={() => setPdfData(selected[0])}
+                                type='primary'
+                                disabled={selected?.length === 1 ? false : true}
+                            >
+                                Prikaži
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                onClick={() => {
+                                    selected.map(selected => {
+                                        firebase.database().ref(`users/${currentUser.uid}/invoices/${selected.id}`).set(null)
+                                            .then(() => deleteNotification()).catch(() => failNotification());
+                                    })
+                                }}
+                                type='primary'
+                                danger
+                                disabled={selected?.length > 0 ? false : true}
+                                style={{marginBottom: '1em'}}
+                            >
+                                Izbriši
+                            </Button>
+                        </Col>
+                    </Row>
+                </div>
         }
+
         {
             pdfData
                 ?
@@ -93,25 +135,6 @@ function History() {
                 :
                 null
         }
-        <Row gutter={12}>
-            <Col>
-                <Button
-                    type='primary'
-                    disabled={selected?.length === 1 ? false : true}
-                >
-                    Prikaži
-                </Button>
-            </Col>
-            <Col>
-                <Button
-                    type='primary'
-                    danger
-                    disabled={selected?.length > 0 ? false : true}
-                >
-                    Izbriši
-                </Button>
-            </Col>
-        </Row>
     </div>
 }
 
