@@ -45,9 +45,12 @@ function PDF(props) {
             fontSize: 12,
             fontWeight: 'bold'
         },
+        headerText: {
+            fontSize: 12,
+        },
         text: {
             margin: 12,
-            fontSize: 12,
+            fontSize: 8,
             textAlign: 'justify',
         },
         bottom: {
@@ -81,16 +84,6 @@ function PDF(props) {
         return <View
             style={{
                 margin: '0 10 0 10',
-                borderBottomColor: '#e7e7e7',
-                borderBottomWidth: 1,
-            }}
-        />
-    }
-
-    const seperatorMargin = () => {
-        return <View
-            style={{
-                margin: 10,
                 borderBottomColor: '#e7e7e7',
                 borderBottomWidth: 1,
             }}
@@ -134,7 +127,7 @@ function PDF(props) {
     const document = () => {
         return <Document>
             <Page size="A4" style={styles.page}>
-                <View style={[styles.section, styles.flexRow, styles.text]}>
+                <View style={[styles.section, styles.flexRow, styles.headerText]}>
                     <View style={[styles.flexCol]}>
                         <Text style={[styles.title, styles.skyBlue]}>Faktura: {props.info.invoice}</Text>
                         {
@@ -184,7 +177,7 @@ function PDF(props) {
                     </View>
                 </View>
 
-                {seperatorMargin()}
+                {seperator()}
 
                 <View style={styles.flexRow}>
                     <View style={[styles.section, styles.text]}>
