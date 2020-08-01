@@ -4,7 +4,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import firebase from "../firebase";
 
 //Ant components
-import {Table, Row, Col, Button, notification} from "antd";
+import {Table, Row, Col, Button, notification, Typography, Divider} from "antd";
 
 //Context
 import {AuthContext} from "./Auth";
@@ -73,6 +73,11 @@ function History() {
     }
 
     return <div>
+        <Typography>
+            <Typography.Title>Istorija</Typography.Title>
+            <Typography.Paragraph> Ovde mozete videti istoriju vasih faktura. </Typography.Paragraph>
+        </Typography>
+        <Divider/>
         {
             error
                 ?
