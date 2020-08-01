@@ -131,15 +131,15 @@ function PDF(props) {
                     <View style={[styles.flexCol]}>
                         <Text style={[styles.title, styles.skyBlue]}>Faktura: {props.info.invoice}</Text>
                         {
-                            props.info[1]
+                            props.info.img
                                 ?
                                 <Image
                                     style={
                                         {
                                             position: 'absolute',
-                                            top: '30px',
-                                            height: '80px',
-                                            width: '80px',
+                                            top: '25px',
+                                            height: '100px',
+                                            width: '100px',
                                         }
                                     }
                                     src={URL.createObjectURL(props.info.img)}/>
@@ -170,14 +170,16 @@ function PDF(props) {
                     </View>
                 </View>
 
-                <View style={[styles.section, styles.text]}>
+                <View style={[styles.section, styles.headerText]}>
                     <View style={[styles.flexCol, {marginLeft: 'auto'}]}>
                         <Text>Mesto prometa:</Text>
                         <Text>{props.info.place}</Text>
                     </View>
                 </View>
 
-                {seperator()}
+                <View style={{marginTop: '25px'}}>
+                    {seperator()}
+                </View>
 
                 <View style={styles.flexRow}>
                     <View style={[styles.section, styles.text]}>
