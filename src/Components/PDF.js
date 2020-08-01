@@ -209,7 +209,7 @@ function PDF(props) {
                     </View>
 
                     <View style={[styles.cell]}>
-                        <Text>KOLICINA</Text>
+                        <Text>KOLIČINA</Text>
                     </View>
 
                     <View style={[styles.cell]}>
