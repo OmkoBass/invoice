@@ -98,7 +98,7 @@ function History() {
                             }
                         })}/>
 
-                    <Row gutter={12}>
+                    <Row gutter={12} style={{margin: '1em 0 1em 0'}}>
                         <Col>
                             <Button
                                 onClick={() => setPdfData(selected[0])}
@@ -111,15 +111,21 @@ function History() {
                         <Col>
                             <Button
                                 onClick={() => {
+                                    //Delete from firebase
                                     selected.map(selected => {
                                         firebase.database().ref(`users/${currentUser.uid}/invoices/${selected.id}`).set(null)
-                                            .then(() => deleteNotification()).catch(() => failNotification());
-                                    })
+                                            .then().catch(() => failNotification());
+                                    });
+                                    deleteNotification();
+
+                                    //Update the table
+                                    setInvoices(invoices?.filter(invoice => {
+                                        selected.filter(data =>  data.id !== invoice.id ? invoice : null)
+                                    }))
                                 }}
                                 type='primary'
                                 danger
                                 disabled={selected?.length > 0 ? false : true}
-                                style={{marginBottom: '1em'}}
                             >
                                 Izbriši
                             </Button>
