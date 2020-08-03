@@ -49,7 +49,7 @@ function Invoice() {
 
         values.dateCreated = moment().format('DD.MM.YYYY:HH:mm');
         
-        firebase.database().ref(`users/${currentUser.uid}/invoices/${nanoid()}`).set(values)
+        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices/${nanoid()}`).set(values)
             .then(() => {
             }).catch(() => failNotification());
     }

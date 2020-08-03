@@ -48,7 +48,7 @@ function Invoicing() {
 
     useEffect(() => {
         if (currentUser !== null) {
-            firebase.database().ref(`users/${currentUser.uid}`).once('value')
+            firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}`).once('value')
                 .then(data => setProfileData(data.val()))
                 .then(() => setLoad(false))
                 .catch(() => setError(true));

@@ -46,14 +46,14 @@ function History() {
     ];
 
     useEffect(() => {
-        firebase.database().ref(`users/${currentUser.uid}/invoices`).once('value')
+        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices`).once('value')
             .then(data => {
                 if (data.val())
                     setInvoices(Object.entries(data.val()));
             })
             .then(() => setLoad(false))
             .catch(() => setError(true));
-    }, [currentUser.uid]);
+    }, [currentUser.email]);
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => setSelected(selectedRows)
