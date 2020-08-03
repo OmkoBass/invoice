@@ -28,6 +28,7 @@ function Profile() {
 
     // Saving
     const handleOnFinish = values => {
+        //If profile data is empty no need to check if the objects are the same
         if(!profileData) {
             firebase.database().ref(`users/${currentUser.uid}`).set(values)
                 .then(() => {
@@ -102,35 +103,79 @@ function Profile() {
                     />
                 </Form.Item>*/}
             <Form.Item name='fromName'
-                       label='Od'>
+                       label='Od'
+                       rules={[
+                           {
+                               required: true,
+                               message: 'Ne sme biti prazno!'
+                           }
+                       ]}
+            >
                 <Input/>
             </Form.Item>
             <Form.Item name='firmName'
-                       label='Ime firme'>
+                       label='Ime firme'
+                       rules={[
+                           {
+                               required: true,
+                               message: 'Ne sme biti prazno!'
+                           }
+                       ]}
+            >
                 <Input/>
             </Form.Item>
             <Form.Item name='street'
                        label='Ulica:'
+                       rules={[
+                           {
+                               required: true,
+                               message: 'Ne sme biti prazno!'
+                           }
+                       ]}
             >
                 <Input/>
             </Form.Item>
             <Form.Item name='city'
                        label='Grad:'
+                       rules={[
+                           {
+                               required: true,
+                               message: 'Ne sme biti prazno!'
+                           }
+                       ]}
             >
                 <Input/>
             </Form.Item>
             <Form.Item name='pib'
                        label='PIB:'
+                       rules={[
+                           {
+                               required: true,
+                               message: 'Ne sme biti prazno!'
+                           }
+                       ]}
             >
                 <Input/>
             </Form.Item>
             <Form.Item name='account'
                        label='ŽIRO RAČUN:'
+                       rules={[
+                           {
+                               required: true,
+                               message: 'Ne sme biti prazno!'
+                           }
+                       ]}
             >
                 <Input/>
             </Form.Item>
             <Form.Item name='email'
                        label='Email:'
+                       rules={[
+                           {
+                               required: true,
+                               message: 'Ne sme biti prazno!'
+                           }
+                       ]}
             >
                 <Input/>
             </Form.Item>
