@@ -343,6 +343,9 @@ function Invoice() {
                 </Col>
             </Row>
         </Form>
+        <Paragraph>
+            Samo potupne fakture će se čuvati.
+        </Paragraph>
         {
             pdfData
             ?
