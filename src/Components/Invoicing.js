@@ -53,7 +53,7 @@ function Invoicing() {
                 .then(() => setLoad(false))
                 .catch(() => setError(true));
         }
-    }, [currentUser]);
+    }, [currentUser, setProfileData]);
 
     if (!currentUser) {
         return <Redirect to='/'/>
