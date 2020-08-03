@@ -117,7 +117,7 @@ function History() {
                                 onClick={() => {
                                     //Delete from firebase
                                     selected.filter(selected =>
-                                        firebase.database().ref(`users/${currentUser.uid}/invoices/${selected.id}`).set(null)
+                                        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices/${selected.id}`).set(null)
                                             .then().catch(() => failNotification())
                                     );
                                     deleteNotification();
