@@ -28,17 +28,25 @@ function Profile() {
 
     // Saving
     const handleOnFinish = values => {
-        const formValues = Object.values(values).sort();
-        const propsData = Object.values(profileData).sort();
-
-        if(JSON.stringify(formValues) !== JSON.stringify(propsData)) {
+        if(!profileData) {
             firebase.database().ref(`users/${currentUser.uid}`).set(values)
                 .then(() => {
                     setProfileData(values);
                     successNotification();
                 }).catch(() => failNotification());
         } else {
-            sameDataNotification();
+            const formValues = Object.values(values).sort();
+            const propsData = Object?.values(profileData).sort();
+
+            if(JSON.stringify(formValues) !== JSON.stringify(propsData)) {
+                firebase.database().ref(`users/${currentUser.uid}`).set(values)
+                    .then(() => {
+                        setProfileData(values);
+                        successNotification();
+                    }).catch(() => failNotification());
+            } else {
+                sameDataNotification();
+            }
         }
     }
 
