@@ -286,6 +286,9 @@ function Invoice() {
                                                 if(services[index].amount && services[index].price) {
                                                     services[index].total = services[index].amount * services[index].price;
 
+                                                    if(isNaN(services[index].total))
+                                                        services[index].total = 0;
+
                                                     form.setFieldsValue({
                                                         services: services
                                                     });
