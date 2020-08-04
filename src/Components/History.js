@@ -75,7 +75,7 @@ function History() {
     return <div style={{minHeight: '80vh'}}>
         <Typography>
             <Typography.Title>Istorija</Typography.Title>
-            <Typography.Paragraph> Ovde mozete videti istoriju vasih faktura. </Typography.Paragraph>
+            <Typography.Paragraph> Ovde mozete videti istoriju vaših faktura. </Typography.Paragraph>
         </Typography>
         <Divider/>
         <div>
