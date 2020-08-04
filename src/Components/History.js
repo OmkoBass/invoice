@@ -78,65 +78,67 @@ function History() {
             <Typography.Paragraph> Ovde mozete videti istoriju vasih faktura. </Typography.Paragraph>
         </Typography>
         <Divider/>
-        {
-            error
-                ?
-                <ErrorResult/>
-                :
-                <div>
-                    <Table
-                        bordered
-                        rowSelection={rowSelection}
-                        loading={load}
-                        columns={columns}
-                        /*onRow={(record) => {
-                            return {
-                                onClick: _ => setPdfData(record)
-                            }
-                        }}*/
-                        dataSource={invoices?.map((invoice, index) => {
-                            return {
-                                ...invoice[1],
-                                key: index,
-                                id: invoice[0]
-                            }
-                        })}/>
+        <div style={{minHeight: '80vh'}}>
+            {
+                error
+                    ?
+                    <ErrorResult/>
+                    :
+                    <div>
+                        <Table
+                            bordered
+                            rowSelection={rowSelection}
+                            loading={load}
+                            columns={columns}
+                            /*onRow={(record) => {
+                                return {
+                                    onClick: _ => setPdfData(record)
+                                }
+                            }}*/
+                            dataSource={invoices?.map((invoice, index) => {
+                                return {
+                                    ...invoice[1],
+                                    key: index,
+                                    id: invoice[0]
+                                }
+                            })}/>
 
-                    <Row gutter={12} style={{margin: '1em 0 1em 0'}}>
-                        <Col>
-                            <Button
-                                onClick={() => setPdfData(selected[0])}
-                                type='primary'
-                                disabled={selected?.length === 1 ? false : true}
-                            >
-                                Prikaži
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button
-                                onClick={() => {
-                                    //Delete from firebase
-                                    selected.filter(selected =>
-                                        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices/${selected.id}`).set(null)
-                                            .then().catch(() => failNotification())
-                                    );
-                                    deleteNotification();
+                        <Row gutter={12} style={{margin: '1em 0 1em 0'}}>
+                            <Col>
+                                <Button
+                                    onClick={() => setPdfData(selected[0])}
+                                    type='primary'
+                                    disabled={selected?.length === 1 ? false : true}
+                                >
+                                    Prikaži
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button
+                                    onClick={() => {
+                                        //Delete from firebase
+                                        selected.filter(selected =>
+                                            firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices/${selected.id}`).set(null)
+                                                .then().catch(() => failNotification())
+                                        );
+                                        deleteNotification();
 
-                                    //Update the table
-                                    setInvoices(invoices?.filter(invoice => {
-                                        selected.filter(data => data.id !== invoice.id ? invoice : null)
-                                    }))
-                                }}
-                                type='primary'
-                                danger
-                                disabled={selected?.length > 0 ? false : true}
-                            >
-                                Izbriši
-                            </Button>
-                        </Col>
-                    </Row>
-                </div>
-        }
+                                        //Update the table
+                                        setInvoices(invoices?.filter(invoice => {
+                                            selected.filter(data => data.id !== invoice.id ? invoice : null)
+                                        }))
+                                    }}
+                                    type='primary'
+                                    danger
+                                    disabled={selected?.length > 0 ? false : true}
+                                >
+                                    Izbriši
+                                </Button>
+                            </Col>
+                        </Row>
+                    </div>
+            }
+        </div>
 
         {
             pdfData

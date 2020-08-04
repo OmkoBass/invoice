@@ -80,7 +80,7 @@ function Profile() {
         }
     }
 
-    return <div>
+    return <div style={{minHeight: '90vh'}}>
         <Typography>
             <Title>Vaš Profil</Title>
             <Paragraph>
