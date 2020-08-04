@@ -72,13 +72,13 @@ function History() {
         })
     }
 
-    return <div>
+    return <div style={{minHeight: '80vh'}}>
         <Typography>
             <Typography.Title>Istorija</Typography.Title>
             <Typography.Paragraph> Ovde mozete videti istoriju vasih faktura. </Typography.Paragraph>
         </Typography>
         <Divider/>
-        <div style={{minHeight: '80vh'}}>
+        <div>
             {
                 error
                     ?
@@ -123,10 +123,8 @@ function History() {
                                         );
                                         deleteNotification();
 
-                                        //Update the table
-                                        setInvoices(invoices?.filter(invoice => {
-                                            selected.filter(data => data.id !== invoice.id ? invoice : null)
-                                        }))
+                                        //Updating state
+                                        setInvoices(invoices.filter(invoice => selected.find(select => select.id !== invoice[0])));
                                     }}
                                     type='primary'
                                     danger
