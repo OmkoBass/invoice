@@ -21,6 +21,9 @@ function History() {
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
     const [selected, setSelected] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+
+    const defaultPageSize = 10;
 
     const columns = [
         {
@@ -46,14 +49,15 @@ function History() {
     ];
 
     useEffect(() => {
-        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices`).once('value')
+        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices`)
+            .orderByChild('dateCreated').limitToLast(pageNumber * defaultPageSize).once('value')
             .then(data => {
-                if (data.val())
+                if(data.val())
                     setInvoices(Object.entries(data.val()));
-            })
-            .then(() => setLoad(false))
-            .catch(() => setError(true));
-    }, [currentUser.email]);
+            }).then(() => {
+                setLoad(false);
+        }).catch(() => setError(true));
+    }, [defaultPageSize, currentUser.email, pageNumber]);
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => setSelected(selectedRows)
@@ -87,6 +91,12 @@ function History() {
                     <div>
                         <Table
                             bordered
+                            onChange={pagination => {
+                                if(pagination.current >= pageNumber * defaultPageSize) {
+                                    setPageNumber(pageNumber + 1);
+                                }
+                            }}
+                            pagination={{defaultPageSize: defaultPageSize - 1}}
                             rowSelection={rowSelection}
                             loading={load}
                             columns={columns}
