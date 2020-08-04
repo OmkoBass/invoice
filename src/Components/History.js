@@ -23,7 +23,7 @@ function History() {
     const [selected, setSelected] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
 
-    const defaultPageSize = 10;
+    const defaultPageSize = 25;
 
     const columns = [
         {
