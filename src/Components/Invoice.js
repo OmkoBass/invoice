@@ -47,7 +47,7 @@ function Invoice() {
         values.dateInvoice = moment(values.dateInvoice).format('DD.MM.YYYY');
         values.dateTraffic = moment(values.dateTraffic).format('DD.MM.YYYY');
 
-        values.dateCreated = moment().format('DD.MM.YYYY:HH:mm');
+        values.dateCreated = moment().format('DD.MM.YYYY HH:mm');
         
         firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices/${nanoid()}`).set(values)
             .then(() => {
