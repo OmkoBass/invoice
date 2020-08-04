@@ -24,6 +24,8 @@ function SiderMenu() {
     //For logout modal
     const [visibleModal, setVisibleModal] = useState(null);
 
+    const toTop = () => window.scrollTo(0, 0);
+
     return <div style={{position: 'sticky', top: '0'}}>
         <div>
             <img src={skyon} alt='skyon logo' style={logoStyle}/>
@@ -32,17 +34,26 @@ function SiderMenu() {
               defaultSelectedKeys={['1']}
         >
             <Menu.Item key="1"
-                       onClick={() => history.push('/invoice')}>
+                       onClick={() => {
+                           toTop();
+                           history.push('/invoice');
+                       }}>
                 <EditOutlined/>
                 <span>Fakture</span>
             </Menu.Item>
             <Menu.Item key="2"
-                       onClick={() => history.push('/invoice/profile')}>
+                       onClick={() => {
+                           toTop();
+                           history.push('/invoice/profile')
+                       }}>
                 <ProfileOutlined/>
                 <span>Profil</span>
             </Menu.Item>
             <Menu.Item key="3"
-                       onClick={() => history.push('/invoice/history')}>
+                       onClick={() => {
+                           toTop();
+                           history.push('/invoice/history')
+                       }}>
                 <HistoryOutlined />
                 <span>Istorija</span>
             </Menu.Item>
