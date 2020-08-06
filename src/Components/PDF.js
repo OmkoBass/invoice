@@ -13,8 +13,6 @@ function PDF(props) {
     // Register font
     Font.register({family: 'Poppins', src: Poppins});
 
-    console.log(props);
-
     const styles = StyleSheet.create({
         skyBlue: {
             color: '#37a3c7'
