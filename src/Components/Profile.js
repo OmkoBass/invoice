@@ -30,7 +30,7 @@ function Profile() {
     const handleOnFinish = values => {
         //If profile data is empty no need to check if the objects are the same
         if(!profileData) {
-            firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}`).set(values)
+            firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/profile`).set(values)
                 .then(() => {
                     setProfileData(values);
                     successNotification();
@@ -40,7 +40,7 @@ function Profile() {
             const propsData = Object?.values(profileData).sort();
 
             if(JSON.stringify(formValues) !== JSON.stringify(propsData)) {
-                firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}`).set(values)
+                firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/profile`).set(values)
                     .then(() => {
                         setProfileData(values);
                         successNotification();
