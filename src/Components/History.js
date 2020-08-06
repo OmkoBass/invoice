@@ -21,6 +21,7 @@ function History() {
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
     const [selected, setSelected] = useState(null);
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
 
     const defaultPageSize = 25;
@@ -52,16 +53,27 @@ function History() {
         firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices`)
             .orderByChild('dateCreated').limitToLast(pageNumber * defaultPageSize).once('value')
             .then(data => {
-                if(data.val())
+                if (data.val())
                     setInvoices(Object.entries(data.val()));
             }).then(() => {
-                setLoad(false);
+            setLoad(false);
         }).catch(() => setError(true));
     }, [defaultPageSize, currentUser.email, pageNumber]);
 
     const rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => setSelected(selectedRows)
+        selectedRowKeys,
+        onChange: (selectedRowKeys, selectedRows) => {
+            setSelected(selectedRows);
+            setSelectedRowKeys(selectedRowKeys);
+        }
     };
+
+    /*const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            setSelected(selectedRows);
+            setSelectedRowKeys(selectedRowKeys);
+        }
+    };*/
 
     const failNotification = () => {
         notification.error({
@@ -92,9 +104,8 @@ function History() {
                         <Table
                             bordered
                             onChange={pagination => {
-                                if(pagination.current >= pageNumber * defaultPageSize) {
+                                if (pagination.current >= pageNumber * defaultPageSize)
                                     setPageNumber(pageNumber + 1);
-                                }
                             }}
                             pagination={{defaultPageSize: defaultPageSize - 1}}
                             rowSelection={rowSelection}
@@ -116,9 +127,12 @@ function History() {
                         <Row gutter={12} style={{margin: '1em 0 1em 0'}}>
                             <Col>
                                 <Button
-                                    onClick={() => setPdfData(selected[0])}
+                                    onClick={() => {
+                                        setPdfData(selected[0]);
+                                        setSelectedRowKeys([])
+                                    }}
                                     type='primary'
-                                    disabled={selected?.length === 1 ? false : true}
+                                    disabled={selectedRowKeys?.length !== 1}
                                 >
                                     Prikaži
                                 </Button>
@@ -138,7 +152,7 @@ function History() {
                                     }}
                                     type='primary'
                                     danger
-                                    disabled={selected?.length > 0 ? false : true}
+                                    disabled={!selectedRowKeys?.length > 0}
                                 >
                                     Izbriši
                                 </Button>
