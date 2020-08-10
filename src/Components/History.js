@@ -31,7 +31,8 @@ function History() {
     // Won't send it's value on onChange
     const searchRef = useRef(null);
 
-    const defaultPageSize = 25;
+    // 21 = 20 will be displayed
+    const defaultPageSize = 21;
 
     const columns = [
         {
@@ -120,7 +121,7 @@ function History() {
                         <Table
                             bordered
                             onChange={pagination => {
-                                if (pagination.current >= pageNumber * defaultPageSize)
+                                if((pagination.current * pagination.defaultPageSize) >= defaultPageSize * pageNumber)
                                     setPageNumber(pageNumber + 1);
                             }}
                             pagination={{defaultPageSize: defaultPageSize - 1}}
@@ -145,7 +146,7 @@ function History() {
                                 <Button
                                     onClick={() => {
                                         setPdfData(selected[0]);
-                                        setSelectedRowKeys([])
+                                        setSelectedRowKeys([]);
                                     }}
                                     type='primary'
                                     disabled={selectedRowKeys?.length !== 1}
@@ -159,9 +160,11 @@ function History() {
                                         //Delete from firebase
                                         selected.filter(selected =>
                                             firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices/${selected.id}`).set(null)
-                                                .then().catch(() => failNotification())
+                                                .then(() => {
+                                                    setSelectedRowKeys([]);
+                                                    deleteNotification();
+                                                }).catch(() => failNotification())
                                         );
-                                        deleteNotification();
 
                                         //Updating state
                                         setInvoices(invoices.filter(invoice => selected.find(select => select.id !== invoice[0])));
