@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect, useContext, useRef} from 'react'
 
 //Firebase
 import firebase from "../firebase";
 
 //Ant components
-import {Table, Row, Col, Button, notification, Typography, Divider} from "antd";
+import {Table, Row, Col, Button, notification, Typography, Divider, Input} from "antd";
 
 //Context
 import {AuthContext} from "./Auth";
@@ -12,6 +12,9 @@ import {AuthContext} from "./Auth";
 //Components
 import PDF from "./PDF";
 import ErrorResult from "./Smaller/ErrorResult";
+
+//Debounce
+import {debounce} from 'lodash';
 
 function History() {
     const {currentUser} = useContext(AuthContext);
@@ -23,6 +26,10 @@ function History() {
     const [selected, setSelected] = useState(null);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
+
+    // Have to use this shit because ant fucking design
+    // Won't send it's value on onChange
+    const searchRef = useRef(null);
 
     const defaultPageSize = 25;
 
@@ -54,7 +61,7 @@ function History() {
             .orderByChild('dateCreated').limitToLast(pageNumber * defaultPageSize).once('value')
             .then(data => {
                 if (data.val())
-                    setInvoices(Object.entries(data.val()));
+                    setInvoices(Object.entries(data.val()).reverse());
             }).then(() => {
             setLoad(false);
         }).catch(() => setError(true));
@@ -101,6 +108,15 @@ function History() {
                     <ErrorResult/>
                     :
                     <div>
+                        <Input
+                            placeholder='Pretražite fakturu'
+                            allowClear
+                            ref={searchRef}
+                            style={{marginBottom: '1em'}}
+                            onChange={debounce(() => {
+                                console.log(searchRef.current.state.value);
+                            }, 500)}
+                        />
                         <Table
                             bordered
                             onChange={pagination => {
