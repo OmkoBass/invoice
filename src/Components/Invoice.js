@@ -17,9 +17,6 @@ import PDF from "./PDF";
 //Context
 import {AuthContext} from "./Auth";
 
-//Id generator
-import { nanoid } from "nanoid";
-
 //Moment for dates
 import moment from "moment";
 
@@ -49,7 +46,7 @@ function Invoice() {
 
         values.dateCreated = moment().format('DD.MM.YYYY HH:mm');
         
-        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices/${nanoid()}`).set(values)
+        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices`).push(values)
             .then(() => {
             }).catch(() => failNotification());
     }
