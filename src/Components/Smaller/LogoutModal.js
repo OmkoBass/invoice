@@ -3,8 +3,6 @@ import React from 'react'
 //Ant components
 import {Button, Col, Modal, Row} from "antd";
 
-import firebase from "../../firebase";
-
 function LogoutModal({ visible, callBack }) {
     return <Modal
         title='Jeste li sigurni da hocete da se odjavite?'
@@ -30,7 +28,7 @@ function LogoutModal({ visible, callBack }) {
                     type='danger'
                     size='large'
                     onClick={() => {
-                        firebase.auth().signOut();
+                        /*Logout*/
                     }}
                 >
                     Da

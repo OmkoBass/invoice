@@ -8,13 +8,11 @@ import {
     Redirect,
 } from "react-router-dom";
 
-//Context
-import { AuthProvider } from "./Components/Auth";
-
 //Ant css
 import 'antd/dist/antd.css';
 
 //Components
+import AuthProvider from "./Components/Auth";
 import LoginPage from "./Components/LoginPage";
 import Register from "./Components/Register";
 import Invoicing from "./Components/Invoicing";

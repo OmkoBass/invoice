@@ -1,13 +1,7 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 
-//Firebase
-import firebase from "../firebase";
-
 //Ant components
 import {Table, Row, Col, Button, notification, Typography, Divider, Input} from "antd";
-
-//Context
-import {AuthContext} from "./Auth";
 
 //Components
 import PDF from "./PDF";
@@ -17,8 +11,6 @@ import ErrorResult from "./Smaller/ErrorResult";
 import {debounce} from 'lodash';
 
 function History() {
-    const {currentUser} = useContext(AuthContext);
-
     const [invoices, setInvoices] = useState(null);
     const [pdfData, setPdfData] = useState(null);
     const [load, setLoad] = useState(true);
@@ -58,15 +50,8 @@ function History() {
     ];
 
     useEffect(() => {
-        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices`)
-            .orderByChild('dateCreated').limitToLast(pageNumber * defaultPageSize).once('value')
-            .then(data => {
-                if (data.val())
-                    setInvoices(Object.entries(data.val()).reverse());
-            }).then(() => {
-            setLoad(false);
-        }).catch(() => setError(true));
-    }, [defaultPageSize, currentUser.email, pageNumber]);
+
+    }, [defaultPageSize, pageNumber]);
 
     const rowSelection = {
         selectedRowKeys,
@@ -157,14 +142,8 @@ function History() {
                             <Col>
                                 <Button
                                     onClick={() => {
+                                        setSelectedRowKeys([]);
                                         //Delete from firebase
-                                        selected.filter(selected =>
-                                            firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices/${selected.id}`).set(null)
-                                                .then(() => {
-                                                    setSelectedRowKeys([]);
-                                                    deleteNotification();
-                                                }).catch(() => failNotification())
-                                        );
 
                                         //Updating state
                                         setInvoices(invoices.filter(invoice => selected.find(select => select.id !== invoice[0])));

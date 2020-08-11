@@ -3,9 +3,6 @@ import React, { useContext } from 'react'
 //Router
 import { useHistory, Redirect} from "react-router";
 
-//Firebase
-import firebase from '../firebase';
-
 //Ant Components
 import { Form, Input, Button, Layout, message, Divider} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -13,23 +10,14 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 //Skayon
 import skayon from '../Assets/skyondark.png'
 
-//Context
-import { AuthContext } from "./Auth";
-
 const { Content } = Layout;
 const { Password } = Input;
 
 function LoginPage() {
-    const { currentUser } = useContext(AuthContext);
-
     let history = useHistory();
 
-    if(currentUser) {
-        return <Redirect to='/invoice' />
-    }
-
     const onFinish = value => {
-        firebase.auth().signInWithEmailAndPassword(value.username, value.password).then().catch(() => failed());
+
     }
 
     //Failed message when input is bad

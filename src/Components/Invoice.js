@@ -1,9 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
 
-//firebase
-import * as firebase from 'firebase/app';
-import 'firebase/database';
-
 //Ant components
 import {Form, Input, Button, Divider, Typography, Row, Col, DatePicker, notification} from 'antd'
 
@@ -14,9 +10,6 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import FileUpload from "./FileUpload";
 import PDF from "./PDF";
 
-//Context
-import {AuthContext} from "./Auth";
-
 //Moment for dates
 import moment from "moment";
 
@@ -25,8 +18,6 @@ const { Title, Paragraph, Text } = Typography;
 function Invoice() {
     //Form ref
     let [form] = Form.useForm();
-
-    const {currentUser, profileData} = useContext(AuthContext);
 
     const [pdfData, setPdfData] = useState(null);
     const [img, setImg] = useState(null);
@@ -45,10 +36,8 @@ function Invoice() {
         values.dateTraffic = moment(values.dateTraffic).format('DD.MM.YYYY');
 
         values.dateCreated = moment().format('DD.MM.YYYY HH:mm');
-        
-        firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/invoices`).push(values)
-            .then(() => {
-            }).catch(() => failNotification());
+
+
     }
 
     function handleClear() {
@@ -87,7 +76,6 @@ function Invoice() {
               form={form}
               layout='horizontal'
               onFinish={handleFinish}
-              initialValues={profileData}
         >
             <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
                 <Col span={24} className='form-style'>

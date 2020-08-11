@@ -1,13 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 
-//firebase
-import * as firebase from 'firebase/app';
-import 'firebase/database';
-
-//Ant components
+//Ant Components
 import { Form, Button, Input, Typography, Divider, notification } from 'antd'
-
-import {AuthContext} from "./Auth";
 
 const {Title, Paragraph, Text} = Typography;
 
@@ -15,40 +9,11 @@ function Profile() {
     //Form ref
     let [form] = Form.useForm();
 
-    //So i know who the current user is
-    const {profileData, setProfileData, currentUser} = useContext(AuthContext);
-
     // const [img, setImg] = useState(null);
-
-    useEffect(() => {
-        if (profileData) {
-            form.setFieldsValue(profileData);
-        }
-    }, [form, profileData]);
 
     // Saving
     const handleOnFinish = values => {
-        //If profile data is empty no need to check if the objects are the same
-        if(!profileData) {
-            firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/profile`).set(values)
-                .then(() => {
-                    setProfileData(values);
-                    successNotification();
-                }).catch(() => failNotification());
-        } else {
-            const formValues = Object.values(values).sort();
-            const propsData = Object?.values(profileData).sort();
 
-            if(JSON.stringify(formValues) !== JSON.stringify(propsData)) {
-                firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/profile`).set(values)
-                    .then(() => {
-                        setProfileData(values);
-                        successNotification();
-                    }).catch(() => failNotification());
-            } else {
-                sameDataNotification();
-            }
-        }
     }
 
     const successNotification = () => {

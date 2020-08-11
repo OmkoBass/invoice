@@ -1,8 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
 
-//firebase
-import firebase from '../firebase';
-
 //Ant components
 import {Layout} from 'antd';
 
@@ -20,14 +17,9 @@ import ErrorResult from "./Smaller/ErrorResult";
 //Router
 import {Redirect, Switch, Route, useRouteMatch} from "react-router";
 
-//Context for authentication
-import {AuthContext} from "./Auth";
-
 const {Content, Sider} = Layout;
 
 function Invoicing() {
-    const {currentUser, setProfileData} = useContext(AuthContext);
-
     const { path } = useRouteMatch();
 
     //If this is true a different sider will be shown
@@ -45,19 +37,6 @@ function Invoicing() {
     //If this is true then we got the data we needed
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
-
-    useEffect(() => {
-        if (currentUser !== null) {
-            firebase.database().ref(`users/${currentUser.email.replace('.', 'DOT')}/profile`).once('value')
-                .then(data => setProfileData(data.val()))
-                .then(() => setLoad(false))
-                .catch(() => setError(true));
-        }
-    }, [currentUser, setProfileData]);
-
-    if (!currentUser) {
-        return <Redirect to='/'/>
-    }
 
     const handleBreakpoint = value => {
         if (value)

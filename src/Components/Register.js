@@ -3,17 +3,13 @@ import React, { useContext } from 'react'
 //Ant Components
 import {Layout, Form, Input, Button, Divider, notification} from 'antd';
 
+import axios from 'axios';
+
 //logo
 import skayondark from '../Assets/skyondark.png';
 
-//firebase
-import firebase from '../firebase';
-
 //router
 import { Redirect, useHistory } from "react-router";
-
-//Context for authentication
-import { AuthContext } from "./Auth";
 
 const {Content} = Layout;
 
@@ -25,12 +21,6 @@ function Register() {
 
     let history = useHistory();
 
-    const { currentUser } = useContext(AuthContext);
-
-    if (currentUser) {
-        return <Redirect to='/invoice'/>
-    }
-
     const alreadyExists = () => {
         notification.error({
             message: 'Greška!',
@@ -39,24 +29,39 @@ function Register() {
     }
 
     const handleFinish = value => {
-        firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
-            .then(() => {
-                history.push('/register/successful');
-            }).catch(() => alreadyExists());
+        axios.post(`http://localhost:5000/create/user`, {
+            email: value.email,
+            username: value.username,
+            password: value.password
+        }).then(res => {
+            if(res.data === 400) {
+                console.log('CREATING USER FAILED!');
+            } else {
+                console.log(res.data);
+            }
+        });
     }
 
     const handleValidatePassword = (rule, value) => {
-        if (value.length < 8) {
-            return Promise.reject('Minimalno 8 karaktera!');
+        if(!rule) {
+            return Promise.resolve();
+        } else {
+            if (value.length < 8) {
+                return Promise.reject('Minimalno 8 karaktera!');
+            }
+            return Promise.resolve();
         }
-        return Promise.resolve();
     }
 
     const handleValidateConfirmPassword = (rule, value) => {
-        if (value === form.getFieldValue('password')) {
+        if(!rule) {
             return Promise.resolve();
+        } else {
+            if (value === form.getFieldValue('password')) {
+                return Promise.resolve();
+            }
+            return Promise.reject('Lozinke moraju biti iste!');
         }
-        return Promise.reject('Lozinke moraju biti iste!');
     }
 
     const layout = {
