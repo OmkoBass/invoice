@@ -13,6 +13,8 @@ import { Redirect, useHistory } from "react-router";
 
 import DATABASE from "../Utils";
 
+import { AuthContext } from "./Auth";
+
 const {Content} = Layout;
 
 const {Password} = Input;
@@ -21,7 +23,12 @@ function Register() {
     //form ref
     let [form] = Form.useForm();
 
+    const { currentUser } = useContext(AuthContext);
+
     let history = useHistory();
+
+    if(currentUser)
+        return <Redirect to={'/invoice'}/>
 
     const alreadyExists = () => {
         notification.error({
