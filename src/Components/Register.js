@@ -26,7 +26,7 @@ function Register() {
     const alreadyExists = () => {
         notification.error({
             message: 'Greška!',
-            description: 'Email adresa je vec registorvana.'
+            description: 'Email adresa ili Korisničko je vec registorvano.'
         });
     }
 
@@ -37,7 +37,7 @@ function Register() {
             password: value.password
         }).then(res => {
             if(res.data === 400) {
-
+                alreadyExists();
             } else {
                 history.push('/register/successful');
             }
