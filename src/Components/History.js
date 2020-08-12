@@ -104,7 +104,14 @@ function History () {
                             ref={ searchRef }
                             style={ { marginBottom: '1em' } }
                             onChange={ debounce(() => {
-                                console.log(searchRef.current.state.value);
+                                axios.post(`${DATABASE}/search/invoices`, { invoice: searchRef.current.state.value })
+                                    .then(res => {
+                                        if(res.data === 400) {
+                                            setInvoices(null);
+                                        } else {
+                                            setInvoices(res.data);
+                                        }
+                                    })
                             }, 500) }
                         />
                         <Table
