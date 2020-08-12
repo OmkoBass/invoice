@@ -3,8 +3,6 @@ import React, {useContext, useEffect, useState} from 'react'
 //Ant components
 import {Layout} from 'antd';
 
-import axios from 'axios';
-
 //Components
 import Invoice from "./Invoice";
 import Profile from "./Profile";
@@ -20,7 +18,6 @@ import ErrorResult from "./Smaller/ErrorResult";
 import {Redirect, Switch, Route, useRouteMatch} from "react-router";
 
 import {AuthContext} from "./Auth";
-import DATABASE from "../Utils";
 
 const {Content, Sider} = Layout;
 
@@ -38,12 +35,8 @@ function Invoicing() {
     //Drawer for the sider
     const [drawer, setDrawer] = useState(false);
 
-    //If error happens i set this to true and show the error
-    //const [error, setError] = useState(false);
-
     //If this is true then we got the data we needed
     const [load, setLoad] = useState(true);
-    const [error, setError] = useState(false);
 
     useEffect(() => {
         if(!currentUser)
@@ -75,7 +68,15 @@ function Invoicing() {
             <HEADER mobile={mobile} callBack={() => setDrawer(!drawer)}/>
             <Content>
                 <div style={{padding: 24}}>
-                    {
+                    <Switch>
+                        <Route path={`${path}/profile`} component={() => <Profile/>}/>
+
+                        <Route path={`${path}/history`} component={() => <History/>}/>
+
+                        <Route path={`${path}`}
+                               component={() => load ? <Skeletons/> : <Invoice/>}/>
+                    </Switch>
+                    {/*{
                         error
                             ?
                             <ErrorResult/>
@@ -90,7 +91,7 @@ function Invoicing() {
                                            component={() => load ? <Skeletons/> : <Invoice/>}/>
                                 </Switch>
                             </div>
-                    }
+                    }*/}
                 </div>
             </Content>
             <FOOTER/>
