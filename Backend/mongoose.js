@@ -107,6 +107,17 @@ const deleteInvoices = async (req, res) => {
     });
 }
 
+const searchInvoices = async (req, res) => {
+    Invoice.find({ invoice: {'$regex': req.body.invoice, '$options': 'i'}})
+        .lean().exec((err, result) => {
+            if(err) {
+                res.json(400);
+            } else {
+                res.json(result);
+            }
+    })
+}
+
 exports.createUser = createUser;
 exports.loginUser = loginUser;
 exports.getUsers = getUsers;
@@ -114,3 +125,4 @@ exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;
 exports.getInvoicesForUser = getInvoicesForUser;
 exports.deleteInvoices = deleteInvoices;
+exports.searchInvoices = searchInvoices;
