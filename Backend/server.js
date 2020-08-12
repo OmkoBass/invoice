@@ -12,6 +12,7 @@ app.use(cors());
 app.post('/create/user', mongoose.createUser);
 app.post('/login/user', mongoose.loginUser);
 app.post('/create/invoice', mongoose.createInvoice);
+app.post('/get/invoices', mongoose.getInvoicesForUser);
 
 app.put('/update/user/profile', mongoose.updateUserProfile);
 

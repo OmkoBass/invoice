@@ -67,7 +67,7 @@ const updateUserProfile = async (req, res) => {
 
             res.json(result);
         }
-    })
+    });
 }
 
 const createInvoice = async (req, res) => {
@@ -81,8 +81,21 @@ const createInvoice = async (req, res) => {
        }
     });
 }
+
+const getInvoicesForUser = async (req, res) => {
+    Invoice.find({ belongsTo: {'$regex': req.body.username, '$options': 'i'}})
+        .lean().exec((err, result) => {
+        if(err) {
+            res.json(400);
+        } else {
+            res.json(result);
+        }
+    });
+}
+
 exports.createUser = createUser;
 exports.loginUser = loginUser;
 exports.getUsers = getUsers;
 exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;
+exports.getInvoicesForUser = getInvoicesForUser;
