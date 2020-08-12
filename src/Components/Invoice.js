@@ -13,6 +13,8 @@ import PDF from "./PDF";
 //Moment for dates
 import moment from "moment";
 
+import {AuthContext} from "./Auth";
+
 const { Title, Paragraph, Text } = Typography;
 
 function Invoice() {
@@ -22,12 +24,18 @@ function Invoice() {
     const [pdfData, setPdfData] = useState(null);
     const [img, setImg] = useState(null);
 
+    const { currentUser } = useContext(AuthContext);
+
     const failNotification = () => {
         notification.error({
             message: 'Greška!',
             description: 'Došlo je do greške pri čuvanju fakture.'
         });
     }
+
+    useEffect(() => {
+        form.setFieldsValue(currentUser.profile);
+    }, [currentUser.profile, form])
 
     const handleFinish = values => {
         setPdfData({...values, img});
