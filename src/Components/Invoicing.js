@@ -3,6 +3,8 @@ import React, {useContext, useEffect, useState} from 'react'
 //Ant components
 import {Layout} from 'antd';
 
+import axios from 'axios';
+
 //Components
 import Invoice from "./Invoice";
 import Profile from "./Profile";
@@ -18,6 +20,7 @@ import ErrorResult from "./Smaller/ErrorResult";
 import {Redirect, Switch, Route, useRouteMatch} from "react-router";
 
 import {AuthContext} from "./Auth";
+import DATABASE from "../Utils";
 
 const {Content, Sider} = Layout;
 
@@ -42,8 +45,13 @@ function Invoicing() {
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
 
-    if(!currentUser)
-        return <Redirect to='/login'/>
+    useEffect(() => {
+        if(!currentUser)
+            return <Redirect to='/login'/>
+        else {
+            setLoad(false);
+        }
+    }, [currentUser]);
 
     const handleBreakpoint = value => {
         if (value)
@@ -89,7 +97,6 @@ function Invoicing() {
         </Layout>
 
         <MobileDrawer visible={drawer} callBack={() => setDrawer(!drawer)}/>
-
     </Layout>
 }
 

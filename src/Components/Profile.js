@@ -3,17 +3,44 @@ import React, { useContext, useEffect } from 'react'
 //Ant Components
 import { Form, Button, Input, Typography, Divider, notification } from 'antd'
 
+import axios from 'axios';
+
+import {AuthContext} from "./Auth";
+import DATABASE from "../Utils";
+
 const {Title, Paragraph, Text} = Typography;
 
 function Profile() {
     //Form ref
     let [form] = Form.useForm();
 
+    const { currentUser, setCurrentUser } = useContext(AuthContext);
+
     // const [img, setImg] = useState(null);
+
+    useEffect(() => {
+        form.setFieldsValue(currentUser.profile);
+    }, [currentUser.profile, form])
 
     // Saving
     const handleOnFinish = values => {
-
+        axios.put(`${DATABASE}/update/user/profile`, {
+            id: currentUser._id,
+            account: values.account,
+            city: values.city,
+            email: values.email,
+            firmName: values.firmName,
+            fromName: values.fromName,
+            pib: values.pib,
+            street: values.street
+        }).then(res => {
+            if(res.data === 400) {
+                failNotification();
+            } else {
+                setCurrentUser(res.data);
+                successNotification();
+            }
+        }).catch(() => failNotification());
     }
 
     const successNotification = () => {

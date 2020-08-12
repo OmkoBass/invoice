@@ -27,11 +27,11 @@ html {
 .mobile-nav-icon {
     padding: 0.6em;
     font-size: 2em;
-    color: white;
+    color: white !important;
 }
 
 .mobile-nav-icon:hover {
-    color: #1890ff;
+    color: #1890ff !important;
     transition: 0.3s all ease-in-out;
 }
 
