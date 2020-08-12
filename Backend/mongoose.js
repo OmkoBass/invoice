@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const bcrypt = require('bcrypt');
 const User = require('./Models/User');
+const Invoice = require('./Models/Invoice');
 
 mongoose.connect('mongodb://127.0.0.1:27017/Invoice')
     .then(() => {
@@ -62,22 +63,26 @@ const updateUserProfile = async (req, res) => {
         if(err) {
             res.json(400);
         } else {
-            result.profile = {
-                account: req.body.account,
-                city: req.body.city,
-                email: req.body.email,
-                firmName: req.body.firmName,
-                fromName: req.body.fromName,
-                pib: req.body.pib,
-                street: req.body.street
-            }
+            result.profile = req.body.profile;
 
             res.json(result);
         }
     })
 }
 
+const createInvoice = async (req, res) => {
+    const createdInvoice = new Invoice(req.body.values);
+
+    createdInvoice.save((err, result) => {
+       if(err) {
+           res.json(400);
+       } else {
+           res.json(result);
+       }
+    });
+}
 exports.createUser = createUser;
 exports.loginUser = loginUser;
 exports.getUsers = getUsers;
 exports.updateUserProfile = updateUserProfile;
+exports.createInvoice = createInvoice;
