@@ -17,10 +17,14 @@ import ErrorResult from "./Smaller/ErrorResult";
 //Router
 import {Redirect, Switch, Route, useRouteMatch} from "react-router";
 
+import {AuthContext} from "./Auth";
+
 const {Content, Sider} = Layout;
 
 function Invoicing() {
     const { path } = useRouteMatch();
+
+    const { currentUser } = useContext(AuthContext);
 
     //If this is true a different sider will be shown
     const [mobile, setMobile] = useState(false);
@@ -37,6 +41,9 @@ function Invoicing() {
     //If this is true then we got the data we needed
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
+
+    if(!currentUser)
+        return <Redirect to='/login'/>
 
     const handleBreakpoint = value => {
         if (value)

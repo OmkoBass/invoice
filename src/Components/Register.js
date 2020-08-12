@@ -11,6 +11,8 @@ import skayondark from '../Assets/skyondark.png';
 //router
 import { Redirect, useHistory } from "react-router";
 
+import DATABASE from "../Utils";
+
 const {Content} = Layout;
 
 const {Password} = Input;
@@ -29,15 +31,15 @@ function Register() {
     }
 
     const handleFinish = value => {
-        axios.post(`http://localhost:5000/create/user`, {
+        axios.post(`${DATABASE}/create/user`, {
             email: value.email,
             username: value.username,
             password: value.password
         }).then(res => {
             if(res.data === 400) {
-                console.log('CREATING USER FAILED!');
+
             } else {
-                console.log(res.data);
+                history.push('/register/successful');
             }
         });
     }
@@ -91,6 +93,19 @@ function Register() {
                                 message: 'Unesite ispravan email!'
                             }
                         ]}>
+                        <Input/>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='username'
+                        label='Korisničko ime'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Korisničko ime ne sme biti prazno!'
+                            }
+                        ]}
+                    >
                         <Input/>
                     </Form.Item>
 

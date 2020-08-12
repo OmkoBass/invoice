@@ -28,7 +28,7 @@ function LogoutModal({ visible, callBack }) {
                     type='danger'
                     size='large'
                     onClick={() => {
-                        /*Logout*/
+                        localStorage.removeItem('User');
                     }}
                 >
                     Da

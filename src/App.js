@@ -11,6 +11,11 @@ import {
 //Ant css
 import 'antd/dist/antd.css';
 
+//css
+import './Styles/global.css';
+import './Styles/FileUpload.css';
+import './Styles/Footer.css';
+
 //Components
 import AuthProvider from "./Components/Auth";
 import LoginPage from "./Components/LoginPage";
@@ -18,11 +23,6 @@ import Register from "./Components/Register";
 import Invoicing from "./Components/Invoicing";
 import NotFound from "./Components/NotFound";
 import Success from "./Components/Success";
-
-//css
-import './Styles/global.css';
-import './Styles/FileUpload.css';
-import './Styles/Footer.css';
 
 function App() {
     return <AuthProvider>
