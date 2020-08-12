@@ -117,11 +117,6 @@ function History () {
                             rowSelection={ rowSelection }
                             loading={ load }
                             columns={ columns }
-                            /*onRow={(record) => {
-                                return {
-                                    onClick: _ => setPdfData(record)
-                                }
-                            }}*/
                             dataSource={ invoices?.map((invoice, index) => {
                                 return {
                                     ...invoice,
@@ -147,9 +142,17 @@ function History () {
                                     onClick={ () => {
                                         setSelectedRowKeys([]);
                                         //Delete from firebase
+                                        axios.put(`${ DATABASE }/delete/invoices`, {
+                                            ids: selected.map(invoice => invoice._id)
+                                        }).then(res => {
+                                            if (res.data === 200) {
+                                                deleteNotification();
+                                            } else {
+                                                console.log('FAIL!');
+                                            }
+                                        })
 
                                         //Updating state
-                                        setInvoices(invoices.filter(invoice => selected.find(select => select.id !== invoice[0])));
                                     } }
                                     type='primary'
                                     danger

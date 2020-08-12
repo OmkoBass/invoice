@@ -12,7 +12,6 @@ import FOOTER from "./Smaller/Footer";
 import SiderMenu from "./Smaller/SiderMenu";
 import MobileDrawer from "./Smaller/MobileDrawer";
 import Skeletons from "./Smaller/Skeletons";
-import ErrorResult from "./Smaller/ErrorResult";
 
 //Router
 import {Redirect, Switch, Route, useRouteMatch} from "react-router";
