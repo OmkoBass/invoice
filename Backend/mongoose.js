@@ -56,6 +56,28 @@ const getUsers = async (req, res) => {
     await res.json(users);
 }
 
+const updateUserProfile = async (req, res) => {
+    User.findById(req.body.id)
+        .lean().exec((err, result) => {
+        if(err) {
+            res.json(400);
+        } else {
+            result.profile = {
+                account: req.body.account,
+                city: req.body.city,
+                email: req.body.email,
+                firmName: req.body.firmName,
+                fromName: req.body.fromName,
+                pib: req.body.pib,
+                street: req.body.street
+            }
+
+            res.json(result);
+        }
+    })
+}
+
 exports.createUser = createUser;
 exports.loginUser = loginUser;
 exports.getUsers = getUsers;
+exports.updateUserProfile = updateUserProfile;
