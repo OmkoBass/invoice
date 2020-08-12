@@ -93,9 +93,24 @@ const getInvoicesForUser = async (req, res) => {
     });
 }
 
+const deleteInvoices = async (req, res) => {
+    await Invoice.deleteMany({
+        _id: {
+            $in: req.body.ids.map(id => id)
+        }
+    }, (err, result) => {
+        if(err) {
+            res.json(400);
+        } else {
+            res.json(200);
+        }
+    });
+}
+
 exports.createUser = createUser;
 exports.loginUser = loginUser;
 exports.getUsers = getUsers;
 exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;
 exports.getInvoicesForUser = getInvoicesForUser;
+exports.deleteInvoices = deleteInvoices;

@@ -15,6 +15,7 @@ app.post('/create/invoice', mongoose.createInvoice);
 app.post('/get/invoices', mongoose.getInvoicesForUser);
 
 app.put('/update/user/profile', mongoose.updateUserProfile);
+app.put('/delete/invoices', mongoose.deleteInvoices);
 
 app.listen(5000, () => {
     console.log('LISTENING AT PORT 5000');
