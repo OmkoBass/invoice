@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 //Router
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation} from 'react-router-dom';
 
 //Ant components
 import {Menu} from "antd";
@@ -20,9 +20,36 @@ const logoStyle = {
 
 function SiderMenu() {
     const history = useHistory();
+    const location = useLocation();
 
     //For logout modal
     const [visibleModal, setVisibleModal] = useState(null);
+
+    const [selectedKey, setSelectedKey] = useState('0');
+
+    let defaultKeys;
+
+    if (location.pathname === '/invoice') {
+        defaultKeys = '1';
+    } else if (location.pathname === '/invoice/profile') {
+        defaultKeys = '2';
+    } else if (location.pathname === '/invoice/history') {
+        defaultKeys = '3'
+    } else {
+        defaultKeys = '0';
+    }
+
+    useEffect(() => {
+        if (location.pathname === '/invoice') {
+            setSelectedKey('1');
+        } else if (location.pathname === '/invoice/profile') {
+            setSelectedKey('2');
+        } else if (location.pathname === '/invoice/history') {
+            setSelectedKey('3');
+        } else {
+            setSelectedKey('0');
+        }
+    }, [location])
 
     const toTop = () => window.scrollTo(0, 0);
 
@@ -32,6 +59,7 @@ function SiderMenu() {
         </div>
         <Menu theme="dark"
               defaultSelectedKeys={['1']}
+              selectedKeys={selectedKey}
         >
             <Menu.Item key="1"
                        onClick={() => {
