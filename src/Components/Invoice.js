@@ -15,6 +15,10 @@ import moment from "moment";
 
 import {AuthContext} from "./Auth";
 
+import axios from 'axios'
+
+import DATABASE from "../Utils";
+
 const { Title, Paragraph, Text } = Typography;
 
 function Invoice() {
@@ -44,8 +48,18 @@ function Invoice() {
         values.dateTraffic = moment(values.dateTraffic).format('DD.MM.YYYY');
 
         values.dateCreated = moment().format('DD.MM.YYYY HH:mm');
+        values.belongsTo = currentUser.username;
 
-
+        axios.post(`${DATABASE}/create/invoice`, {
+            values
+        }).then(res => {
+            if(res.data === 400) {
+                failNotification();
+            } else {
+                console.log('SAVED');
+                console.log(res.data);
+            }
+        })
     }
 
     function handleClear() {

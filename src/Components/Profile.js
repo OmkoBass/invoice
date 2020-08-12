@@ -26,13 +26,7 @@ function Profile() {
     const handleOnFinish = values => {
         axios.put(`${DATABASE}/update/user/profile`, {
             id: currentUser._id,
-            account: values.account,
-            city: values.city,
-            email: values.email,
-            firmName: values.firmName,
-            fromName: values.fromName,
-            pib: values.pib,
-            street: values.street
+            profile: values,
         }).then(res => {
             if(res.data === 400) {
                 failNotification();
