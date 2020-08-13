@@ -4,7 +4,12 @@ const bcrypt = require('bcrypt');
 const User = require('./Models/User');
 const Invoice = require('./Models/Invoice');
 
-mongoose.connect('mongodb://127.0.0.1:27017/Invoice')
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+
+dotenv.config();
+
+mongoose.connect(process.env.DB_CONNECT)
     .then(() => {
         console.log('CONNECTED!');
     }).catch(() => {
@@ -40,7 +45,11 @@ const loginUser = async (req, res) => {
             else {
                 try {
                     if(await bcrypt.compare(req.body.password, result.password)) {
-                        await res.json(result);
+                        const token = jwt.sign({
+                            user: result
+                        }, process.env.TOKEN_SECRET);
+
+                        res.header('token', token).send(token);
                     } else {
                         await res.json(401)
                     }
