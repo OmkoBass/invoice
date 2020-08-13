@@ -14,13 +14,15 @@ import MobileDrawer from "./Smaller/MobileDrawer";
 import Skeletons from "./Smaller/Skeletons";
 
 //Router
-import {Redirect, Switch, Route, useRouteMatch} from "react-router";
+import {Redirect, Switch, Route, useRouteMatch, useHistory} from "react-router";
 
 import {AuthContext} from "./Auth";
 
 const {Content, Sider} = Layout;
 
 function Invoicing() {
+    const history = useHistory();
+
     const { path } = useRouteMatch();
 
     const { currentUser } = useContext(AuthContext);
@@ -38,12 +40,12 @@ function Invoicing() {
     const [load, setLoad] = useState(true);
 
     useEffect(() => {
-        if(!currentUser)
-            return <Redirect to='/login'/>
+        if(currentUser === 401)
+            history.push('/');
         else {
             setLoad(false);
         }
-    }, [currentUser]);
+    }, [currentUser, history]);
 
     const handleBreakpoint = value => {
         if (value)

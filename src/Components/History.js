@@ -19,7 +19,7 @@ import { AuthContext } from "./Auth";
 function History () {
     const { currentUser } = useContext(AuthContext);
 
-    const [invoices, setInvoices] = useState(null);
+    const [invoices, setInvoices] = useState([]);
     const [pdfData, setPdfData] = useState(null);
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);

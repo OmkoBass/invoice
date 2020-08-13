@@ -26,8 +26,10 @@ function LoginPage() {
 
     const [canSend, setCanSend] = useState(false);
 
-    if(currentUser)
-        return <Redirect to='/invoice'/>
+    /*if(currentUser)
+        return <Redirect to='/invoice'/>*/
+
+    console.log(currentUser);
 
     const onFinish = value => {
         axios.post(`${DATABASE}/login/user`, {

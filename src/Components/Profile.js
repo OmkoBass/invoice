@@ -27,6 +27,10 @@ function Profile() {
         axios.put(`${DATABASE}/update/user/profile`, {
             id: currentUser._id,
             profile: values,
+        }, {
+            headers: {
+                token: currentUser
+            }
         }).then(res => {
             if(res.data === 400) {
                 failNotification();
