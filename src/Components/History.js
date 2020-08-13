@@ -58,8 +58,10 @@ function History () {
     ];
 
     useEffect(() => {
-        axios.post(`${ DATABASE }/get/invoices`, {
-            username: currentUser.username
+        axios.post(`${ DATABASE }/get/invoices`, {}, {
+            headers: {
+                token: currentUser
+            }
         }).then(res => {
             if (res.data === 400) {
                 setInvoices(null);
@@ -69,7 +71,7 @@ function History () {
         }).then(() => setLoad(false)).catch(() => {
             setError(true);
         })
-    }, [currentUser.username]);
+    }, []);
 
     const rowSelection = {
         selectedRowKeys,
@@ -104,7 +106,11 @@ function History () {
                             ref={ searchRef }
                             style={ { marginBottom: '1em' } }
                             onChange={ debounce(() => {
-                                axios.post(`${DATABASE}/search/invoices`, { invoice: searchRef.current.state.value })
+                                axios.post(`${DATABASE}/search/invoices`, { invoice: searchRef.current.state.value }, {
+                                    headers: {
+                                        token: currentUser
+                                    }
+                                })
                                     .then(res => {
                                         if(res.data === 400) {
                                             setInvoices(null);

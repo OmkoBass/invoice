@@ -3,6 +3,9 @@ import React, { useContext, useEffect } from 'react'
 //Ant Components
 import { Form, Button, Input, Typography, Divider, notification } from 'antd'
 
+//Router
+import { useHistory } from "react-router";
+
 import axios from 'axios';
 
 import {AuthContext} from "./Auth";
@@ -14,19 +17,28 @@ function Profile() {
     //Form ref
     let [form] = Form.useForm();
 
-    const { currentUser, setCurrentUser } = useContext(AuthContext);
+    const history = useHistory();
+
+    const { currentUser } = useContext(AuthContext);
 
     // const [img, setImg] = useState(null);
 
     useEffect(() => {
-        form.setFieldsValue(currentUser.profile);
-    }, [currentUser.profile, form])
+        axios.get(`${DATABASE}/user/profile`, {
+            headers: {
+                token: currentUser
+            }
+        }).then(res => {
+            form.setFieldsValue(res.data);
+        }).catch(err => {
+            /*ERROR*/
+        });
+    }, []);
 
     // Saving
     const handleOnFinish = values => {
         axios.put(`${DATABASE}/update/user/profile`, {
-            id: currentUser._id,
-            profile: values,
+            profile: values
         }, {
             headers: {
                 token: currentUser
@@ -34,8 +46,12 @@ function Profile() {
         }).then(res => {
             if(res.data === 400) {
                 failNotification();
-            } else {
-                setCurrentUser(res.data);
+            } else if(res.data === 401) {
+                history.push('/');
+            }
+            else {
+                console.log(res.data);
+                form.setFieldsValue(res.data);
                 successNotification();
             }
         }).catch(() => failNotification());

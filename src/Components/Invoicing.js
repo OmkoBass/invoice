@@ -3,6 +3,8 @@ import React, {useContext, useEffect, useState} from 'react'
 //Ant components
 import {Layout} from 'antd';
 
+import axios from 'axios';
+
 //Components
 import Invoice from "./Invoice";
 import Profile from "./Profile";
@@ -17,6 +19,7 @@ import Skeletons from "./Smaller/Skeletons";
 import {Redirect, Switch, Route, useRouteMatch, useHistory} from "react-router";
 
 import {AuthContext} from "./Auth";
+import DATABASE from "../Utils";
 
 const {Content, Sider} = Layout;
 
@@ -39,13 +42,16 @@ function Invoicing() {
     //If this is true then we got the data we needed
     const [load, setLoad] = useState(true);
 
-    useEffect(() => {
-        if(currentUser === 401)
+    if(!currentUser)
+        return <Redirect to='/'/>
+
+    /*useEffect(() => {
+        if(currentUser === null)
             history.push('/');
         else {
             setLoad(false);
         }
-    }, [currentUser, history]);
+    }, [currentUser, history]);*/
 
     const handleBreakpoint = value => {
         if (value)
@@ -74,8 +80,7 @@ function Invoicing() {
 
                         <Route path={`${path}/history`} component={() => <History/>}/>
 
-                        <Route path={`${path}`}
-                               component={() => load ? <Skeletons/> : <Invoice/>}/>
+                        <Route path={`${path}`} component={Invoice}/>
                     </Switch>
                     {/*{
                         error

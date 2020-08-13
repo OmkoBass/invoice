@@ -30,12 +30,24 @@ function Invoice () {
 
     const { currentUser } = useContext(AuthContext);
 
-    const failNotification = () => {
+    useEffect(() => {
+        axios.get(`${DATABASE}/user/profile`, {
+            headers: {
+                token: currentUser
+            }
+        }).then(res => {
+            form.setFieldsValue(res.data);
+        }).catch(err => {
+            /*ERROR*/
+        });
+    }, []);
+
+    /*const failNotification = () => {
         notification.error({
             message: 'Greška!',
             description: 'Došlo je do greške pri čuvanju fakture.'
         });
-    }
+    }*/
 
     useEffect(() => {
         form.setFieldsValue(currentUser.profile);
@@ -48,9 +60,14 @@ function Invoice () {
         values.dateTraffic = moment(values.dateTraffic).format('DD.MM.YYYY');
 
         values.dateCreated = moment().format('DD.MM.YYYY HH:mm');
-        values.belongsTo = currentUser.username;
 
-        axios.post(`${ DATABASE }/create/invoice`, { values }).then(_ => { });
+        axios.post(`${ DATABASE }/create/invoice`, { values },
+            {
+                headers: {
+                    token: currentUser
+                }
+            }
+        ).then(_ => { });
     }
 
     function handleClear () {
