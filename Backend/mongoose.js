@@ -46,7 +46,8 @@ const loginUser = async (req, res) => {
                 try {
                     if(await bcrypt.compare(req.body.password, result.password)) {
                         const token = jwt.sign({
-                            user: result
+                            _id: result._id,
+                            username: result.username
                         }, process.env.TOKEN_SECRET);
 
                         res.header('token', token).send(token);
@@ -66,21 +67,30 @@ const getUsers = async (req, res) => {
     await res.json(users);
 }
 
+const getUserProfile = async (req, res) => {
+    User.findById(req.user._id)
+        .lean().exec((err, result) => {
+            if(err) {
+                res.json(400);
+            } else {
+                res.json(result.profile);
+            }
+    })
+}
+
 const updateUserProfile = async (req, res) => {
-    User.findById(req.body.id)
+    User.updateOne({_id: req.user._id}, {profile: req.body.profile})
         .lean().exec((err, result) => {
         if(err) {
             res.json(400);
         } else {
-            result.profile = req.body.profile;
-
-            res.json(result);
+            res.json(result.profile);
         }
     });
 }
 
 const createInvoice = async (req, res) => {
-    const createdInvoice = new Invoice(req.body.values);
+    const createdInvoice = new Invoice({...req.body.values, belongsTo: req.user.username});
 
     createdInvoice.save((err, result) => {
        if(err) {
@@ -92,7 +102,7 @@ const createInvoice = async (req, res) => {
 }
 
 const getInvoicesForUser = async (req, res) => {
-    Invoice.find({ belongsTo: {'$regex': req.body.username, '$options': 'i'}})
+    Invoice.find({ belongsTo: {'$regex': req.user.username, '$options': 'i'}})
         .lean().exec((err, result) => {
         if(err) {
             res.json(400);
@@ -130,6 +140,7 @@ const searchInvoices = async (req, res) => {
 exports.createUser = createUser;
 exports.loginUser = loginUser;
 exports.getUsers = getUsers;
+exports.getUserProfile = getUserProfile;
 exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;
 exports.getInvoicesForUser = getInvoicesForUser;
