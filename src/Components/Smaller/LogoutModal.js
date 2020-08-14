@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
+
+//React router
+import { useHistory } from "react-router";
 
 //Ant components
 import {Button, Col, Modal, Row} from "antd";
 
+import { AuthContext } from "../Auth";
+
 function LogoutModal({ visible, callBack }) {
+    const history = useHistory();
+
+    const { setCurrentUser } = useContext(AuthContext);
+
     return <Modal
         title='Jeste li sigurni da hocete da se odjavite?'
         footer={false}
@@ -29,6 +38,8 @@ function LogoutModal({ visible, callBack }) {
                     size='large'
                     onClick={() => {
                         localStorage.removeItem('User');
+                        setCurrentUser(null);
+                        history.push('/');
                     }}
                 >
                     Da
