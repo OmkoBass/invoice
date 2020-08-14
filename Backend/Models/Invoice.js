@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const invoiceSchema = mongoose.Schema({
     belongsTo: { type: String , ref: 'User', required: true },
@@ -26,5 +27,7 @@ const invoiceSchema = mongoose.Schema({
         unit: { type: String, max: 32, required: true }
     }]
 });
+
+invoiceSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Invoice', invoiceSchema);

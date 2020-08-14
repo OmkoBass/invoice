@@ -12,6 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
+app.get('/get/invoices/:defaultPage/:pageNumber', verifyToken, mongoose.invoicesPaginate);
 
 app.post('/create/user', mongoose.createUser);
 app.post('/login/user', mongoose.loginUser);

@@ -7,6 +7,8 @@ const Invoice = require('./Models/Invoice');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 
+const PAGE_SIZE = 25;
+
 dotenv.config();
 
 mongoose.connect(process.env.DB_CONNECT)
@@ -102,12 +104,25 @@ const createInvoice = async (req, res) => {
 }
 
 const getInvoicesForUser = async (req, res) => {
-    Invoice.find({ belongsTo: {'$regex': req.user.username, '$options': 'i'}})
+    Invoice.find({ belongsTo: {'$regex': req.user.username, '$options': 'i'}}).limit(PAGE_SIZE)
         .lean().exec((err, result) => {
         if(err) {
             res.json(400);
         } else {
             res.json(result);
+        }
+    });
+}
+
+const invoicesPaginate = async (req, res) => {
+    Invoice.paginate({belongsTo: req.user.username}, {
+        offset: req.params.defaultPage * req.params.pageNumber,
+        limit: req.params.defaultPage * req.params.pageNumber + 1
+    }, (err, result) => {
+        if(err) {
+            res.json(400);
+        } else {
+            res.json(result.docs);
         }
     });
 }
@@ -144,5 +159,6 @@ exports.getUserProfile = getUserProfile;
 exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;
 exports.getInvoicesForUser = getInvoicesForUser;
+exports.invoicesPaginate = invoicesPaginate;
 exports.deleteInvoices = deleteInvoices;
 exports.searchInvoices = searchInvoices;
