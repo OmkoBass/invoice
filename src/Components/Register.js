@@ -27,8 +27,8 @@ function Register() {
 
     let history = useHistory();
 
-    /*if(currentUser)
-        return <Redirect to={'/invoice'}/>*/
+    if(currentUser)
+        return <Redirect to='/invoice'/>
 
     const alreadyExists = () => {
         notification.error({
