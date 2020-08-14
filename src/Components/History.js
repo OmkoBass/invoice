@@ -32,7 +32,7 @@ function History () {
     const searchRef = useRef(null);
 
     // 21 = 20 will be displayed
-    const defaultPageSize = 21;
+    const defaultPageSize = 25;
 
     const columns = [
         {
@@ -64,7 +64,7 @@ function History () {
             }
         }).then(res => {
             if (res.data === 400) {
-                setInvoices(null);
+                setInvoices([]);
             } else {
                 setInvoices(res.data);
             }
@@ -106,29 +106,42 @@ function History () {
                             ref={ searchRef }
                             style={ { marginBottom: '1em' } }
                             onChange={ debounce(() => {
-                                axios.post(`${DATABASE}/search/invoices`, { invoice: searchRef.current.state.value }, {
+                                axios.post(`${ DATABASE }/search/invoices`, { invoice: searchRef.current.state.value }, {
                                     headers: {
                                         token: currentUser
                                     }
                                 })
                                     .then(res => {
-                                        if(res.data === 400) {
-                                            setInvoices(null);
+                                        if (res.data === 400) {
+                                            setInvoices([]);
                                         } else {
                                             setInvoices(res.data);
                                         }
                                     })
-                            }, 500) }
+                            }, 1000) }
                         />
                         <Table
                             bordered
+                            loading={load}
                             onChange={ pagination => {
-                                if ((pagination.current * pagination.defaultPageSize) >= defaultPageSize * pageNumber)
+                                if ((pagination.current * pagination.defaultPageSize) >= defaultPageSize * pageNumber) {
                                     setPageNumber(pageNumber + 1);
+
+                                    axios.get(`${ DATABASE }/get/invoices/${defaultPageSize}/${pageNumber}`, {
+                                        headers: {
+                                            token: currentUser
+                                        }
+                                    }).then(res => {
+                                        if (res.data === 400) {
+
+                                        } else {
+                                            setInvoices([...invoices, ...res.data]);
+                                        }
+                                    });
+                                }
                             } }
                             pagination={ { defaultPageSize: defaultPageSize - 1 } }
                             rowSelection={ rowSelection }
-                            loading={ load }
                             columns={ columns }
                             dataSource={ invoices?.map((invoice, index) => {
                                 return {
