@@ -27,7 +27,7 @@ function SiderMenu() {
 
     const [selectedKey, setSelectedKey] = useState('0');
 
-    let defaultKeys;
+    /*let defaultKeys;
 
     if (location.pathname === '/invoice') {
         defaultKeys = '1';
@@ -37,7 +37,7 @@ function SiderMenu() {
         defaultKeys = '3'
     } else {
         defaultKeys = '0';
-    }
+    }*/
 
     useEffect(() => {
         if (location.pathname === '/invoice') {
