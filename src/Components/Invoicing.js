@@ -65,22 +65,6 @@ function Invoicing() {
 
                         <Route path={`${path}`} component={Invoice}/>
                     </Switch>
-                    {/*{
-                        error
-                            ?
-                            <ErrorResult/>
-                            :
-                            <div>
-                                <Switch>
-                                    <Route path={`${path}/profile`} component={() => <Profile/>}/>
-
-                                    <Route path={`${path}/history`} component={() => <History/>}/>
-
-                                    <Route path={`${path}`}
-                                           component={() => load ? <Skeletons/> : <Invoice/>}/>
-                                </Switch>
-                            </div>
-                    }*/}
                 </div>
             </Content>
             <FOOTER/>
