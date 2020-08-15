@@ -170,9 +170,15 @@ function History () {
                                         //Delete from firebase
                                         axios.put(`${ DATABASE }/delete/invoices`, {
                                             ids: selected.map(invoice => invoice._id)
+                                        }, {
+                                            headers: {
+                                                token: currentUser
+                                            }
                                         }).then(res => {
+                                            console.log(res.data);
                                             if (res.data === 200) {
                                                 deleteNotification();
+                                                setInvoices(invoices.filter(invoice => !selected.map(remove => remove._id).includes(invoice._id)));
                                             } else {
                                                 console.log('FAIL!');
                                             }
