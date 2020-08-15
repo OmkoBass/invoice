@@ -20,7 +20,7 @@ mongoose.connect(process.env.DB_CONNECT)
 });
 
 // ADMIN
-const loginAdmin = async (req, res) => {
+const createAdmin = async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -38,6 +38,30 @@ const loginAdmin = async (req, res) => {
     } catch {
         await res.json(500);
     }
+}
+
+const loginAdmin = async (req, res) => {
+    User.findOne({ username: req.body.username })
+        .lean().exec(async (err, result) => {
+        if(err)
+            await res.json(500);
+        else {
+            try {
+                if(await bcrypt.compare(req.body.password, result.password)) {
+                    const token = jwt.sign({
+                        _id: result._id,
+                        username: result.username
+                    }, process.env.TOKEN_SECRET);
+
+                    res.header('token', token).send(token);
+                } else {
+                    await res.json(401)
+                }
+            } catch {
+                await res.json(400);
+            }
+        }
+    })
 }
 
 const getUsers = async (req, res) => {
@@ -194,6 +218,7 @@ const searchInvoices = async (req, res) => {
 // Admin
 exports.getUsers = getUsers;
 exports.getInvoices = getInvoices;
+exports.createAdmin = createAdmin;
 exports.loginAdmin = loginAdmin;
 
 exports.createUser = createUser;

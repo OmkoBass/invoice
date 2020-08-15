@@ -17,6 +17,7 @@ app.get('/get/admin', (req, res) => {
 })
 app.get('/get/admin/users', mongoose.getUsers);
 app.get('/get/admin/invoices', mongoose.getInvoices);
+app.post('/create/admin', mongoose.createAdmin);
 app.post('/login/admin', mongoose.loginAdmin);
 
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
