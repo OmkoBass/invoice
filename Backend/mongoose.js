@@ -133,7 +133,7 @@ const deleteInvoices = async (req, res) => {
             $in: req.body.ids.map(id => id)
         }
     }, (err, result) => {
-        if(err) {
+        if (err) {
             res.json(400);
         } else {
             res.json(200);
