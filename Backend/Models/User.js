@@ -27,8 +27,7 @@ const userSchema = mongoose.Schema({
         fromName: { type: String, max: 128 },
         pib: { type: String, max: 128 },
         street: { type: String, max: 128 }
-    },
-    invoices: [{ type: mongoose.Types.ObjectId , ref: 'Invoice' }]
+    }
 })
 
 module.exports = mongoose.model('User', userSchema);

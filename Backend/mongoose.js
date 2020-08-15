@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('./Models/User');
 const Invoice = require('./Models/Invoice');
+const Admin = require('./Models/Admin');
 
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
@@ -17,6 +18,39 @@ mongoose.connect(process.env.DB_CONNECT)
     }).catch(() => {
     console.log('CONNECTION FAILED!');
 });
+
+// ADMIN
+const loginAdmin = async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        const createAdmin = new Admin({
+           username: req.body.username,
+           password: hashedPassword
+        });
+
+        createAdmin.save((err, result) => {
+           if(err)
+               res.json(400);
+           else
+               res.json(result);
+        });
+    } catch {
+        await res.json(500);
+    }
+}
+
+const getUsers = async (req, res) => {
+    const users = await User.find().exec();
+
+    await res.json(users);
+}
+
+const getInvoices = async (req, res) => {
+    const invoices = await Invoice.find().exec();
+
+    await res.json(invoices);
+}
 
 const createUser = async (req, res) => {
     try {
@@ -61,12 +95,6 @@ const loginUser = async (req, res) => {
                 }
             }
     })
-}
-
-const getUsers = async (req, res) => {
-    const users = await User.find().exec();
-
-    await res.json(users);
 }
 
 const getUserProfile = async (req, res) => {
@@ -163,9 +191,13 @@ const searchInvoices = async (req, res) => {
     })
 }
 
+// Admin
+exports.getUsers = getUsers;
+exports.getInvoices = getInvoices;
+exports.loginAdmin = loginAdmin;
+
 exports.createUser = createUser;
 exports.loginUser = loginUser;
-exports.getUsers = getUsers;
 exports.getUserProfile = getUserProfile;
 exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;

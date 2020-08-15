@@ -11,9 +11,16 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Admin
+app.get('/get/admin', (req, res) => {
+    res.json(200);
+})
+app.get('/get/admin/users', mongoose.getUsers);
+app.get('/get/admin/invoices', mongoose.getInvoices);
+app.post('/login/admin', mongoose.loginAdmin);
+
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
 app.get('/get/invoices/:defaultPage/:pageNumber', verifyToken, mongoose.invoicesPaginate);
-app.get('/get/user/all', verifyToken, mongoose.getUsers);
 
 app.post('/create/user', mongoose.createUser);
 app.post('/login/user', mongoose.loginUser);
