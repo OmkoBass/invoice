@@ -8,6 +8,7 @@ import { Button, Col, Divider, Result, Row } from 'antd';
 
 //Illustration
 import complete from "../Assets/success.png";
+import LazyImage from "./Smaller/LazyImage";
 
 function Success() {
     let history = useHistory();
@@ -20,11 +21,16 @@ function Success() {
         extra={[
             <Row justify='center' key={1}>
                 <Col xl={12} lg={18} xs={24}>
-                    <img style={{width: '90%'}} src={complete} alt='success'/>
+                    <LazyImage
+                        src={complete}
+                        alt='success'
+                        style={{width: '100%'}}
+                    />
                 </Col>
             </Row>,
             <Divider key={2}/>,
             <Button key={3}
+                    className='button-green'
                     type='primary'
                     size='large'
                     onClick={() => history.push('/')}>

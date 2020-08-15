@@ -14,6 +14,7 @@ import { Redirect, useHistory } from "react-router";
 import DATABASE from "../Utils";
 
 import { AuthContext } from "./Auth";
+import LazyImage from "./Smaller/LazyImage";
 
 const {Content} = Layout;
 
@@ -81,7 +82,11 @@ function Register() {
     return <Layout>
         <Content style={{height: '100vh'}}>
             <div className='login'>
-                <img src={skayondark} alt='skayon logo' style={{width: '100%'}}/>
+                <LazyImage
+                    src={skayondark}
+                    alt='skayon logo'
+                    style={{ width: '100%'}}
+                />
                 <Form {...layout}
                       form={form}
                       name='register'

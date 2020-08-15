@@ -11,6 +11,7 @@ import notFound from '../Assets/404.png'
 
 //skayon
 import skayon from '../Assets/skyonlight.png'
+import LazyImage from "./Smaller/LazyImage";
 
 const { Header, Content } = Layout
 
@@ -31,7 +32,11 @@ function NotFound() {
                 extra={[
                     <Row justify='center' key={1}>
                         <Col xl={12} lg={18} xs={24}>
-                            <img style={{width: '100%'}} src={notFound} alt='not found'/>
+                            <LazyImage
+                                src={notFound}
+                                alt='Not found'
+                                style={{width: '100%'}}
+                            />
                         </Col>
                     </Row>,
                     <Button key={2}

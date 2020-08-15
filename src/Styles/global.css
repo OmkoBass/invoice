@@ -34,6 +34,16 @@ html {
     color: #1890ff !important;
     transition: 0.3s all ease-in-out;
 }
+.button-green .ant-btn-primary {
+    background-color: #52c41a;
+    border-color: #52c41a;
+    transition: 0.3s all ease-in-out;
+}
+
+.button-green .ant-btn-primary:hover {
+    background-color: #71e539;
+    border-color: #71e539;
+}
 
 @media only screen and (max-width: 1286px) {
     .pdfviewer {
