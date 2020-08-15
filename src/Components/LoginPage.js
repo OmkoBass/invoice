@@ -9,6 +9,9 @@ import axios from 'axios';
 import { Form, Input, Button, Layout, message, Divider} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 //Skayon
 import skayon from '../Assets/skyondark.png'
 
@@ -49,7 +52,13 @@ function LoginPage() {
     return <Layout>
         <Content style={{height: '100vh'}}>
             <div className='login'>
-                <img src={skayon} alt='skayon logo' style={{width: '100%'}}/>
+                <LazyLoadImage
+                    src={skayon}
+                    alt='skayon logo'
+                    effect='blur'
+                    placeholderSrc={skayon}
+                    style={{width: '100%', height: '100%'}}
+                />
                 <Form
                     name="login"
                     initialValues={{ remember: true }}
