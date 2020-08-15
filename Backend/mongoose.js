@@ -114,6 +114,17 @@ const getInvoicesForUser = async (req, res) => {
     });
 }
 
+const getAllInvoicesForUser = async (req, res) => {
+    Invoice.find({ belongsTo: {'$regex': req.user.username, '$options': 'i'}}).limit(PAGE_SIZE)
+        .lean().exec((err, result) => {
+        if(err) {
+            res.json(400);
+        } else {
+            res.json(result);
+        }
+    });
+}
+
 const invoicesPaginate = async (req, res) => {
     Invoice.paginate({belongsTo: req.user.username}, {
         offset: req.params.defaultPage * req.params.pageNumber,
@@ -159,6 +170,7 @@ exports.getUserProfile = getUserProfile;
 exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;
 exports.getInvoicesForUser = getInvoicesForUser;
+exports.getAllInvoicesForUser = getAllInvoicesForUser;
 exports.invoicesPaginate = invoicesPaginate;
 exports.deleteInvoices = deleteInvoices;
 exports.searchInvoices = searchInvoices;

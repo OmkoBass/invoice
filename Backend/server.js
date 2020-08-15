@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
 app.get('/get/invoices/:defaultPage/:pageNumber', verifyToken, mongoose.invoicesPaginate);
+app.get('/get/user/all', verifyToken, mongoose.getUsers);
 
 app.post('/create/user', mongoose.createUser);
 app.post('/login/user', mongoose.loginUser);
