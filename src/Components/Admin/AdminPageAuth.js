@@ -8,7 +8,6 @@ const AdminPageAuth = {
             username: username,
             password: password
         }).then(res => {
-            console.log(res);
             if(res.data === 401 || res.data === 400)
                 throw new Error('Check your credentials')
 
