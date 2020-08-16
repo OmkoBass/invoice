@@ -27,6 +27,18 @@ const DataProvider = {
                 }
             });
     },
+    getOne: (resource, params) => {
+        return axios.get(`${DATABASE}/get/admin/${resource}/${params}`, {
+            headers: {
+                token: localStorage.getItem('username')
+            }
+        })
+            .then(res => {
+                if(res.data) {
+                    return { data: {...res.data, id: res.data._id } }
+                }
+            })
+    }
 }
 
 export default DataProvider;
