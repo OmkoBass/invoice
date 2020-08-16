@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import DATABASE from "../Utils";
+import DATABASE from "../../Utils";
 
 const AdminPageAuth = {
     login: ({ username, password }) =>  {

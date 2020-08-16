@@ -18,7 +18,7 @@ import Register from "./Components/Register";
 import Invoicing from "./Components/Invoicing";
 import NotFound from "./Components/NotFound";
 import Success from "./Components/Success";
-import AdminPage from "./Components/AdminPage";
+import AdminPage from "./Components/Admin/AdminPage";
 
 //css
 import './Styles/global.css';
