@@ -1,4 +1,3 @@
-import React from 'react'
 import axios from "axios";
 
 import DATABASE from "../../Utils";
@@ -11,9 +10,8 @@ const DataProvider = {
             }
         })
             .then(res => {
-                console.log(res);
                 if(res.data) {
-                    return { data: res.data, total: res.data.length }
+                    return { data: res.data.map(one => ({...one, id: one._id })), total: res.data.length }
                 }
             })
     },
@@ -25,7 +23,7 @@ const DataProvider = {
         })
             .then(res => {
                 if(res.data) {
-                    return { data: res.data }
+                    return { data: res.data.map(one => ({...one, id: one._id })) }
                 }
             });
     },
