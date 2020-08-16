@@ -15,8 +15,8 @@ app.use(bodyParser.json());
 app.get('/get/admin', (req, res) => {
     res.json(200);
 })
-app.get('/get/admin/users', mongoose.getUsers);
-app.get('/get/admin/invoices', mongoose.getInvoices);
+app.get('/get/admin/users', verifyToken, mongoose.getUsers);
+app.get('/get/admin/invoices', verifyToken, mongoose.getInvoices);
 app.post('/create/admin', mongoose.createAdmin);
 app.post('/login/admin', mongoose.loginAdmin);
 

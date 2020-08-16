@@ -41,7 +41,7 @@ const createAdmin = async (req, res) => {
 }
 
 const loginAdmin = async (req, res) => {
-    User.findOne({ username: req.body.username })
+    Admin.findOne({ username: req.body.username })
         .lean().exec(async (err, result) => {
         if(err)
             await res.json(500);
