@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {List, Datagrid, TextField, ReferenceField, EmailField, NumberField } from 'react-admin';
+import {List, Datagrid, TextField, EmailField } from 'react-admin';
 
 export default function UserList(props) {
     return <List {...props}>
