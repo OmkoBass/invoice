@@ -25,15 +25,15 @@ const createAdmin = async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
         const createAdmin = new Admin({
-           username: req.body.username,
-           password: hashedPassword
+            username: req.body.username,
+            password: hashedPassword
         });
 
         createAdmin.save((err, result) => {
-           if(err)
-               res.json(400);
-           else
-               res.json(result);
+            if (err)
+                res.json(400);
+            else
+                res.json(result);
         });
     } catch {
         await res.json(500);
@@ -43,11 +43,11 @@ const createAdmin = async (req, res) => {
 const loginAdmin = async (req, res) => {
     Admin.findOne({ username: req.body.username })
         .lean().exec(async (err, result) => {
-        if(err)
+        if (err)
             await res.json(500);
         else {
             try {
-                if(await bcrypt.compare(req.body.password, result.password)) {
+                if (await bcrypt.compare(req.body.password, result.password)) {
                     const token = jwt.sign({
                         _id: result._id,
                         username: result.username
@@ -77,15 +77,37 @@ const getInvoices = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
-    const user = await User.find( req.params._id ).exec();
+    const user = await User.find(req.params._id).exec();
 
     await res.json(user);
 }
 
 const getInvoice = async (req, res) => {
-    const invoice = await Invoice.find( req.params._id).exec();
+    const invoice = await Invoice.find(req.params._id).exec();
 
     await res.json(invoice);
+}
+
+const updateUser = async (req, res) => {
+    User.updateOne({ _id: req.params.id }, { user: req.body })
+        .lean().exec((err, result) => {
+        if (err) {
+            res.json(400);
+        } else {
+            res.json(result);
+        }
+    });
+}
+
+const deleteUser = async (req, res) => {
+    User.delete( {_id: req.params.id} )
+        .lean().exec((err, result) => {
+            if(err) {
+                res.json(400);
+            } else {
+                res.json(result);
+            }
+    })
 }
 
 // REGULAR
@@ -101,7 +123,7 @@ const createUser = async (req, res) => {
         });
 
         createdUser.save((err, result) => {
-            if(err)
+            if (err)
                 res.json(400);
             else
                 res.json(result);
@@ -114,42 +136,42 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
     User.findOne({ username: req.body.username })
         .lean().exec(async (err, result) => {
-            if(err)
-                await res.json(500);
-            else {
-                try {
-                    if(await bcrypt.compare(req.body.password, result.password)) {
-                        const token = jwt.sign({
-                            _id: result._id,
-                            username: result.username
-                        }, process.env.TOKEN_SECRET);
+        if (err)
+            await res.json(500);
+        else {
+            try {
+                if (await bcrypt.compare(req.body.password, result.password)) {
+                    const token = jwt.sign({
+                        _id: result._id,
+                        username: result.username
+                    }, process.env.TOKEN_SECRET);
 
-                        res.header('token', token).send(token);
-                    } else {
-                        await res.json(401)
-                    }
-                } catch {
-                    await res.json(400);
+                    res.header('token', token).send(token);
+                } else {
+                    await res.json(401)
                 }
+            } catch {
+                await res.json(400);
             }
+        }
     })
 }
 
 const getUserProfile = async (req, res) => {
     User.findById(req.user._id)
         .lean().exec((err, result) => {
-            if(err) {
-                res.json(400);
-            } else {
-                res.json(result.profile);
-            }
-    })
+        if (err) {
+            res.json(400);
+        } else {
+            res.json(result.profile);
+        }
+    });
 }
 
 const updateUserProfile = async (req, res) => {
-    User.updateOne({_id: req.user._id}, {profile: req.body.profile})
+    User.updateOne({ _id: req.user._id }, { profile: req.body.profile })
         .lean().exec((err, result) => {
-        if(err) {
+        if (err) {
             res.json(400);
         } else {
             res.json(result.profile);
@@ -158,21 +180,21 @@ const updateUserProfile = async (req, res) => {
 }
 
 const createInvoice = async (req, res) => {
-    const createdInvoice = new Invoice({...req.body.values, belongsTo: req.user.username});
+    const createdInvoice = new Invoice({ ...req.body.values, belongsTo: req.user.username });
 
     createdInvoice.save((err, result) => {
-       if(err) {
-           res.json(400);
-       } else {
-           res.json(result);
-       }
+        if (err) {
+            res.json(400);
+        } else {
+            res.json(result);
+        }
     });
 }
 
 const getInvoicesForUser = async (req, res) => {
-    Invoice.find({ belongsTo: {'$regex': req.user.username, '$options': 'i'}}).limit(PAGE_SIZE)
+    Invoice.find({ belongsTo: { '$regex': req.user.username, '$options': 'i' } }).limit(PAGE_SIZE)
         .lean().exec((err, result) => {
-        if(err) {
+        if (err) {
             res.json(400);
         } else {
             res.json(result);
@@ -181,9 +203,9 @@ const getInvoicesForUser = async (req, res) => {
 }
 
 const getAllInvoicesForUser = async (req, res) => {
-    Invoice.find({ belongsTo: {'$regex': req.user.username, '$options': 'i'}}).limit(PAGE_SIZE)
+    Invoice.find({ belongsTo: { '$regex': req.user.username, '$options': 'i' } }).limit(PAGE_SIZE)
         .lean().exec((err, result) => {
-        if(err) {
+        if (err) {
             res.json(400);
         } else {
             res.json(result);
@@ -192,11 +214,11 @@ const getAllInvoicesForUser = async (req, res) => {
 }
 
 const invoicesPaginate = async (req, res) => {
-    Invoice.paginate({belongsTo: req.user.username}, {
+    Invoice.paginate({ belongsTo: req.user.username }, {
         offset: req.params.defaultPage * req.params.pageNumber,
         limit: req.params.defaultPage * req.params.pageNumber + 1
     }, (err, result) => {
-        if(err) {
+        if (err) {
             res.json(400);
         } else {
             res.json(result.docs);
@@ -219,13 +241,13 @@ const deleteInvoices = async (req, res) => {
 }
 
 const searchInvoices = async (req, res) => {
-    Invoice.find({ invoice: {'$regex': req.body.invoice, '$options': 'i'}})
+    Invoice.find({ invoice: { '$regex': req.body.invoice, '$options': 'i' } })
         .lean().exec((err, result) => {
-            if(err) {
-                res.json(400);
-            } else {
-                res.json(result);
-            }
+        if (err) {
+            res.json(400);
+        } else {
+            res.json(result);
+        }
     })
 }
 
@@ -236,6 +258,8 @@ exports.createAdmin = createAdmin;
 exports.loginAdmin = loginAdmin;
 exports.getUser = getUser;
 exports.getInvoice = getInvoice;
+exports.updateUser = updateUser;
+exports.deleteUser = deleteUser;
 
 exports.createUser = createUser;
 exports.loginUser = loginUser;
