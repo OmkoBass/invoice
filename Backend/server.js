@@ -17,8 +17,11 @@ app.get('/get/admin', (req, res) => {
 })
 app.get('/get/admin/users', verifyToken, mongoose.getUsers);
 app.get('/get/admin/invoices', verifyToken, mongoose.getInvoices);
+app.get('/get/admin/users/:id', verifyToken, mongoose.getUser);
+app.get('/get/admin/invoices/:id', verifyToken, mongoose.getInvoice);
 app.post('/create/admin', mongoose.createAdmin);
 app.post('/login/admin', mongoose.loginAdmin);
+
 
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
 app.get('/get/invoices/:defaultPage/:pageNumber', verifyToken, mongoose.invoicesPaginate);

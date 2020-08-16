@@ -76,6 +76,20 @@ const getInvoices = async (req, res) => {
     await res.json(invoices);
 }
 
+const getUser = async (req, res) => {
+    const user = await User.find( req.params._id ).exec();
+
+    await res.json(user);
+}
+
+const getInvoice = async (req, res) => {
+    const invoice = await Invoice.find( req.params._id).exec();
+
+    await res.json(invoice);
+}
+
+// REGULAR
+
 const createUser = async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -220,6 +234,8 @@ exports.getUsers = getUsers;
 exports.getInvoices = getInvoices;
 exports.createAdmin = createAdmin;
 exports.loginAdmin = loginAdmin;
+exports.getUser = getUser;
+exports.getInvoice = getInvoice;
 
 exports.createUser = createUser;
 exports.loginUser = loginUser;
