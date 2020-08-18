@@ -5,13 +5,18 @@ import { Admin, Resource, EditGuesser } from "react-admin";
 import UserList from "./UserList";
 import { UserEdit } from "./UserEdit";
 import { InvoiceList } from "./InvoiceList";
+import Dashboard from "./Dashboard";
 
 import DataProvider from "./DataProvider";
 
 import AdminPageAuth from "./AdminPageAuth";
 
 function AdminPage() {
-    return <Admin dataProvider={DataProvider} authProvider={AdminPageAuth}>
+    return <Admin
+        dataProvider={DataProvider}
+        authProvider={AdminPageAuth}
+        dashboard={Dashboard}
+    >
         <Resource name='users' list={UserList} edit={UserEdit}/>
         <Resource name='invoices' list={InvoiceList}/>
     </Admin>
