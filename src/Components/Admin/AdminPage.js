@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { Admin, Resource, EditGuesser } from "react-admin";
+import { Admin, Resource } from "react-admin";
 
+import Dashboard from "./Dashboard";
 import UserList from "./UserList";
 import { UserEdit } from "./UserEdit";
 import { InvoiceList } from "./InvoiceList";
-import Dashboard from "./Dashboard";
+import { InvoiceEdit } from "./InvoiceEdit";
 
 import DataProvider from "./DataProvider";
 
@@ -18,7 +19,7 @@ function AdminPage() {
         dashboard={Dashboard}
     >
         <Resource name='users' list={UserList} edit={UserEdit}/>
-        <Resource name='invoices' list={InvoiceList}/>
+        <Resource name='invoices' list={InvoiceList} edit={InvoiceEdit}/>
     </Admin>
 }
 
