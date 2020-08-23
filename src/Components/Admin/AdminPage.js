@@ -3,8 +3,9 @@ import React from 'react'
 import { Admin, Resource } from "react-admin";
 
 import Dashboard from "./Dashboard";
-import UserList from "./UserList";
-import { UserEdit } from "./UserEdit";
+import UserList from "./User/UserList";
+import { UserEdit } from "./User/UserEdit";
+import { UserCreate } from "./User/UserCreate";
 import { InvoiceList } from "./InvoiceList";
 import { InvoiceEdit } from "./InvoiceEdit";
 
@@ -18,7 +19,7 @@ function AdminPage() {
         authProvider={AdminPageAuth}
         dashboard={Dashboard}
     >
-        <Resource name='users' list={UserList} edit={UserEdit}/>
+        <Resource name='users' list={UserList} create={UserCreate} edit={UserEdit}/>
         <Resource name='invoices' list={InvoiceList} edit={InvoiceEdit}/>
     </Admin>
 }

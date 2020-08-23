@@ -70,6 +70,19 @@ const DataProvider = {
     },
     deleteMany: (resource, params) => {
 
+    },
+    create: (resource, params) => {
+        return axios.post(`${DATABASE}/post/admin/create/user`, {
+            user: params.data
+        }, {
+            headers: {
+                token: localStorage.getItem('username')
+            }
+        }).then(res => {
+            if (res.data) {
+                return { data: { ...res.data, id: res.data._id } }
+            }
+        })
     }
 }
 
