@@ -6,8 +6,8 @@ import Dashboard from "./Dashboard";
 import UserList from "./User/UserList";
 import { UserEdit } from "./User/UserEdit";
 import { UserCreate } from "./User/UserCreate";
-import { InvoiceList } from "./InvoiceList";
-import { InvoiceEdit } from "./InvoiceEdit";
+import { InvoiceList } from "./Invoice/InvoiceList";
+import { InvoiceEdit } from "./Invoice/InvoiceEdit";
 
 import DataProvider from "./DataProvider";
 
