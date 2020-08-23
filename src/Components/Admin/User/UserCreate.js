@@ -1,13 +1,16 @@
 import React from 'react'
 
-import { Create, SimpleForm, TextInput } from 'react-admin';
+import { Create, SimpleForm, TextInput, required, minLength, email } from 'react-admin';
+
+const validatePassword = [required(), minLength(8)];
+const validateEmail = [required(), email()];
 
 export const UserCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="username" required />
-            <TextInput source="email" required />
-            <TextInput source="password" required />
+            <TextInput source="username" validate={[required()]} />
+            <TextInput source="email" validate={validateEmail} />
+            <TextInput source="password" validate={validatePassword} />
             <TextInput label="From" source="profile.fromName" />
             <TextInput label="Firm" source="profile.firmName" />
             <TextInput label="Street" source="profile.street" />
