@@ -14,10 +14,14 @@ import Typography from 'antd/lib/typography';
 import notification from 'antd/lib/notification';
 
 import DATABASE from "../Utils";
+import ClientModal from "./Smaller/ClientModa";
 
 function Clients () {
     const [clients, setClients] = useState([]);
+    const [selectedClient, setSelectedClient] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [clientModal, setClientModal] = useState(false);
+
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
@@ -142,6 +146,10 @@ function Clients () {
             renderItem={ item => (
                 <List.Item style={ { padding: '1em' } }>
                     <List.Item.Meta
+                        onClick={() => {
+                            setSelectedClient(item);
+                            setClientModal(true);
+                        }}
                         style={{cursor: 'pointer'}}
                         description={ <div>
                             <Row justify='space-between'>
@@ -175,6 +183,8 @@ function Clients () {
                 </List.Item>
             ) }
         />
+
+        <ClientModal visible={clientModal} client={selectedClient} callBack={() => setClientModal(false)}/>
     </div>
 }
 

@@ -211,7 +211,7 @@ const createClient = async (req, res) => {
 }
 
 const updateClient = async (req, res) => {
-    Client.updateOne({ _id: req.clientId }, req.body.client )
+    Client.updateOne({ _id: req.body.clientId }, req.body.client )
         .lean().exec((err, result) => {
             if (err) {
                 res.json(400);
