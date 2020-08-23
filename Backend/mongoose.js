@@ -110,6 +110,24 @@ const deleteUser = async (req, res) => {
     })
 }
 
+const createUserFromAdmin = async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.user.password, 10);
+
+        const createdUser = new User({...req.body.user, password: hashedPassword });
+
+        createdUser.save((err, result) => {
+            if (err)
+                res.json(400);
+            else {
+                res.json(result);
+            }
+        });
+    } catch {
+        await res.json(500);
+    }
+}
+
 // REGULAR
 
 const createUser = async (req, res) => {
@@ -260,6 +278,7 @@ exports.getUser = getUser;
 exports.getInvoice = getInvoice;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
+exports.createUserFromAdmin = createUserFromAdmin;
 
 exports.createUser = createUser;
 exports.loginUser = loginUser;

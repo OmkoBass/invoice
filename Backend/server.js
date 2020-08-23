@@ -23,6 +23,7 @@ app.post('/create/admin', mongoose.createAdmin);
 app.post('/login/admin', mongoose.loginAdmin);
 app.put('/put/admin/users/:id', verifyToken, mongoose.updateUser);
 app.delete('/delete/admin/users/:id', verifyToken, mongoose.deleteUser);
+app.post('/post/admin/create/user', verifyToken, mongoose.createUserFromAdmin);
 
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
 app.get('/get/invoices/:defaultPage/:pageNumber', verifyToken, mongoose.invoicesPaginate);
