@@ -6,6 +6,7 @@ import {Layout} from 'antd';
 //Components
 import Invoice from "./Invoice";
 import Profile from "./Profile";
+import Clients from "./Clients";
 import History from "./History";
 import HEADER from "./Smaller/Header";
 import FOOTER from "./Smaller/Footer";
@@ -60,6 +61,8 @@ function Invoicing() {
                 <div style={{padding: 24}}>
                     <Switch>
                         <Route path={`${path}/profile`} component={() => <Profile/>}/>
+
+                        <Route path={`${path}/clients`} component={() => <Clients/>}/>
 
                         <Route path={`${path}/history`} component={() => <History/>}/>
 

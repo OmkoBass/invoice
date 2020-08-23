@@ -25,16 +25,21 @@ app.put('/put/admin/users/:id', verifyToken, mongoose.updateUser);
 app.delete('/delete/admin/users/:id', verifyToken, mongoose.deleteUser);
 app.post('/post/admin/create/user', verifyToken, mongoose.createUserFromAdmin);
 
+// Regular
+
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
+app.get('/user/clients', verifyToken, mongoose.getUserClients);
 app.get('/get/invoices/:defaultPage/:pageNumber', verifyToken, mongoose.invoicesPaginate);
 
 app.post('/create/user', mongoose.createUser);
+app.post('/create/client', verifyToken, mongoose.createClient);
 app.post('/login/user', mongoose.loginUser);
 app.post('/create/invoice',verifyToken, mongoose.createInvoice);
 app.post('/get/invoices', verifyToken, mongoose.getInvoicesForUser);
 app.post('/search/invoices', verifyToken, mongoose.searchInvoices);
 
 app.put('/update/user/profile', verifyToken, mongoose.updateUserProfile);
+app.put('/update/user/client', verifyToken, mongoose.updateClient);
 app.put('/delete/invoices', verifyToken, mongoose.deleteInvoices);
 
 app.listen(5000, () => {

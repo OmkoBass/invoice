@@ -7,7 +7,7 @@ import { useHistory, useLocation} from 'react-router-dom';
 import {Menu} from "antd";
 
 //Ant icons
-import {EditOutlined, LogoutOutlined, ProfileOutlined, HistoryOutlined} from "@ant-design/icons";
+import {EditOutlined, LogoutOutlined, ProfileOutlined, HistoryOutlined, UserAddOutlined } from "@ant-design/icons";
 
 import skyon from "../../Assets/skyonlight.png";
 import LogoutModal from "./LogoutModal";
@@ -46,7 +46,10 @@ function SiderMenu() {
             setSelectedKey('2');
         } else if (location.pathname === '/invoice/history') {
             setSelectedKey('3');
-        } else {
+        } else if (location.pathname === '/invoice/clients') {
+            setSelectedKey('5');
+        }
+        else {
             setSelectedKey('0');
         }
     }, [location])
@@ -76,6 +79,15 @@ function SiderMenu() {
                        }}>
                 <ProfileOutlined/>
                 <span>Profil</span>
+            </Menu.Item>
+            <Menu.Item key="5"
+                    onClick={() => {
+                        toTop();
+                        history.push('/invoice/clients');
+                    }}
+            >
+                <UserAddOutlined />
+                <span> Klijenti </span>
             </Menu.Item>
             <Menu.Item key="3"
                        onClick={() => {

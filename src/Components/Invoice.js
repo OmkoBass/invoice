@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 //Ant components
-import { Form, Input, Button, Divider, Typography, Row, Col, DatePicker } from 'antd'
+import { Form, Input, Button, Divider, Typography, Row, Col, DatePicker, AutoComplete } from 'antd'
 
 //Ant icons
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -27,6 +27,7 @@ function Invoice () {
 
     const [pdfData, setPdfData] = useState(null);
     const [img, setImg] = useState(null);
+    const [clients, setClients] = useState([]);
 
     const { currentUser } = useContext(AuthContext);
 
@@ -42,16 +43,24 @@ function Invoice () {
         });
     }, []);
 
+    useEffect(() => {
+        axios.get(`${DATABASE}/user/clients`, {
+            headers: {
+                token: currentUser
+            }
+        }).then(res => {
+            if(res.data !== 400) {
+                setClients(res.data);
+            }
+        });
+    }, []);
+
     /*const failNotification = () => {
         notification.error({
             message: 'Greška!',
             description: 'Došlo je do greške pri čuvanju fakture.'
         });
     }*/
-
-    useEffect(() => {
-        form.setFieldsValue(currentUser.profile);
-    }, [currentUser.profile, form])
 
     const handleFinish = values => {
         setPdfData({ ...values, img });
@@ -199,6 +208,27 @@ function Invoice () {
             <Row justify='center' style={ { maxWidth: '960px', margin: 'auto' } }>
                 <Col span={ 24 } className='form-style'>
                     <Col><Title>Kome</Title></Col>
+
+                    <Form.Item name='client'
+                               label='Klijent:'
+                    >
+                        <AutoComplete
+                            placeholder='Izaberite klijenta'
+                            onChange={value => {
+                                /*What the fuck*/
+                                const searchedClient = clients.filter(client => client._id === value.split(' ')[value.split(' ').length - 1]);
+
+                                form.setFieldsValue({
+                                    toName: searchedClient[0].toName,
+                                    toAddress: searchedClient[0].toAddress,
+                                    toCity: searchedClient[0].toCity,
+                                    toPib: searchedClient[0].toPib
+                                })
+                            }}
+                            options={clients.map(client => ({ value: `${client.toName} ${client._id}` }))}
+                        />
+                    </Form.Item>
+
                     <Divider/>
                     <Form.Item name='toName'
                                label='Komitet:'>

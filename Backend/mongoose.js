@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const bcrypt = require('bcrypt');
 const User = require('./Models/User');
+const Client = require('./Models/Client');
 const Invoice = require('./Models/Invoice');
 const Admin = require('./Models/Admin');
 
@@ -100,13 +101,13 @@ const updateUser = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    User.delete( {_id: req.params.id} )
+    User.delete({ _id: req.params.id })
         .lean().exec((err, result) => {
-            if(err) {
-                res.json(400);
-            } else {
-                res.json(result);
-            }
+        if (err) {
+            res.json(400);
+        } else {
+            res.json(result);
+        }
     })
 }
 
@@ -114,7 +115,7 @@ const createUserFromAdmin = async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.user.password, 10);
 
-        const createdUser = new User({...req.body.user, password: hashedPassword });
+        const createdUser = new User({ ...req.body.user, password: hashedPassword });
 
         createdUser.save((err, result) => {
             if (err)
@@ -186,6 +187,40 @@ const getUserProfile = async (req, res) => {
     });
 }
 
+const getUserClients = async (req, res) => {
+    Client.find({ belongsTo: { '$regex': req.user.username, '$options': 'i' } })
+        .lean().exec((err, result) => {
+        if (err) {
+            res.json(400);
+        } else {
+            res.json(result);
+        }
+    });
+}
+
+const createClient = async (req, res) => {
+    const createdClient = new Client({ ...req.body.values, belongsTo: req.user.username });
+
+    createdClient.save((err, result) => {
+        if (err) {
+            res.json(400);
+        } else {
+            res.json(result);
+        }
+    });
+}
+
+const updateClient = async (req, res) => {
+    Client.updateOne({ _id: req.clientId }, req.body.client )
+        .lean().exec((err, result) => {
+            if (err) {
+                res.json(400);
+            } else {
+                res.json(result);
+            }
+    })
+}
+
 const updateUserProfile = async (req, res) => {
     User.updateOne({ _id: req.user._id }, { profile: req.body.profile })
         .lean().exec((err, result) => {
@@ -253,7 +288,7 @@ const deleteInvoices = async (req, res) => {
         if (err) {
             res.json(400);
         } else {
-            res.json(200);
+            res.json(result);
         }
     });
 }
@@ -281,8 +316,11 @@ exports.deleteUser = deleteUser;
 exports.createUserFromAdmin = createUserFromAdmin;
 
 exports.createUser = createUser;
+exports.createClient = createClient;
 exports.loginUser = loginUser;
 exports.getUserProfile = getUserProfile;
+exports.updateClient = updateClient;
+exports.getUserClients = getUserClients;
 exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;
 exports.getInvoicesForUser = getInvoicesForUser;
