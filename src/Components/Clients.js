@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { AuthContext } from "./Auth";
 
@@ -7,12 +7,30 @@ import axios from 'axios';
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
+import List from 'antd/lib/list'
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 import Typography from 'antd/lib/typography';
-import DATABASE from "../Utils";
-import { notification } from "antd";
+import notification from 'antd/lib/notification';
 
-function Clients() {
+import DATABASE from "../Utils";
+
+function Clients () {
+    const [clients, setClients] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { currentUser } = useContext(AuthContext);
+
+    useEffect(() => {
+        axios.get(`${ DATABASE }/user/clients`, {
+            headers: {
+                token: currentUser
+            }
+        }).then(res => {
+            if (res.data !== 400) {
+                setClients(res.data);
+            }
+        }).then(() => setLoading(false));
+    }, []);
 
     const successNotification = () => {
         notification.success({
@@ -32,7 +50,7 @@ function Clients() {
                 token: currentUser,
             }
         }).then(res => {
-            if(res.data !== 400) {
+            if (res.data !== 400) {
                 successNotification();
             } else {
                 failNotification();
@@ -49,63 +67,63 @@ function Clients() {
     }
 
     return <div>
-        <Form {...layout}
+        <Form { ...layout }
               className='form-style'
-              onFinish={handleFinish}
+              onFinish={ handleFinish }
         >
             <Typography.Title>
-                Ovde možete sačuvati česte klijente.
+                Ovde možete sačuvati česte klijente
             </Typography.Title>
 
             <Form.Item name='toName'
                        label='Komitet:'
-                       rules={[
+                       rules={ [
                            {
                                required: true,
                                message: 'Ne sme biti prazno!'
                            }
-                       ]}
+                       ] }
             >
                 <Input/>
             </Form.Item>
 
             <Form.Item name='toAddress'
                        label='Adresa:'
-                       rules={[
+                       rules={ [
                            {
                                required: true,
                                message: 'Ne sme biti prazno!'
                            }
-                       ]}
+                       ] }
             >
                 <Input/>
             </Form.Item>
 
             <Form.Item name='toCity'
                        label='Grad:'
-                       rules={[
+                       rules={ [
                            {
                                required: true,
                                message: 'Ne sme biti prazno!'
                            }
-                       ]}
+                       ] }
             >
                 <Input/>
             </Form.Item>
 
             <Form.Item name='toPib'
                        label='PIB/JMBG:'
-                       rules={[
+                       rules={ [
                            {
                                required: true,
                                message: 'Ne sme biti prazno!'
                            }
-                       ]}
+                       ] }
             >
                 <Input/>
             </Form.Item>
 
-            <Form.Item {...buttonLayout}>
+            <Form.Item { ...buttonLayout }>
                 <Button
                     type='primary'
                     htmlType='submit'
@@ -114,6 +132,49 @@ function Clients() {
                 </Button>
             </Form.Item>
         </Form>
+
+        <Typography.Title level={4} style={{marginTop: '1em'}}> Postojeći klijenti </Typography.Title>
+
+        <List
+            style={ { backgroundColor: 'white', marginTop: '1em' } }
+            dataSource={ clients }
+            loading={ loading }
+            renderItem={ item => (
+                <List.Item style={ { padding: '1em' } }>
+                    <List.Item.Meta
+                        style={{cursor: 'pointer'}}
+                        description={ <div>
+                            <Row justify='space-between'>
+                                <Col md={6} xs={24}>
+                                    <Typography.Text>
+                                        Komitet: { item.toName }
+                                    </Typography.Text>
+                                </Col>
+
+                                <Col md={6} xs={24}>
+                                    <Typography.Text>
+                                        Adresa: { item.toAddress }
+                                    </Typography.Text>
+                                </Col>
+
+                                <Col md={6} xs={24}>
+                                    <Typography.Text>
+                                        Grad: { item.toCity }
+                                    </Typography.Text>
+                                </Col>
+
+                                <Col md={6} xs={24}>
+                                    <Typography.Text>
+                                        PIB/JMBG: { item.toPib }
+                                    </Typography.Text>
+                                </Col>
+                            </Row>
+                        </div>
+                        }
+                    />
+                </List.Item>
+            ) }
+        />
     </div>
 }
 
