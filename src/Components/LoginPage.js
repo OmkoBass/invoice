@@ -1,23 +1,48 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 
 //Router
 import { useHistory, Redirect} from "react-router";
+
+import axios from 'axios';
 
 //Ant Components
 import { Form, Input, Button, Layout, message, Divider} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
+import LazyImage from "./Smaller/LazyImage";
+
 //Skayon
 import skayon from '../Assets/skyondark.png'
+
+import DATABASE from "../Utils";
+
+import {AuthContext} from "./Auth";
 
 const { Content } = Layout;
 const { Password } = Input;
 
 function LoginPage() {
-    let history = useHistory();
+    const history = useHistory();
+
+    const { currentUser, setCurrentUser } = useContext(AuthContext);
+
+    const [canSend, setCanSend] = useState(false);
+
+    if(currentUser)
+        return <Redirect to='/invoice'/>
 
     const onFinish = value => {
-
+        axios.post(`${DATABASE}/login/user`, {
+            username: value.username,
+            password: value.password
+        }).then(res => {
+            if(res.data !== 400 && res.data !== 500 && res.data !== 401) {
+                setCurrentUser(res.data);
+                history.push('/invoice');
+            } else {
+                failed();
+            }
+        })
     }
 
     //Failed message when input is bad
@@ -26,7 +51,11 @@ function LoginPage() {
     return <Layout>
         <Content style={{height: '100vh'}}>
             <div className='login'>
-                <img src={skayon} alt='skayon logo' style={{width: '100%'}}/>
+                <LazyImage
+                    src={skayon}
+                    alt='skayon logo'
+                    style={{width: '100%', height: '100%'}}
+                />
                 <Form
                     name="login"
                     initialValues={{ remember: true }}
@@ -37,19 +66,37 @@ function LoginPage() {
                         rules={[
                             {
                                 required: true,
-                                message: 'email ne sme biti prazan!'
-                            },
-                            {
-                                type: 'email',
-                                message: 'Unesite ispravan email!'
+                                message: 'Korisničko ime ne sme biti prazano!'
                             }
                             ]}
                     >
-                        <Input prefix={<UserOutlined/>} placeholder="Email" />
+                        <Input prefix={<UserOutlined/>} placeholder="Korisničko ime" />
                     </Form.Item>
                     <Form.Item
                         name="password"
-                        rules={[{ required: true, message: 'Unesite lozinku!' }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Unesite lozinku!'
+                            },
+                            {
+                                validator: (_, value) => {
+                                    if(!value) {
+                                        setCanSend(false);
+                                        return Promise.resolve();
+                                    } else {
+                                        if(value.length < 8) {
+                                            setCanSend(false);
+                                            return Promise.resolve();
+                                        }
+                                        else {
+                                            setCanSend(true);
+                                            return Promise.resolve();
+                                        }
+                                    }
+                                }
+                            }
+                        ]}
                     >
                         <Password
                             prefix={<LockOutlined/>}
@@ -62,6 +109,7 @@ function LoginPage() {
                         <Button type="primary"
                                 size='large'
                                 block={true}
+                                disabled={!canSend}
                                 htmlType="submit">
                             Prijavi se!
                         </Button>

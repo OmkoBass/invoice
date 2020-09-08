@@ -1,7 +1,7 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 //Ant components
-import {Form, Input, Button, Divider, Typography, Row, Col, DatePicker, notification} from 'antd'
+import { Form, Input, Button, Divider, Typography, Row, Col, DatePicker, AutoComplete } from 'antd'
 
 //Ant icons
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -13,34 +13,73 @@ import PDF from "./PDF";
 //Moment for dates
 import moment from "moment";
 
+import { AuthContext } from "./Auth";
+
+import axios from 'axios'
+
+import DATABASE from "../Utils";
+
 const { Title, Paragraph, Text } = Typography;
 
-function Invoice() {
+function Invoice () {
     //Form ref
     let [form] = Form.useForm();
 
     const [pdfData, setPdfData] = useState(null);
     const [img, setImg] = useState(null);
+    const [clients, setClients] = useState([]);
 
-    const failNotification = () => {
+    const { currentUser } = useContext(AuthContext);
+
+    useEffect(() => {
+        axios.get(`${DATABASE}/user/profile`, {
+            headers: {
+                token: currentUser
+            }
+        }).then(res => {
+            form.setFieldsValue(res.data);
+        }).catch(err => {
+            /*ERROR*/
+        });
+    }, []);
+
+    useEffect(() => {
+        axios.get(`${DATABASE}/user/clients`, {
+            headers: {
+                token: currentUser
+            }
+        }).then(res => {
+            if(res.data !== 400) {
+                setClients(res.data);
+            }
+        });
+    }, []);
+
+    /*const failNotification = () => {
         notification.error({
             message: 'Greška!',
             description: 'Došlo je do greške pri čuvanju fakture.'
         });
-    }
+    }*/
 
     const handleFinish = values => {
-        setPdfData({...values, img});
+        setPdfData({ ...values, img });
 
         values.dateInvoice = moment(values.dateInvoice).format('DD.MM.YYYY');
         values.dateTraffic = moment(values.dateTraffic).format('DD.MM.YYYY');
 
         values.dateCreated = moment().format('DD.MM.YYYY HH:mm');
 
-
+        axios.post(`${ DATABASE }/create/invoice`, { values },
+            {
+                headers: {
+                    token: currentUser
+                }
+            }
+        ).then(_ => { });
     }
 
-    function handleClear() {
+    function handleClear () {
         form.resetFields();
 
         triggerAdd();
@@ -59,7 +98,7 @@ function Invoice() {
     }, [triggerAdd]);
 
     const layout = {
-        labelCol: {span: 6},
+        labelCol: { span: 6 },
     }
 
     return <div>
@@ -72,13 +111,13 @@ function Invoice() {
         </Typography>
         <Divider/>
 
-        <Form {...layout}
-              form={form}
+        <Form { ...layout }
+              form={ form }
               layout='horizontal'
-              onFinish={handleFinish}
+              onFinish={ handleFinish }
         >
-            <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
-                <Col span={24} className='form-style'>
+            <Row justify='center' style={ { maxWidth: '960px', margin: 'auto' } }>
+                <Col span={ 24 } className='form-style'>
                     <Col><Title>Faktura</Title></Col>
                     <Divider/>
                     <Form.Item name='invoice'
@@ -88,9 +127,9 @@ function Invoice() {
                     </Form.Item>
 
                     <Form.Item label='Logo:'>
-                        <FileUpload accept={'.png, .jpg, .jpeg'}
-                                    multiple={false}
-                                    imgCallBack={imgCallBack}
+                        <FileUpload accept={ '.png, .jpg, .jpeg' }
+                                    multiple={ false }
+                                    imgCallBack={ imgCallBack }
                         />
                     </Form.Item>
 
@@ -98,8 +137,8 @@ function Invoice() {
                                label='Datum fakture:'
                     >
                         <DatePicker
-                            format={'DD.MM.YYYY'}
-                            placeholder={'Izaberite datum...'}
+                            format={ 'DD.MM.YYYY' }
+                            placeholder={ 'Izaberite datum...' }
                         />
                     </Form.Item>
 
@@ -107,8 +146,8 @@ function Invoice() {
                                label='Datum prometa:'
                     >
                         <DatePicker
-                            format={'DD.MM.YYYY'}
-                            placeholder={'Izaberite datum...'}
+                            format={ 'DD.MM.YYYY' }
+                            placeholder={ 'Izaberite datum...' }
                         />
                     </Form.Item>
 
@@ -122,8 +161,8 @@ function Invoice() {
 
             <Divider/>
 
-            <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
-                <Col span={24} className='form-style'>
+            <Row justify='center' style={ { maxWidth: '960px', margin: 'auto' } }>
+                <Col span={ 24 } className='form-style'>
                     <Col><Title>Od</Title></Col>
                     <Divider/>
                     <Form.Item name='fromName'
@@ -166,9 +205,30 @@ function Invoice() {
 
             <Divider/>
 
-            <Row justify='center' style={{maxWidth: '960px', margin: 'auto'}}>
-                <Col span={24} className='form-style'>
+            <Row justify='center' style={ { maxWidth: '960px', margin: 'auto' } }>
+                <Col span={ 24 } className='form-style'>
                     <Col><Title>Kome</Title></Col>
+
+                    <Form.Item name='client'
+                               label='Klijent:'
+                    >
+                        <AutoComplete
+                            placeholder='Izaberite klijenta'
+                            onChange={value => {
+                                /*What the fuck*/
+                                const searchedClient = clients.filter(client => client._id === value.split(' ')[value.split(' ').length - 1]);
+
+                                form.setFieldsValue({
+                                    toName: searchedClient[0].toName,
+                                    toAddress: searchedClient[0].toAddress,
+                                    toCity: searchedClient[0].toCity,
+                                    toPib: searchedClient[0].toPib
+                                })
+                            }}
+                            options={clients.map(client => ({ value: `${client.toName} ${client._id}` }))}
+                        />
+                    </Form.Item>
+
                     <Divider/>
                     <Form.Item name='toName'
                                label='Komitet:'>
@@ -194,64 +254,64 @@ function Invoice() {
 
             <Divider/>
 
-            <Row style={{margin: 'auto', maxWidth: '960px'}}>
-                <Col offset={1} span={4}>
-                    <Typography.Title level={4}>Vrsta usluge</Typography.Title>
+            <Row style={ { margin: 'auto', maxWidth: '960px' } }>
+                <Col offset={ 1 } span={ 4 }>
+                    <Typography.Title level={ 4 }>Vrsta usluge</Typography.Title>
                 </Col>
 
-                <Col offset={1} span={4}>
-                    <Typography.Title level={4}>Jedinica</Typography.Title>
+                <Col offset={ 1 } span={ 4 }>
+                    <Typography.Title level={ 4 }>Jedinica</Typography.Title>
                 </Col>
 
-                <Col offset={1} span={4}>
-                    <Typography.Title level={4}>Količina</Typography.Title>
+                <Col offset={ 1 } span={ 4 }>
+                    <Typography.Title level={ 4 }>Količina</Typography.Title>
                 </Col>
 
-                <Col offset={1} span={4}>
-                    <Typography.Title level={4}>Cena</Typography.Title>
+                <Col offset={ 1 } span={ 4 }>
+                    <Typography.Title level={ 4 }>Cena</Typography.Title>
                 </Col>
 
-                <Col span={4}>
-                    <Typography.Title level={4}>Ukupno</Typography.Title>
+                <Col span={ 4 }>
+                    <Typography.Title level={ 4 }>Ukupno</Typography.Title>
                 </Col>
             </Row>
 
             <Form.List name="services">
-                {(fields, { add, remove }) => {
+                { (fields, { add, remove }) => {
                     triggerAdd = () => {
                         add();
                     }
                     return (
-                        <div style={{margin: 'auto', maxWidth: '960px'}}>
-                            {fields.map((field, index) => (
-                                <div key={field.key}>
-                                    <div style={{display: 'flex', flexDirection: 'row'}}>
-                                        <Typography.Title strong level={4}
-                                                         style={{padding: '0.3em'}}
-                                        >{index + 1}.
+                        <div style={ { margin: 'auto', maxWidth: '960px' } }>
+                            { fields.map((field, index) => (
+                                <div key={ field.key }>
+                                    <div style={ { display: 'flex', flexDirection: 'row' } }>
+                                        <Typography.Title strong level={ 4 }
+                                                          style={ { padding: '0.3em' } }
+                                        >{ index + 1 }.
                                         </Typography.Title>
-                                        <Form.Item name={[field.name, 'serviceType']}
-                                                   fieldKey={[field.fieldKey, 'serviceType']}
+                                        <Form.Item name={ [field.name, 'serviceType'] }
+                                                   fieldKey={ [field.fieldKey, 'serviceType'] }
                                         >
                                             <Input/>
                                         </Form.Item>
 
-                                        <Form.Item name={[field.name, 'unit']}
-                                                   fieldKey={[field.fieldKey, 'unit']}
+                                        <Form.Item name={ [field.name, 'unit'] }
+                                                   fieldKey={ [field.fieldKey, 'unit'] }
                                         >
                                             <Input/>
                                         </Form.Item>
 
-                                        <Form.Item name={[field.name, 'amount']}
-                                                   fieldKey={[field.fieldKey, 'amount']}
+                                        <Form.Item name={ [field.name, 'amount'] }
+                                                   fieldKey={ [field.fieldKey, 'amount'] }
                                         >
-                                            <Input onChange={() => {
+                                            <Input onChange={ () => {
                                                 let services = form.getFieldValue('services');
 
-                                                if(services[index].amount && services[index].price) {
+                                                if (services[index].amount && services[index].price) {
                                                     services[index].total = services[index].amount * services[index].price;
 
-                                                    if(isNaN(services[index].total))
+                                                    if (isNaN(services[index].total))
                                                         services[index].total = 0;
 
                                                     form.setFieldsValue({
@@ -259,60 +319,60 @@ function Invoice() {
                                                     });
 
                                                 }
-                                            }}/>
+                                            } }/>
                                         </Form.Item>
 
-                                        <Form.Item name={[field.name, 'price']}
-                                                   fieldKey={[field.fieldKey, 'price']}
+                                        <Form.Item name={ [field.name, 'price'] }
+                                                   fieldKey={ [field.fieldKey, 'price'] }
                                         >
-                                            <Input onChange={() => {
+                                            <Input onChange={ () => {
                                                 let services = form.getFieldValue('services');
 
-                                                if(services[index].amount && services[index].price) {
+                                                if (services[index].amount && services[index].price) {
                                                     services[index].total = services[index].amount * services[index].price;
 
-                                                    if(isNaN(services[index].total))
+                                                    if (isNaN(services[index].total))
                                                         services[index].total = 0;
 
                                                     form.setFieldsValue({
                                                         services: services
                                                     });
                                                 }
-                                            }}/>
+                                            } }/>
                                         </Form.Item>
 
-                                        <Form.Item name={[field.name, 'total']}
-                                                   fieldKey={[field.fieldKey, 'price']}
+                                        <Form.Item name={ [field.name, 'total'] }
+                                                   fieldKey={ [field.fieldKey, 'price'] }
                                         >
                                             <Input/>
                                         </Form.Item>
 
                                         <Button
                                             type="danger"
-                                            ghost={true}
-                                            icon={<MinusCircleOutlined/>}
-                                            onClick={() => remove(field.name)}
+                                            ghost={ true }
+                                            icon={ <MinusCircleOutlined/> }
+                                            onClick={ () => remove(field.name) }
                                         />
                                     </div>
                                 </div>
-                            ))}
+                            )) }
 
                             <Form.Item>
                                 <Button
                                     type="primary"
-                                    ghost={true}
-                                    block={true}
-                                    onClick={() => add()}
+                                    ghost={ true }
+                                    block={ true }
+                                    onClick={ () => add() }
                                 >
-                                    <PlusOutlined /> Dodaj polje
+                                    <PlusOutlined/> Dodaj polje
                                 </Button>
                             </Form.Item>
                         </div>
                     );
-                }}
+                } }
             </Form.List>
 
-            <Row justify='center' gutter={32}>
+            <Row justify='center' gutter={ 32 }>
                 <Col>
                     <Form.Item>
                         <Button type='primary'
@@ -325,7 +385,7 @@ function Invoice() {
                     <Form.Item>
                         <Button type='default'
                                 size='large'
-                                onClick={handleClear}
+                                onClick={ handleClear }
                         >Nova Faktura</Button>
                     </Form.Item>
                 </Col>
@@ -336,10 +396,10 @@ function Invoice() {
         </Paragraph>
         {
             pdfData
-            ?
-            <PDF /*image={img}*/ info={pdfData} style={{height: '100vh', width: '100%'}}/>
-            :
-            null
+                ?
+                <PDF /*image={img}*/ info={ pdfData } style={ { height: '100vh', width: '100%' } }/>
+                :
+                null
         }
     </div>
 }

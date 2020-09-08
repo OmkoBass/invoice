@@ -11,6 +11,11 @@ import skayondark from '../Assets/skyondark.png';
 //router
 import { Redirect, useHistory } from "react-router";
 
+import DATABASE from "../Utils";
+
+import { AuthContext } from "./Auth";
+import LazyImage from "./Smaller/LazyImage";
+
 const {Content} = Layout;
 
 const {Password} = Input;
@@ -19,25 +24,30 @@ function Register() {
     //form ref
     let [form] = Form.useForm();
 
+    const { currentUser } = useContext(AuthContext);
+
     let history = useHistory();
+
+    if(currentUser)
+        return <Redirect to='/invoice'/>
 
     const alreadyExists = () => {
         notification.error({
             message: 'Greška!',
-            description: 'Email adresa je vec registorvana.'
+            description: 'Email adresa ili Korisničko je vec registorvano.'
         });
     }
 
     const handleFinish = value => {
-        axios.post(`http://localhost:5000/create/user`, {
+        axios.post(`${DATABASE}/create/user`, {
             email: value.email,
             username: value.username,
             password: value.password
         }).then(res => {
             if(res.data === 400) {
-                console.log('CREATING USER FAILED!');
+                alreadyExists();
             } else {
-                console.log(res.data);
+                history.push('/register/successful');
             }
         });
     }
@@ -72,7 +82,11 @@ function Register() {
     return <Layout>
         <Content style={{height: '100vh'}}>
             <div className='login'>
-                <img src={skayondark} alt='skayon logo' style={{width: '100%'}}/>
+                <LazyImage
+                    src={skayondark}
+                    alt='skayon logo'
+                    style={{ width: '100%'}}
+                />
                 <Form {...layout}
                       form={form}
                       name='register'
@@ -91,6 +105,19 @@ function Register() {
                                 message: 'Unesite ispravan email!'
                             }
                         ]}>
+                        <Input/>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='username'
+                        label='Korisničko ime'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Korisničko ime ne sme biti prazno!'
+                            }
+                        ]}
+                    >
                         <Input/>
                     </Form.Item>
 

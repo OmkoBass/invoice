@@ -1,7 +1,15 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 //Ant Components
 import { Form, Button, Input, Typography, Divider, notification } from 'antd'
+
+//Router
+import { useHistory } from "react-router";
+
+import axios from 'axios';
+
+import {AuthContext} from "./Auth";
+import DATABASE from "../Utils";
 
 const {Title, Paragraph, Text} = Typography;
 
@@ -9,11 +17,50 @@ function Profile() {
     //Form ref
     let [form] = Form.useForm();
 
+    const history = useHistory();
+    const [profileValues, setProfileValues] = useState(null);
+
+    const { currentUser } = useContext(AuthContext);
+
     // const [img, setImg] = useState(null);
+
+    useEffect(() => {
+        axios.get(`${DATABASE}/user/profile`, {
+            headers: {
+                token: currentUser
+            }
+        }).then(res => {
+            setProfileValues(res.data);
+            form.setFieldsValue(res.data);
+        }).catch(err => {
+            /*ERROR*/
+        });
+    }, []);
 
     // Saving
     const handleOnFinish = values => {
-
+        if(JSON.stringify(values) !== JSON.stringify(profileValues)) {
+            axios.put(`${DATABASE}/update/user/profile`, {
+                profile: values
+            }, {
+                headers: {
+                    token: currentUser
+                }
+            }).then(res => {
+                if(res.data === 400) {
+                    failNotification();
+                } else if(res.data === 401) {
+                    history.push('/');
+                }
+                else {
+                    setProfileValues(res.data);
+                    form.setFieldsValue(res.data);
+                    successNotification();
+                }
+            }).catch(() => failNotification());
+        } else {
+            sameDataNotification();
+        }
     }
 
     const successNotification = () => {

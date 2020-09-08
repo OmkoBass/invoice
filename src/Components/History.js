@@ -1,17 +1,25 @@
-import React, {useState, useEffect, useContext, useRef} from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 
 //Ant components
-import {Table, Row, Col, Button, notification, Typography, Divider, Input} from "antd";
+import { Table, Row, Col, Button, notification, Typography, Divider, Input } from "antd";
+
+import axios from 'axios';
 
 //Components
 import PDF from "./PDF";
 import ErrorResult from "./Smaller/ErrorResult";
 
 //Debounce
-import {debounce} from 'lodash';
+import { debounce } from 'lodash';
 
-function History() {
-    const [invoices, setInvoices] = useState(null);
+import DATABASE from "../Utils";
+
+import { AuthContext } from "./Auth";
+
+function History () {
+    const { currentUser } = useContext(AuthContext);
+
+    const [invoices, setInvoices] = useState([]);
     const [pdfData, setPdfData] = useState(null);
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
@@ -24,12 +32,12 @@ function History() {
     const searchRef = useRef(null);
 
     // 21 = 20 will be displayed
-    const defaultPageSize = 21;
+    const defaultPageSize = 25;
 
     const columns = [
         {
             title: 'ID fakture',
-            dataIndex: 'id'
+            dataIndex: '_id'
         },
         {
             title: 'Faktura',
@@ -50,8 +58,20 @@ function History() {
     ];
 
     useEffect(() => {
-
-    }, [defaultPageSize, pageNumber]);
+        axios.post(`${ DATABASE }/get/invoices`, {}, {
+            headers: {
+                token: currentUser
+            }
+        }).then(res => {
+            if (res.data === 400) {
+                setInvoices([]);
+            } else {
+                setInvoices(res.data);
+            }
+        }).then(() => setLoad(false)).catch(() => {
+            setError(true);
+        })
+    }, []);
 
     const rowSelection = {
         selectedRowKeys,
@@ -61,27 +81,13 @@ function History() {
         }
     };
 
-    /*const rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
-            setSelected(selectedRows);
-            setSelectedRowKeys(selectedRowKeys);
-        }
-    };*/
-
-    const failNotification = () => {
-        notification.error({
-            message: 'Greška!',
-            description: 'Došlo je do greške pri čuvanju fakture.'
-        });
-    }
-
     const deleteNotification = () => {
         notification.success({
             message: 'Uspešno!',
         })
     }
 
-    return <div style={{minHeight: '80vh'}}>
+    return <div style={ { minHeight: '80vh' } }>
         <Typography>
             <Typography.Title>Istorija</Typography.Title>
             <Typography.Paragraph> Ovde mozete videti istoriju vaših faktura. </Typography.Paragraph>
@@ -97,60 +103,92 @@ function History() {
                         <Input
                             placeholder='Pretražite fakturu'
                             allowClear
-                            ref={searchRef}
-                            style={{marginBottom: '1em'}}
-                            onChange={debounce(() => {
-                                console.log(searchRef.current.state.value);
-                            }, 500)}
+                            ref={ searchRef }
+                            style={ { marginBottom: '1em' } }
+                            onChange={ debounce(() => {
+                                axios.post(`${ DATABASE }/search/invoices`, { invoice: searchRef.current.state.value }, {
+                                    headers: {
+                                        token: currentUser
+                                    }
+                                })
+                                    .then(res => {
+                                        if (res.data === 400) {
+                                            setInvoices([]);
+                                        } else {
+                                            setInvoices(res.data);
+                                        }
+                                    })
+                            }, 1000) }
                         />
                         <Table
                             bordered
-                            onChange={pagination => {
-                                if((pagination.current * pagination.defaultPageSize) >= defaultPageSize * pageNumber)
-                                    setPageNumber(pageNumber + 1);
-                            }}
-                            pagination={{defaultPageSize: defaultPageSize - 1}}
-                            rowSelection={rowSelection}
                             loading={load}
-                            columns={columns}
-                            /*onRow={(record) => {
-                                return {
-                                    onClick: _ => setPdfData(record)
-                                }
-                            }}*/
-                            dataSource={invoices?.map((invoice, index) => {
-                                return {
-                                    ...invoice[1],
-                                    key: index,
-                                    id: invoice[0]
-                                }
-                            })}/>
+                            onChange={ pagination => {
+                                if ((pagination.current * pagination.defaultPageSize) >= defaultPageSize * pageNumber) {
+                                    setPageNumber(pageNumber + 1);
 
-                        <Row gutter={12} style={{margin: '1em 0 1em 0'}}>
+                                    axios.get(`${ DATABASE }/get/invoices/${defaultPageSize}/${pageNumber}`, {
+                                        headers: {
+                                            token: currentUser
+                                        }
+                                    }).then(res => {
+                                        if (res.data === 400) {
+
+                                        } else {
+                                            setInvoices([...invoices, ...res.data]);
+                                        }
+                                    });
+                                }
+                            } }
+                            pagination={ { defaultPageSize: defaultPageSize - 1 } }
+                            rowSelection={ rowSelection }
+                            columns={ columns }
+                            dataSource={ invoices?.map((invoice, index) => {
+                                return {
+                                    ...invoice,
+                                    key: index,
+                                }
+                            }) }/>
+
+                        <Row gutter={ 12 } style={ { margin: '1em 0 1em 0' } }>
                             <Col>
                                 <Button
-                                    onClick={() => {
+                                    onClick={ () => {
                                         setPdfData(selected[0]);
                                         setSelectedRowKeys([]);
-                                    }}
+                                    } }
                                     type='primary'
-                                    disabled={selectedRowKeys?.length !== 1}
+                                    disabled={ selectedRowKeys?.length !== 1 }
                                 >
                                     Prikaži
                                 </Button>
                             </Col>
                             <Col>
                                 <Button
-                                    onClick={() => {
+                                    onClick={ () => {
                                         setSelectedRowKeys([]);
                                         //Delete from firebase
+                                        axios.put(`${ DATABASE }/delete/invoices`, {
+                                            ids: selected.map(invoice => invoice._id)
+                                        }, {
+                                            headers: {
+                                                token: currentUser
+                                            }
+                                        }).then(res => {
+                                            console.log(res.data);
+                                            if (res.data === 200) {
+                                                deleteNotification();
+                                                setInvoices(invoices.filter(invoice => !selected.map(remove => remove._id).includes(invoice._id)));
+                                            } else {
+                                                console.log('FAIL!');
+                                            }
+                                        })
 
                                         //Updating state
-                                        setInvoices(invoices.filter(invoice => selected.find(select => select.id !== invoice[0])));
-                                    }}
+                                    } }
                                     type='primary'
                                     danger
-                                    disabled={!selectedRowKeys?.length > 0}
+                                    disabled={ !selectedRowKeys?.length > 0 }
                                 >
                                     Izbriši
                                 </Button>
@@ -163,7 +201,7 @@ function History() {
         {
             pdfData
                 ?
-                <PDF /*image={img}*/ info={pdfData} style={{height: '100vh', width: '100%'}}/>
+                <PDF /*image={img}*/ info={ pdfData } style={ { height: '100vh', width: '100%' } }/>
                 :
                 null
         }

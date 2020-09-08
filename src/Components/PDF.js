@@ -151,9 +151,9 @@ function PDF(props) {
                         {
                             props.info.id
                                 ?
-                                <Text>{moment(props.info.dateInvoice, 'DD.MM.YYYY').format('DD.MM.YYYY')}</Text>
+                                <Text>{moment(props.info.dateInvoice)}</Text>
                                 :
-                                <Text>{moment(props.info.dateInvoice).format('DD.MM.YYYY')}</Text>
+                                <Text>{moment(props.info.dateInvoice, 'DD.MM.YYYY').format('DD.MM.YYYY')}</Text>
                         }
                     </View>
                     <View style={styles.flexCol}>
@@ -161,9 +161,9 @@ function PDF(props) {
                         {
                             props.info.id
                                 ?
-                                <Text>{moment(props.info.dateTraffic, 'DD.MM.YYYY').format('DD.MM.YYYY')}</Text>
+                                <Text>{moment(props.info.dateTraffic)}</Text>
                                 :
-                                <Text>{moment(props.info.dateTraffic).format('DD.MM.YYYY')}</Text>
+                                <Text>{moment(props.info.dateTraffic, 'DD.MM.YYYY').format('DD.MM.YYYY')}</Text>
                         }
                     </View>
                 </View>
