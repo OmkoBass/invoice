@@ -10,6 +10,8 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import FileUpload from "./FileUpload";
 import PDF from "./PDF";
 
+import { debounce } from "lodash";
+
 //Moment for dates
 import moment from "moment";
 
@@ -28,6 +30,7 @@ function Invoice () {
     const [pdfData, setPdfData] = useState(null);
     const [img, setImg] = useState(null);
     const [clients, setClients] = useState([]);
+    const [savedClients, setSavedClients] = useState([]);
 
     const { currentUser } = useContext(AuthContext);
 
@@ -40,18 +43,6 @@ function Invoice () {
             form.setFieldsValue(res.data);
         }).catch(err => {
             /*ERROR*/
-        });
-    }, []);
-
-    useEffect(() => {
-        axios.get(`${DATABASE}/user/clients`, {
-            headers: {
-                token: currentUser
-            }
-        }).then(res => {
-            if(res.data !== 400) {
-                setClients(res.data);
-            }
         });
     }, []);
 
@@ -214,18 +205,35 @@ function Invoice () {
                     >
                         <AutoComplete
                             placeholder='Izaberite klijenta'
-                            onChange={value => {
-                                /*What the fuck*/
-                                const searchedClient = clients.filter(client => client._id === value.split(' ')[value.split(' ').length - 1]);
+                            onChange={ debounce(value => {
+                                if (value) {
+                                    axios.post(`${DATABASE}/user/clients`, {
+                                        search: value
+                                    }, {
+                                        headers: {
+                                            token: currentUser
+                                        }
+                                    }).then(res => {
+                                        if(res.data !== 400) {
+                                            setSavedClients(res.data);
 
+                                            setClients(res.data.map(client => {
+                                                return { value: `${ client.toName }`}
+                                            }));
+                                        }
+                                    });
+                                }
+                            }, 500)}
+                            options={ clients ? clients : null }
+                            onSelect={ value => {
+                                const client = savedClients.find(savedClient => savedClient.toName === value)
                                 form.setFieldsValue({
-                                    toName: searchedClient[0].toName,
-                                    toAddress: searchedClient[0].toAddress,
-                                    toCity: searchedClient[0].toCity,
-                                    toPib: searchedClient[0].toPib
-                                })
+                                    toName: client.toName,
+                                    toAddress: client.toAddress,
+                                    toCity: client.toCity,
+                                    toPib: client.toPib
+                                });
                             }}
-                            options={clients.map(client => ({ value: `${client.toName} ${client._id}` }))}
                         />
                     </Form.Item>
 
