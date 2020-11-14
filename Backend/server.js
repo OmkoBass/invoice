@@ -12,25 +12,26 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Admin
-app.get('/get/admin', (req, res) => {
-    res.json(200);
-})
-app.get('/get/admin/users', verifyToken, mongoose.getUsers);
-app.get('/get/admin/invoices', verifyToken, mongoose.getInvoices);
-app.get('/get/admin/users/:id', verifyToken, mongoose.getUser);
-app.get('/get/admin/invoices/:id', verifyToken, mongoose.getInvoice);
-app.post('/create/admin', mongoose.createAdmin);
-app.post('/login/admin', mongoose.loginAdmin);
-app.put('/put/admin/users/:id', verifyToken, mongoose.updateUser);
-app.delete('/delete/admin/users/:id', verifyToken, mongoose.deleteUser);
-app.post('/post/admin/create/user', verifyToken, mongoose.createUserFromAdmin);
+// app.get('/get/admin', (req, res) => {
+//     res.json(200);
+// })
+// app.get('/get/admin/users', verifyToken, mongoose.getUsers);
+// app.get('/get/admin/invoices', verifyToken, mongoose.getInvoices);
+// app.get('/get/admin/users/:id', verifyToken, mongoose.getUser);
+// app.get('/get/admin/invoices/:id', verifyToken, mongoose.getInvoice);
+// app.post('/create/admin', mongoose.createAdmin);
+// app.post('/login/admin', mongoose.loginAdmin);
+// app.put('/put/admin/users/:id', verifyToken, mongoose.updateUser);
+// app.delete('/delete/admin/users/:id', verifyToken, mongoose.deleteUser);
+// app.post('/post/admin/create/user', verifyToken, mongoose.createUserFromAdmin);
 
 // Regular
 
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
-app.get('/user/clients', verifyToken, mongoose.getUserClients);
 app.get('/get/invoices/:defaultPage/:pageNumber', verifyToken, mongoose.invoicesPaginate);
+app.get('/user/allClients', verifyToken, mongoose.getUserClients);
 
+app.post('/user/clients', verifyToken, mongoose.getUserClients);
 app.post('/create/user', mongoose.createUser);
 app.post('/create/client', verifyToken, mongoose.createClient);
 app.post('/login/user', mongoose.loginUser);
@@ -42,6 +43,6 @@ app.put('/update/user/profile', verifyToken, mongoose.updateUserProfile);
 app.put('/update/user/client', verifyToken, mongoose.updateClient);
 app.put('/delete/invoices', verifyToken, mongoose.deleteInvoices);
 
-app.listen(5000, () => {
+app.listen(5000 || process.env.PORT, () => {
     console.log('LISTENING AT PORT 5000');
 })
