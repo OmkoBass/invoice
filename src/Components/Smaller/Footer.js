@@ -4,8 +4,6 @@ import React from 'react'
 import {Col, Row, Layout} from "antd";
 
 import conmisi from "../../Assets/conmisi.png";
-import skayon from "../../Assets/skyonlight.png";
-import ictdc from "../../Assets/ictdc.png";
 
 const { Footer } = Layout;
 
@@ -25,22 +23,6 @@ function FOOTER() {
                              style={{width: '20%'}}
                         />
                         <a href='https://conmisi.com/' target="_blank" rel="noopener noreferrer">Platforma za zubare</a>
-                    </div>
-
-                    <div>
-                        <img src={skayon}
-                             alt='skayon'
-                             style={{width: '20%'}}
-                        />
-                        <a href='https://skayon.agency/' target="_blank" rel="noopener noreferrer">Kompanija za IT solucije</a>
-                    </div>
-
-                    <div>
-                        <img src={ictdc}
-                             alt='ictdc'
-                             style={{width: '20%'}}
-                        />
-                        <a href='https://ictdc.rs/' target="_blank" rel="noopener noreferrer">Development Center</a>
                     </div>
                 </div>
             </Col>
