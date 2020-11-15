@@ -65,7 +65,7 @@ function LoginPage() {
                         rules={[
                             {
                                 required: true,
-                                message: 'Korisničko ime ne sme biti prazano!'
+                                message: 'Ne sme biti prazano!'
                             }
                             ]}
                     >

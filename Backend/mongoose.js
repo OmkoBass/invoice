@@ -152,8 +152,12 @@ const createUser = async (req, res) => {
     }
 }
 
+// User.findOne({$or: [{'email': email}, {'username': email}]}, function(err, user) {
+//     // awesome user
+// })
+
 const loginUser = async (req, res) => {
-    User.findOne({ username: req.body.username })
+    User.findOne({ '$or': [{ username: req.body.username }, {email: req.body.username }]})
         .lean().exec(async (err, result) => {
         if (err)
             await res.json(500);
