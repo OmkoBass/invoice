@@ -29,19 +29,21 @@ app.use(bodyParser.json());
 
 app.get('/user/profile', verifyToken, mongoose.getUserProfile);
 app.get('/get/invoices/:defaultPage/:pageNumber', verifyToken, mongoose.invoicesPaginate);
-app.get('/user/allClients', verifyToken, mongoose.getUserClients);
+app.get('/user/getClientsPagination/:defaultPage/:pageNumber', verifyToken, mongoose.getClientsPagination);
+app.get('/user/clients/:clientName', verifyToken, mongoose.getUserClients);
+app.get('/get/invoices', verifyToken, mongoose.getInvoicesForUser);
 
-app.post('/user/clients', verifyToken, mongoose.getUserClients);
 app.post('/create/user', mongoose.createUser);
 app.post('/create/client', verifyToken, mongoose.createClient);
 app.post('/login/user', mongoose.loginUser);
 app.post('/create/invoice',verifyToken, mongoose.createInvoice);
-app.post('/get/invoices', verifyToken, mongoose.getInvoicesForUser);
 app.post('/search/invoices', verifyToken, mongoose.searchInvoices);
 
 app.put('/update/user/profile', verifyToken, mongoose.updateUserProfile);
 app.put('/update/user/client', verifyToken, mongoose.updateClient);
 app.put('/delete/invoices', verifyToken, mongoose.deleteInvoices);
+
+app.delete('/clients/delete/:clientId', verifyToken, mongoose.deleteClient);
 
 app.listen(5000 || process.env.PORT, () => {
     console.log('LISTENING AT PORT 5000');
