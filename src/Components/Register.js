@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 
 //Ant Components
 import {Layout, Form, Input, Button, Divider, notification} from 'antd';
@@ -28,6 +28,8 @@ function Register() {
 
     let history = useHistory();
 
+    const [loading, setLoading] = useState(false);
+
     if(currentUser)
         return <Redirect to='/invoice'/>
 
@@ -39,16 +41,21 @@ function Register() {
     }
 
     const handleFinish = value => {
+        setLoading(true);
         axios.post(`${DATABASE}/create/user`, {
             email: value.email,
             username: value.username,
             password: value.password
         }).then(res => {
+            setLoading(false);
             if(res.data === 400) {
                 alreadyExists();
             } else {
                 history.push('/register/successful');
             }
+        }).catch(err => {
+            console.log(err);
+            setLoading(false);
         });
     }
 

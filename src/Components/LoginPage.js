@@ -37,13 +37,12 @@ function LoginPage() {
             username: value.username,
             password: value.password
         }).then(res => {
+            setLoading(false);
             if(res.data !== 400 && res.data !== 500 && res.data !== 401) {
                 setCurrentUser(res.data);
                 history.push('/invoice');
-                setLoading(false);
             } else {
                 failed();
-                setLoading(false);
             }
         }).catch(err => {
             console.log(err);
