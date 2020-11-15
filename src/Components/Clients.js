@@ -4,37 +4,40 @@ import { AuthContext } from "./Auth";
 
 import axios from 'axios';
 
+import { Row, Col } from "antd";
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
-import List from 'antd/lib/list'
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
+import Table from 'antd/lib/table'
 import Typography from 'antd/lib/typography';
 import notification from 'antd/lib/notification';
 
 import DATABASE from "../Utils";
-import ClientModal from "./Smaller/ClientModa";
 
 function Clients () {
     const [clients, setClients] = useState([]);
-    const [selectedClient, setSelectedClient] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [clientModal, setClientModal] = useState(false);
+
+    const [selected, setSelected] = useState(null);
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+    const [pageNumber, setPageNumber] = useState(0);
+    const defaultPageSize = 10;
 
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
-        axios.get(`${ DATABASE }/user/clients`, {
+        axios.get(`${ DATABASE }/user/getClientsPagination/${defaultPageSize}/${pageNumber}`, {
             headers: {
                 token: currentUser
             }
         }).then(res => {
             if (res.data !== 400) {
-                setClients(res.data);
+                setLoading(false);
+                setClients([...clients, ...res.data]);
             }
         }).then(() => setLoading(false));
-    }, []);
+    }, [pageNumber]);
 
     const successNotification = () => {
         notification.success({
@@ -55,12 +58,21 @@ function Clients () {
             }
         }).then(res => {
             if (res.data !== 400) {
+                setClients([...clients, res.data])
                 successNotification();
             } else {
                 failNotification();
             }
         })
     }
+
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: (selectedRowKeys, selectedRows) => {
+            setSelected(selectedRows);
+            setSelectedRowKeys(selectedRowKeys);
+        }
+    };
 
     const layout = {
         labelCol: { span: 4 },
@@ -69,6 +81,29 @@ function Clients () {
     const buttonLayout = {
         wrapperCol: { offset: 4 }
     }
+
+    const columns = [
+        {
+            title: 'ID fakture',
+            dataIndex: '_id'
+        },
+        {
+            title: 'Ime',
+            dataIndex: 'toName'
+        },
+        {
+            title: 'Grad',
+            dataIndex: 'toCity'
+        },
+        {
+            title: 'Adresa',
+            dataIndex: 'toAddress'
+        },
+        {
+            title: 'Pib',
+            dataIndex: 'toPib'
+        }
+    ];
 
     return <div>
         <Form { ...layout }
@@ -139,52 +174,53 @@ function Clients () {
 
         <Typography.Title level={4} style={{marginTop: '1em'}}> Postojeći klijenti </Typography.Title>
 
-        <List
-            style={ { backgroundColor: 'white', marginTop: '1em' } }
-            dataSource={ clients }
-            loading={ loading }
-            renderItem={ item => (
-                <List.Item style={ { padding: '1em' } }>
-                    <List.Item.Meta
-                        onClick={() => {
-                            setSelectedClient(item);
-                            setClientModal(true);
-                        }}
-                        style={{cursor: 'pointer'}}
-                        description={ <div>
-                            <Row justify='space-between'>
-                                <Col md={6} xs={24}>
-                                    <Typography.Text>
-                                        Komitet: { item.toName }
-                                    </Typography.Text>
-                                </Col>
-
-                                <Col md={6} xs={24}>
-                                    <Typography.Text>
-                                        Adresa: { item.toAddress }
-                                    </Typography.Text>
-                                </Col>
-
-                                <Col md={6} xs={24}>
-                                    <Typography.Text>
-                                        Grad: { item.toCity }
-                                    </Typography.Text>
-                                </Col>
-
-                                <Col md={6} xs={24}>
-                                    <Typography.Text>
-                                        PIB/JMBG: { item.toPib }
-                                    </Typography.Text>
-                                </Col>
-                            </Row>
-                        </div>
-                        }
-                    />
-                </List.Item>
-            ) }
+        <Table
+            style={{ marginTop: '1em' }}
+            bordered
+            loading={loading}
+            pagination={ { defaultPageSize: defaultPageSize - 1 } }
+            rowSelection={ rowSelection }
+            columns={ columns }
+            onChange={ pagination => {
+                if((pagination.current) > pageNumber) {
+                    setPageNumber(pagination.current - 1);
+                }
+            }}
+            dataSource={ clients?.map((invoice, index) => {
+                return {
+                    ...invoice,
+                    key: index,
+                }
+            }) }
         />
 
-        <ClientModal visible={clientModal} client={selectedClient} callBack={() => setClientModal(false)}/>
+        <Button
+            type='primary'
+            style={{ marginRight: '1em' }}
+            disabled={ selectedRowKeys?.length !== 1 }
+        >
+            Change
+        </Button>
+
+        <Button
+            type='danger'
+            disabled={ selectedRowKeys?.length !== 1 }
+            onClick={() => {
+                axios.delete(`${DATABASE}/clients/delete/${selected[0]._id}`, {
+                    headers: {
+                        token: currentUser
+                    }
+                }).then(res => {
+                    if(res.data === 200) {
+                        setClients(clients.filter(client => client._id !== selected[0]._id));
+                        setSelected([]);
+                        setSelectedRowKeys([]);
+                    }
+                })
+            }}
+        >
+            Delete
+        </Button>
     </div>
 }
 
