@@ -18,7 +18,7 @@ import Register from "./Components/Register";
 import Invoicing from "./Components/Invoicing";
 import NotFound from "./Components/NotFound";
 import Success from "./Components/Success";
-import AdminPage from "./Components/Admin/AdminPage";
+// import AdminPage from "./Components/Admin/AdminPage";
 
 //css
 import './Styles/global.css';
@@ -32,7 +32,7 @@ function App() {
                 <Route exact path='/register/successful' component={Success}/>
                 <Route exact path='/register' component={Register}/>
                 <Route path='/invoice' component={Invoicing}/>
-                <Route path='/admin' component={AdminPage}/>
+                {/*<Route path='/admin' component={AdminPage}/>*/}
                 <Route exact path='/404' component={NotFound}/>
                 <Route exact path='/' component={LoginPage}/>
 
