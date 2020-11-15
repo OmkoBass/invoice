@@ -1,5 +1,7 @@
 import React, {useContext, useState} from 'react'
 
+import axios from "axios";
+
 //Ant components
 import {Layout} from 'antd';
 
@@ -24,6 +26,11 @@ function Invoicing() {
     const { path } = useRouteMatch();
 
     const { currentUser } = useContext(AuthContext);
+
+    axios.defaults.headers.get['token'] = currentUser;
+    axios.defaults.headers.post['token'] = currentUser;
+    axios.defaults.headers.put['token'] = currentUser;
+    axios.defaults.headers.delete['token'] = currentUser;
 
     //If this is true a different sider will be shown
     const [mobile, setMobile] = useState(false);

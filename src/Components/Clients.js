@@ -27,11 +27,8 @@ function Clients () {
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
-        axios.get(`${ DATABASE }/user/getClientsPagination/${defaultPageSize}/${pageNumber}`, {
-            headers: {
-                token: currentUser
-            }
-        }).then(res => {
+        axios.get(`${ DATABASE }/user/getClientsPagination/${defaultPageSize}/${pageNumber}`)
+            .then(res => {
             if (res.data !== 400) {
                 setLoading(false);
                 setClients([...clients, ...res.data]);
@@ -52,11 +49,8 @@ function Clients () {
     }
 
     const handleFinish = values => {
-        axios.post(`${ DATABASE }/create/client`, { values: values }, {
-            headers: {
-                token: currentUser,
-            }
-        }).then(res => {
+        axios.post(`${ DATABASE }/create/client`, { values: values })
+            .then(res => {
             if (res.data !== 400) {
                 setClients([...clients, res.data])
                 successNotification();
@@ -195,22 +189,11 @@ function Clients () {
         />
 
         <Button
-            type='primary'
-            style={{ marginRight: '1em' }}
-            disabled={ selectedRowKeys?.length !== 1 }
-        >
-            Change
-        </Button>
-
-        <Button
             type='danger'
             disabled={ selectedRowKeys?.length !== 1 }
             onClick={() => {
-                axios.delete(`${DATABASE}/clients/delete/${selected[0]._id}`, {
-                    headers: {
-                        token: currentUser
-                    }
-                }).then(res => {
+                axios.delete(`${DATABASE}/clients/delete/${selected[0]._id}`)
+                    .then(res => {
                     if(res.data === 200) {
                         setClients(clients.filter(client => client._id !== selected[0]._id));
                         setSelected([]);
@@ -219,7 +202,7 @@ function Clients () {
                 })
             }}
         >
-            Delete
+            Izbriši
         </Button>
     </div>
 }

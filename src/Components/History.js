@@ -61,11 +61,7 @@ function History () {
     ];
 
     useEffect(() => {
-        axios.get(`${ DATABASE }/get/invoices`, {
-            headers: {
-                token: currentUser
-            }
-        }).then(res => {
+        axios.get(`${ DATABASE }/get/invoices`).then(res => {
             if (res.data === 400) {
                 setInvoices([]);
             } else {
@@ -109,11 +105,7 @@ function History () {
                             ref={ searchRef }
                             style={ { marginBottom: '1em' } }
                             onChange={ debounce(() => {
-                                axios.post(`${ DATABASE }/search/invoices`, { invoice: searchRef.current.state.value }, {
-                                    headers: {
-                                        token: currentUser
-                                    }
-                                })
+                                axios.post(`${ DATABASE }/search/invoices`, { invoice: searchRef.current.state.value })
                                     .then(res => {
                                         if (res.data === 400) {
                                             setInvoices([]);
@@ -130,11 +122,7 @@ function History () {
                                 if ((pagination.current * pagination.defaultPageSize) >= defaultPageSize * pageNumber) {
                                     setPageNumber(pageNumber + 1);
 
-                                    axios.get(`${ DATABASE }/get/invoices/${defaultPageSize}/${pageNumber}`, {
-                                        headers: {
-                                            token: currentUser
-                                        }
-                                    }).then(res => {
+                                    axios.get(`${ DATABASE }/get/invoices/${defaultPageSize}/${pageNumber}`).then(res => {
                                         if (res.data === 400) {
 
                                         } else {
@@ -173,10 +161,6 @@ function History () {
                                         //Delete from firebase
                                         axios.put(`${ DATABASE }/delete/invoices`, {
                                             ids: selected.map(invoice => invoice._id)
-                                        }, {
-                                            headers: {
-                                                token: currentUser
-                                            }
                                         }).then(res => {
                                             console.log(res.data);
                                             if (res.data === 200) {

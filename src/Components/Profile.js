@@ -25,11 +25,7 @@ function Profile() {
     // const [img, setImg] = useState(null);
 
     useEffect(() => {
-        axios.get(`${DATABASE}/user/profile`, {
-            headers: {
-                token: currentUser
-            }
-        }).then(res => {
+        axios.get(`${DATABASE}/user/profile`).then(res => {
             setProfileValues(res.data);
             form.setFieldsValue(res.data);
         }).catch(err => {
@@ -42,10 +38,6 @@ function Profile() {
         if(JSON.stringify(values) !== JSON.stringify(profileValues)) {
             axios.put(`${DATABASE}/update/user/profile`, {
                 profile: values
-            }, {
-                headers: {
-                    token: currentUser
-                }
             }).then(res => {
                 if(res.data === 400) {
                     failNotification();

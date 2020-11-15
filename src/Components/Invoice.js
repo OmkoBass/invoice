@@ -35,11 +35,7 @@ function Invoice () {
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
-        axios.get(`${DATABASE}/user/profile`, {
-            headers: {
-                token: currentUser
-            }
-        }).then(res => {
+        axios.get(`${DATABASE}/user/profile`).then(res => {
             form.setFieldsValue(res.data);
         }).catch(err => {
             /*ERROR*/
@@ -61,13 +57,7 @@ function Invoice () {
 
         values.dateCreated = moment().format('DD.MM.YYYY HH:mm');
 
-        axios.post(`${ DATABASE }/create/invoice`, { values },
-            {
-                headers: {
-                    token: currentUser
-                }
-            }
-        ).then(_ => { });
+        axios.post(`${ DATABASE }/create/invoice`, { values }).then(_ => { });
     }
 
     function handleClear () {
@@ -207,11 +197,7 @@ function Invoice () {
                             placeholder='Izaberite klijenta'
                             onChange={ debounce(value => {
                                 if (value) {
-                                    axios.get(`${DATABASE}/user/clients/${value}`, {
-                                        headers: {
-                                            token: currentUser
-                                        }
-                                    }).then(res => {
+                                    axios.get(`${DATABASE}/user/clients/${value}`).then(res => {
                                         if(res.data !== 400) {
                                             setSavedClients(res.data);
 
