@@ -11,8 +11,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import LazyImage from "./Smaller/LazyImage";
 
-//Skayon
-import skayon from '../Assets/skyondark.png'
+import logo from "../Assets/logo.png";
 
 import DATABASE from "../Utils";
 
@@ -52,9 +51,9 @@ function LoginPage() {
         <Content style={{height: '100vh'}}>
             <div className='login'>
                 <LazyImage
-                    src={skayon}
-                    alt='skayon logo'
-                    style={{width: '100%', height: '100%'}}
+                    src={logo}
+                    alt='logo'
+                    style={{width: '50%', height: '50%', margin: 'auto', display: 'block' }}
                 />
                 <Form
                     name="login"
