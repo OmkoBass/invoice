@@ -26,11 +26,13 @@ function LoginPage() {
     const { currentUser, setCurrentUser } = useContext(AuthContext);
 
     const [canSend, setCanSend] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     if(currentUser)
         return <Redirect to='/invoice'/>
 
     const onFinish = value => {
+        setLoading(true);
         axios.post(`${DATABASE}/login/user`, {
             username: value.username,
             password: value.password
@@ -38,10 +40,15 @@ function LoginPage() {
             if(res.data !== 400 && res.data !== 500 && res.data !== 401) {
                 setCurrentUser(res.data);
                 history.push('/invoice');
+                setLoading(false);
             } else {
                 failed();
+                setLoading(false);
             }
-        })
+        }).catch(err => {
+            console.log(err);
+            setLoading(false);
+        });
     }
 
     //Failed message when input is bad
@@ -108,6 +115,7 @@ function LoginPage() {
                         <Button type="primary"
                                 size='large'
                                 block={true}
+                                loading={loading}
                                 disabled={!canSend}
                                 htmlType="submit">
                             Prijavi se!
