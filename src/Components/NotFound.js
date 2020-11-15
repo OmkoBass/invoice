@@ -9,8 +9,7 @@ import {Row, Col, Layout, Button, Result} from 'antd'
 //not found image
 import notFound from '../Assets/404.png'
 
-//skayon
-import skayon from '../Assets/skyonlight.png'
+import logo from "../Assets/logo.png";
 import LazyImage from "./Smaller/LazyImage";
 
 const { Header, Content } = Layout
@@ -22,7 +21,7 @@ function NotFound() {
 
     return <Layout>
         <Header style={{height: '8vh'}}>
-            <img src={skayon} alt='skyon logo' style={{width:'100px'}}/>
+            <img src={logo} alt='logo' style={{width:'100px'}}/>
         </Header>
         <Content style={{backgroundColor: 'white', height: '92vh'}}>
             <Result
