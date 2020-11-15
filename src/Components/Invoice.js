@@ -207,9 +207,7 @@ function Invoice () {
                             placeholder='Izaberite klijenta'
                             onChange={ debounce(value => {
                                 if (value) {
-                                    axios.post(`${DATABASE}/user/clients`, {
-                                        search: value
-                                    }, {
+                                    axios.get(`${DATABASE}/user/clients/${value}`, {
                                         headers: {
                                             token: currentUser
                                         }
