@@ -9,14 +9,9 @@ import {Menu} from "antd";
 //Ant icons
 import {EditOutlined, LogoutOutlined, ProfileOutlined, HistoryOutlined, UserAddOutlined } from "@ant-design/icons";
 
-import skyon from "../../Assets/skyonlight.png";
 import LogoutModal from "./LogoutModal";
 
-const logoStyle = {
-    width: '100%',
-    height: '100%',
-    float: 'left'
-}
+import logo from "../../Assets/logo.png";
 
 function SiderMenu() {
     const history = useHistory();
@@ -57,10 +52,11 @@ function SiderMenu() {
     const toTop = () => window.scrollTo(0, 0);
 
     return <div style={{position: 'sticky', top: '0'}}>
-        <div>
-            <img src={skyon} alt='skyon logo' style={logoStyle}/>
+        <div style={{ width: '100%'}}>
+            <img src={logo} alt='logo' style={{ width: '100%', padding: '1em', maxBlockSize: '192px' }}/>
         </div>
         <Menu theme="dark"
+              style={{ width: '100%' }}
               defaultSelectedKeys={['1']}
               selectedKeys={selectedKey}
         >
