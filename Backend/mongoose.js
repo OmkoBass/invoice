@@ -9,7 +9,7 @@ const Invoice = require('./Models/Invoice');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 
-const PAGE_SIZE = 25;
+const INVOICE_PAGE_SIZE = 25;
 
 dotenv.config();
 
@@ -187,8 +187,21 @@ const getUserProfile = async (req, res) => {
     });
 }
 
+const getClientsPagination = async (req, res) => {
+    Client.paginate({ belongsTo: req.user.username }, {
+        offset: req.params.defaultPage * req.params.pageNumber,
+        limit: (req.params.pageNumber + 1) * req.params.defaultPage 
+    }, (err, result) => {
+        if (err) {
+            res.json(400);
+        } else {
+            res.json(result.docs);
+        }
+    });
+}
+
 const getUserClients = async (req, res) => {
-    Client.find({ belongsTo: req.user.username, toName: { '$regex': req.body.search, '$options': 'i' } })
+    Client.find({ belongsTo: req.user.username, toName: { '$regex': req.params.clientName, '$options': 'i' } })
     .lean()
     .exec((err, clients) => {
         if (err) {
@@ -246,7 +259,7 @@ const createInvoice = async (req, res) => {
 }
 
 const getInvoicesForUser = async (req, res) => {
-    Invoice.find({ belongsTo: { '$regex': req.user.username, '$options': 'i' } }).limit(PAGE_SIZE)
+    Invoice.find({ belongsTo: { '$regex': req.user.username, '$options': 'i' } }).limit(INVOICE_PAGE_SIZE)
         .lean().exec((err, result) => {
         if (err) {
             res.json(400);
@@ -257,7 +270,7 @@ const getInvoicesForUser = async (req, res) => {
 }
 
 const getAllInvoicesForUser = async (req, res) => {
-    Invoice.find({ belongsTo: { '$regex': req.user.username, '$options': 'i' } }).limit(PAGE_SIZE)
+    Invoice.find({ belongsTo: { '$regex': req.user.username, '$options': 'i' } }).limit(INVOICE_PAGE_SIZE)
         .lean().exec((err, result) => {
         if (err) {
             res.json(400);
@@ -305,6 +318,18 @@ const searchInvoices = async (req, res) => {
     })
 }
 
+const deleteClient = async (req, res) => {
+    Client.findByIdAndRemove(req.params.clientId)
+    .lean()
+    .exec((err, _) => {
+        if(err) {
+            res.json(400);
+        } else {
+            res.json(200);
+        }
+    });
+}
+
 // Admin
 // exports.getUsers = getUsers;
 // exports.getInvoices = getInvoices;
@@ -322,6 +347,7 @@ exports.loginUser = loginUser;
 exports.getUserProfile = getUserProfile;
 exports.updateClient = updateClient;
 exports.getUserClients = getUserClients;
+exports.getClientsPagination = getClientsPagination;
 exports.updateUserProfile = updateUserProfile;
 exports.createInvoice = createInvoice;
 exports.getInvoicesForUser = getInvoicesForUser;
@@ -329,3 +355,4 @@ exports.getAllInvoicesForUser = getAllInvoicesForUser;
 exports.invoicesPaginate = invoicesPaginate;
 exports.deleteInvoices = deleteInvoices;
 exports.searchInvoices = searchInvoices;
+exports.deleteClient = deleteClient;
