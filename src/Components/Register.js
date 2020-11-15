@@ -6,7 +6,7 @@ import {Layout, Form, Input, Button, Divider, notification} from 'antd';
 import axios from 'axios';
 
 //logo
-import skayondark from '../Assets/skyondark.png';
+import logo from '../Assets/logo.png';
 
 //router
 import { Redirect, useHistory } from "react-router";
@@ -83,9 +83,9 @@ function Register() {
         <Content style={{height: '100vh'}}>
             <div className='login'>
                 <LazyImage
-                    src={skayondark}
-                    alt='skayon logo'
-                    style={{ width: '100%'}}
+                    src={logo}
+                    alt='logo'
+                    style={{width: '50%', height: '50%', margin: 'auto', display: 'block' }}
                 />
                 <Form {...layout}
                       form={form}
