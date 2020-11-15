@@ -21,10 +21,13 @@ function History () {
 
     const [invoices, setInvoices] = useState([]);
     const [pdfData, setPdfData] = useState(null);
+
     const [load, setLoad] = useState(true);
     const [error, setError] = useState(false);
+
     const [selected, setSelected] = useState(null);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
     const [pageNumber, setPageNumber] = useState(1);
 
     // Have to use this shit because ant fucking design
@@ -58,7 +61,7 @@ function History () {
     ];
 
     useEffect(() => {
-        axios.post(`${ DATABASE }/get/invoices`, {}, {
+        axios.get(`${ DATABASE }/get/invoices`, {
             headers: {
                 token: currentUser
             }
@@ -71,7 +74,7 @@ function History () {
         }).then(() => setLoad(false)).catch(() => {
             setError(true);
         })
-    }, []);
+    }, [currentUser]);
 
     const rowSelection = {
         selectedRowKeys,
