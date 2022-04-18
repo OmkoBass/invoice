@@ -1,5 +1,9 @@
 # This is an invoice generator project I created a very long time ago.
 
+It's built with MEAN stack. I wrote my own backend because firebase was not good enough for querying results.
+
+This was a very long time ago and my software development skills when it comes to frontend, backend and just good architecture are extremely better now.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
