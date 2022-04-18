@@ -1,3 +1,5 @@
+# This is an invoice generator project I created a very long time ago.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
